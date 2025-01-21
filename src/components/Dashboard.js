@@ -1,5 +1,7 @@
 import React from 'react';
 import IncomeExpenseChart from './IncomeExpenseChart';
+import AddTransaction from './AddTransaction';
+import TransactionList from './TransactionList';
 
 const Dashboard = () => {
     const ingresos = 5000;
@@ -36,6 +38,12 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="container">
+                <AddTransaction />
+            </div>
+            <div className="container">
+                <TransactionList />
             </div>
             <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
         </div>
