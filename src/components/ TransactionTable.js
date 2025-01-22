@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const TransactionTable = () => {
     const { transactions } = useContext(TransactionContext);
@@ -27,18 +29,41 @@ const TransactionTable = () => {
         link.click();
         document.body.removeChild(link);
     };
+    const exportToPDF = () => {
+        const doc = new jsPDF();
+
+        doc.text('Listado de Transacciones', 14, 10);
+
+        const tableColumn = ['Fecha', 'Categoría', 'Monto', 'Tipo'];
+        const tableRows = transactions.map((transaction) => [
+            transaction.date,
+            transaction.category,
+            `$${transaction.amount}`,
+            transaction.type,
+        ]);
+
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 20,
+        });
+
+        doc.save('transacciones.pdf');
+    };
 
     return (
         <div className="container my-4">
             <h2 className="text-center">Listado de Transacciones</h2>
             <div className="d-flex justify-content-between mb-3">
                 <h3>Total: {transactions.length} transacciones</h3>
-                <button
-                    className="btn btn-primary"
-                    onClick={exportToCSV}
-                >
-                    Exportar a CSV
-                </button>
+                <div>
+                    <button className="btn btn-primary me-2" onClick={exportToCSV}>
+                        Exportar a CSV
+                    </button>
+                    <button className="btn btn-danger" onClick={exportToPDF}>
+                        Exportar a PDF
+                    </button>
+                </div>
             </div>
             <div className="table-responsive">
                 <table className="table table-striped table-bordered">
