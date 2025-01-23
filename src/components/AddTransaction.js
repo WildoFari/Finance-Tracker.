@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
+
 const AddTransaction = () => {
     const { addTransaction, categories, addCategory } = useContext(TransactionContext);
     const [form, setForm] = useState({
@@ -15,11 +16,22 @@ const AddTransaction = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const [error, setError] = useState('');
+
     const handleAddCategory = () => {
-        if (newCategory.trim() !== '') {
-            addCategory(newCategory);
-            setNewCategory('');
+        if (newCategory.trim() === '') {
+            setError('La categoría no puede estar vacía.');
+            return;
         }
+
+        if (categories.includes(newCategory)) {
+            setError('Esta categoría ya existe.');
+            return;
+        }
+
+        addCategory(newCategory);
+        setNewCategory('');
+        setError('');
     };
 
     const handleSubmit = (e) => {
@@ -76,6 +88,7 @@ const AddTransaction = () => {
                         Agregar
                     </button>
                 </div>
+                {error && <p className="text-danger mt-2">{error}</p>}
             </div>
             <div className="mb-3">
                 <label className="form-label">Fecha</label>
