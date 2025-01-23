@@ -2,23 +2,30 @@ import React, { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
 const AddTransaction = () => {
-    const { addTransaction } = useContext(TransactionContext);
-
+    const { addTransaction, categories, addCategory } = useContext(TransactionContext);
     const [form, setForm] = useState({
         amount: '',
         category: '',
         date: '',
-        type: 'Ingreso', // Default: 'Ingreso' or 'Egreso'
+        type: 'Ingreso',
     });
+    const [newCategory, setNewCategory] = useState('');
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+    const handleAddCategory = () => {
+        if (newCategory.trim() !== '') {
+            addCategory(newCategory);
+            setNewCategory('');
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (form.amount && form.category && form.date) {
-            addTransaction(form); // Agrega la transacción al contexto
+            addTransaction(form);
             setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
         } else {
             alert('Por favor, completa todos los campos.');
@@ -41,14 +48,34 @@ const AddTransaction = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label">Categoría</label>
-                <input
-                    type="text"
+                <select
                     name="category"
                     value={form.category}
                     onChange={handleChange}
-                    className="form-control"
-                    placeholder="Ej: Comida, Alquiler, etc."
-                />
+                    className="form-select"
+                >
+                    <option value="">Seleccione una categoría</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div className="mb-3">
+                <label className="form-label">Nueva Categoría</label>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        value={newCategory}
+                        onChange={(e) => setNewCategory(e.target.value)}
+                        className="form-control"
+                        placeholder="Agregar nueva categoría"
+                    />
+                    <button type="button" className="btn btn-secondary" onClick={handleAddCategory}>
+                        Agregar
+                    </button>
+                </div>
             </div>
             <div className="mb-3">
                 <label className="form-label">Fecha</label>
