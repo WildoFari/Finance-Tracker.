@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 
-
 const AddTransaction = () => {
-    const { addTransaction, categories, addCategory } = useContext(TransactionContext);
+    const { addTransaction, categories, addCategory, deleteCategory } = useContext(TransactionContext);
     const [form, setForm] = useState({
         amount: '',
         category: '',
@@ -11,12 +10,11 @@ const AddTransaction = () => {
         type: 'Ingreso',
     });
     const [newCategory, setNewCategory] = useState('');
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
-    const [error, setError] = useState('');
 
     const handleAddCategory = () => {
         if (newCategory.trim() === '') {
@@ -32,6 +30,10 @@ const AddTransaction = () => {
         addCategory(newCategory);
         setNewCategory('');
         setError('');
+    };
+
+    const handleDeleteCategory = (category) => {
+        deleteCategory(category);
     };
 
     const handleSubmit = (e) => {
@@ -115,6 +117,22 @@ const AddTransaction = () => {
             <button type="submit" className="btn btn-primary w-100">
                 Agregar
             </button>
+            <div className="mt-4">
+                <h4>Categorías Existentes</h4>
+                <ul className="list-group">
+                    {categories.map((category, index) => (
+                        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                            {category}
+                            <button
+                                className="btn btn-sm btn-danger"
+                                onClick={() => handleDeleteCategory(category)}
+                            >
+                                Eliminar
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </form>
     );
 };
