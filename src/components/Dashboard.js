@@ -16,28 +16,28 @@ const Dashboard = () => {
             <div className="row text-center g-4">
                 <div className="col-md-4">
                     <div className="card shadow border-0">
-                        <div className="card-body bg-success text-white rounded">
+                        <div className="card-body bg-success text-white rounded py-4">
                             <h3 className="card-title">Total Ingresos</h3>
-                            <p className="card-text fs-3 fw-bold">${ingresos}</p>
+                            <p className="card-text display-6 fw-bold">${ingresos}</p>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4">
                     <div className="card shadow border-0">
-                        <div className="card-body bg-danger text-white rounded">
+                        <div className="card-body bg-danger text-white rounded py-4">
                             <h3 className="card-title">Total Egresos</h3>
-                            <p className="card-text fs-3 fw-bold">${egresos}</p>
+                            <p className="card-text display-6 fw-bold">${egresos}</p>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-4">
                     <div
                         className={`card shadow border-0 ${balance >= 0 ? 'bg-success' : 'bg-danger'
-                            } text-white rounded`}
+                            } text-white rounded py-3`}
                     >
                         <div className="card-body">
-                            <h3 className="card-title">Balance Actual</h3>
-                            <p className="card-text fs-3 fw-bold">${balance}</p>
+                            <h4 className="card-title">Balance Actual</h4>
+                            <p className="card-text fs-4 fw-bold">${balance}</p>
                         </div>
                     </div>
                 </div>
@@ -45,28 +45,28 @@ const Dashboard = () => {
 
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h3 className="mb-4">Agregar Transacción</h3>
+                    <h4 className="mb-4">Agregar Transacción</h4>
                     <AddTransaction />
                 </div>
             </div>
 
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h3 className="mb-4">Lista de Transacciones</h3>
+                    <h4 className="mb-4">Lista de Transacciones</h4>
                     <TransactionList />
                 </div>
             </div>
 
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h3 className="mb-4">Tabla de Transacciones</h3>
+                    <h4 className="mb-4">Tabla de Transacciones</h4>
                     <TransactionTable />
                 </div>
             </div>
 
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h3 className="mb-4">Gráfico de Ingresos y Egresos</h3>
+                    <h4 className="mb-4">Gráfico de Ingresos y Egresos</h4>
                     <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
                 </div>
             </div>
