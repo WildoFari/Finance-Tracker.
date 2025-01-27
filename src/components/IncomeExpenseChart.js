@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { TransactionContext } from '../context/TransactionContext';
 import {
     Chart as ChartJS,
     ArcElement,
@@ -9,14 +10,16 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const IncomeExpenseChart = ({ ingresos, egresos }) => {
+const IncomeExpenseChart = () => {
+    const { ingresos, egresos } = useContext(TransactionContext);
+
     const data = {
         labels: ['Ingresos', 'Egresos'],
         datasets: [
             {
                 data: [ingresos, egresos],
-                backgroundColor: ['#28a745', '#dc3545'],
-                hoverBackgroundColor: ['#218838', '#c82333'],
+                backgroundColor: ['#28a745', '#dc3545'], // Colores para el gráfico
+                hoverBackgroundColor: ['#218838', '#c82333'], // Colores al pasar el mouse
             },
         ],
     };
