@@ -32,12 +32,24 @@ const Dashboard = () => {
                 </div>
                 <div className="col-md-4">
                     <div
-                        className={`card shadow border-0 ${balance >= 0 ? 'bg-success' : 'bg-danger'
-                            } text-white rounded py-3`}
+                        className="card shadow border-0 text-white rounded py-3"
+                        style={{
+                            background: balance >= 0
+                                ? 'linear-gradient(135deg, #4e73df, #1cc88a)'
+                                : 'linear-gradient(135deg, #e74a3b, #f6c23e)',
+                            color: '#fff',
+                        }}
                     >
-                        <div className="card-body">
-                            <h4 className="card-title">Balance Actual</h4>
-                            <p className="card-text fs-4 fw-bold">${balance}</p>
+                        <div className="card-body d-flex flex-column align-items-center">
+                            <div className="mb-3">
+                                {balance >= 0 ? (
+                                    <i className="fas fa-arrow-up fs-1"></i>
+                                ) : (
+                                    <i className="fas fa-arrow-down fs-1"></i>
+                                )}
+                            </div>
+                            <h4 className="card-title text-center">Balance Actual</h4>
+                            <p className="card-text fs-4 fw-bold text-center">${balance}</p>
                         </div>
                     </div>
                 </div>
