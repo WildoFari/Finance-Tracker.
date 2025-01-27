@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddTransaction = () => {
     const { addTransaction, categories, addCategory, deleteCategory } = useContext(TransactionContext);
@@ -21,29 +23,30 @@ const AddTransaction = () => {
             setError('La categoría no puede estar vacía.');
             return;
         }
-
         if (categories.includes(newCategory)) {
             setError('Esta categoría ya existe.');
             return;
         }
 
         addCategory(newCategory);
+        toast.success(`Categoría "${newCategory}" agregada con éxito.`);
         setNewCategory('');
         setError('');
-    };
-
-    const handleDeleteCategory = (category) => {
-        deleteCategory(category);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (form.amount && form.category && form.date) {
             addTransaction(form);
+            toast.success('Transacción agregada con éxito.');
             setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
         } else {
-            alert('Por favor, completa todos los campos.');
+            toast.error('Por favor, completa todos los campos.');
         }
+    };
+
+    const handleDeleteCategory = (category) => {
+        deleteCategory(category);
     };
 
     return (
