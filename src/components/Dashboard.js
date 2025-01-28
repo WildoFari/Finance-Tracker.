@@ -68,7 +68,6 @@ const Dashboard = () => {
             {/* Sección de funcionalidades */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4">Agregar Transacción</h4>
                     <AddTransaction />
                 </div>
             </div>
