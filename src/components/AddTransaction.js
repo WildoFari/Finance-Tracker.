@@ -13,9 +13,16 @@ const AddTransaction = () => {
     });
     const [newCategory, setNewCategory] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleAmountChange = (e) => {
+        let rawValue = e.target.value.replace(/\D/g, '');
+        let formattedValue = new Intl.NumberFormat('es-ES').format(rawValue);
+        setForm({ ...form, amount: formattedValue });
     };
 
     const handleAddCategory = () => {
@@ -34,19 +41,24 @@ const AddTransaction = () => {
         setError('');
     };
 
+    const handleDeleteCategory = (category) => {
+        deleteCategory(category);
+        toast.info(`Categoría "${category}" eliminada.`);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (form.amount && form.category && form.date) {
-            addTransaction(form);
-            toast.success('Transacción agregada con éxito.');
-            setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
+            setLoading(true);
+            setTimeout(() => {
+                addTransaction(form);
+                toast.success('Transacción agregada con éxito.');
+                setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
+                setLoading(false);
+            }, 1000);
         } else {
             toast.error('Por favor, completa todos los campos.');
         }
-    };
-
-    const handleDeleteCategory = (category) => {
-        deleteCategory(category);
     };
 
     return (
@@ -58,28 +70,17 @@ const AddTransaction = () => {
                     type="text"
                     name="amount"
                     value={form.amount}
-                    onChange={(e) => {
-                        let rawValue = e.target.value.replace(/\D/g, '');
-                        let formattedValue = new Intl.NumberFormat('es-ES').format(rawValue);
-                        setForm({ ...form, amount: formattedValue });
-                    }}
+                    onChange={handleAmountChange}
                     className="form-control"
                     placeholder="Ingrese el monto"
                 />
             </div>
             <div className="mb-3">
                 <label className="form-label">Categoría</label>
-                <select
-                    name="category"
-                    value={form.category}
-                    onChange={handleChange}
-                    className="form-select"
-                >
+                <select name="category" value={form.category} onChange={handleChange} className="form-select">
                     <option value="">Seleccione una categoría</option>
                     {categories.map((category, index) => (
-                        <option key={index} value={category}>
-                            {category}
-                        </option>
+                        <option key={index} value={category}>{category}</option>
                     ))}
                 </select>
             </div>
@@ -101,28 +102,24 @@ const AddTransaction = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label">Fecha</label>
-                <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    className="form-control"
-                />
+                <input type="date" name="date" value={form.date} onChange={handleChange} className="form-control" />
             </div>
             <div className="mb-3">
                 <label className="form-label">Tipo</label>
-                <select
-                    name="type"
-                    value={form.type}
-                    onChange={handleChange}
-                    className="form-select"
-                >
+                <select name="type" value={form.type} onChange={handleChange} className="form-select">
                     <option value="Ingreso">Ingreso</option>
                     <option value="Egreso">Egreso</option>
                 </select>
             </div>
-            <button type="submit" className="btn btn-primary w-100">
-                Agregar
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                {loading ? (
+                    <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Agregando...
+                    </>
+                ) : (
+                    "Agregar"
+                )}
             </button>
             <div className="mt-4">
                 <h4>Categorías Existentes</h4>
@@ -130,16 +127,14 @@ const AddTransaction = () => {
                     {categories.map((category, index) => (
                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                             {category}
-                            <button
-                                className="btn btn-sm btn-danger"
-                                onClick={() => handleDeleteCategory(category)}
-                            >
+                            <button className="btn btn-sm btn-danger" onClick={() => handleDeleteCategory(category)}>
                                 Eliminar
                             </button>
                         </li>
                     ))}
                 </ul>
             </div>
+            <ToastContainer />
         </form>
     );
 };
