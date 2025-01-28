@@ -55,10 +55,14 @@ const AddTransaction = () => {
             <div className="mb-3">
                 <label className="form-label">Monto</label>
                 <input
-                    type="number"
+                    type="text"
                     name="amount"
                     value={form.amount}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        let rawValue = e.target.value.replace(/\D/g, '');
+                        let formattedValue = new Intl.NumberFormat('es-ES').format(rawValue);
+                        setForm({ ...form, amount: formattedValue });
+                    }}
                     className="form-control"
                     placeholder="Ingrese el monto"
                 />
