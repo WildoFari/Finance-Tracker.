@@ -28,7 +28,7 @@ const Dashboard = () => {
                     <div className="card shadow border-0">
                         <div className="card-body bg-success text-white rounded py-4">
                             <h3 className="card-title">Total Ingresos</h3>
-                            <p className="card-text display-6 fw-bold">${ingresos}</p>
+                            <p className="card-text display-6 fw-bold">{ingresos}</p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ const Dashboard = () => {
                     <div className="card shadow border-0">
                         <div className="card-body bg-danger text-white rounded py-4">
                             <h3 className="card-title">Total Egresos</h3>
-                            <p className="card-text display-6 fw-bold">${egresos}</p>
+                            <p className="card-text display-6 fw-bold">{egresos}</p>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ const Dashboard = () => {
                                 )}
                             </div>
                             <h4 className="card-title text-center">Balance Actual</h4>
-                            <p className="card-text fs-4 fw-bold text-center">${balance}</p>
+                            <p className="card-text fs-4 fw-bold text-center">{balance}</p>
                         </div>
                     </div>
                 </div>
