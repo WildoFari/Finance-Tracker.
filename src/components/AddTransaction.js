@@ -139,8 +139,29 @@ const AddTransaction = () => {
                     {categories.map((category, index) => (
                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                             {category}
-                            <button className="btn btn-sm btn-danger" onClick={() => handleDeleteCategory(category)}>
-                                Eliminar
+                            <button
+                                className={`btn btn-sm ${loading ? 'btn-secondary' : 'btn-danger'}`}
+                                onClick={() => {
+                                    if (window.confirm(`¿Seguro que quieres eliminar la categoría "${category}"?`)) {
+                                        setLoading(true);
+                                        setTimeout(() => {
+                                            handleDeleteCategory(category);
+                                            setLoading(false);
+                                        }, 1000);
+                                    }
+                                }}
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2"></span>
+                                        Eliminando...
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="fas fa-trash-alt me-1"></i> Eliminar
+                                    </>
+                                )}
                             </button>
                         </li>
                     ))}
