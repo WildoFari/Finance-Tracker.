@@ -94,8 +94,20 @@ const AddTransaction = () => {
                         className="form-control"
                         placeholder="Agregar nueva categoría"
                     />
-                    <button type="button" className="btn btn-secondary" onClick={handleAddCategory}>
-                        Agregar
+                    <button
+                        type="button"
+                        className={`btn btn-${loading ? 'dark' : 'primary'}`}
+                        onClick={handleAddCategory}
+                        disabled={loading || newCategory.trim() === ''}
+                    >
+                        {loading ? (
+                            <>
+                                <span className="spinner-border spinner-border-sm me-2"></span>
+                                Agregando...
+                            </>
+                        ) : (
+                            "Agregar"
+                        )}
                     </button>
                 </div>
                 {error && <p className="text-danger mt-2">{error}</p>}
