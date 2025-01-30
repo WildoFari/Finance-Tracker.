@@ -3,7 +3,6 @@ import React, { createContext, useState, useEffect } from 'react';
 export const TransactionContext = createContext();
 
 export const TransactionProvider = ({ children }) => {
-
     const loadCategoriesFromLocalStorage = () => {
         const storedCategories = localStorage.getItem('categories');
         return storedCategories
@@ -11,13 +10,21 @@ export const TransactionProvider = ({ children }) => {
             : ['Comida', 'Alquiler', 'Transporte', 'Entretenimiento', 'Salud'];
     };
 
+    const loadTransactionsFromLocalStorage = () => {
+        const storedTransactions = localStorage.getItem('transactions');
+        return storedTransactions ? JSON.parse(storedTransactions) : [];
+    };
+
     const [categories, setCategories] = useState(loadCategoriesFromLocalStorage());
+    const [transactions, setTransactions] = useState(loadTransactionsFromLocalStorage());
 
     useEffect(() => {
         localStorage.setItem('categories', JSON.stringify(categories));
     }, [categories]);
 
-    const [transactions, setTransactions] = useState([]);
+    useEffect(() => {
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+    }, [transactions]);
 
     const addTransaction = (transaction) => {
         setTransactions((prev) => [...prev, transaction]);
@@ -33,6 +40,11 @@ export const TransactionProvider = ({ children }) => {
         setCategories((prev) => prev.filter((cat) => cat !== category));
     };
 
+    const clearTransactions = () => {
+        setTransactions([]);
+        localStorage.removeItem('transactions');
+    };
+
     const ingresos = transactions
         .filter((t) => t.type === 'Ingreso')
         .reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
@@ -46,6 +58,7 @@ export const TransactionProvider = ({ children }) => {
             value={{
                 transactions,
                 addTransaction,
+                clearTransactions,
                 categories,
                 addCategory,
                 deleteCategory,
