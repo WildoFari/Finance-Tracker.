@@ -8,11 +8,15 @@ const TransactionList = () => {
         <div className="my-4">
             <h2>Transacciones</h2>
             <ul className="list-group">
-                {transactions.map((transaction, index) => (
-                    <li key={index} className="list-group-item">
-                        <strong>{transaction.type}:</strong> ${transaction.amount} - {transaction.category} ({transaction.date})
-                    </li>
-                ))}
+                {transactions.length > 0 ? (
+                    transactions.map((transaction, index) => (
+                        <li key={index} className="list-group-item">
+                            <strong>{transaction.type}:</strong> ${transaction.amount} - {transaction.category} ({transaction.date})
+                        </li>
+                    ))
+                ) : (
+                    <li className="list-group-item text-center text-muted">No hay transacciones registradas</li>
+                )}
             </ul>
         </div>
     );
