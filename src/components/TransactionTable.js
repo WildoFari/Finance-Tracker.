@@ -54,17 +54,21 @@ const TransactionTable = () => {
     return (
         <div className="container my-4">
             <h2 className="text-center">Listado de Transacciones</h2>
-            <div className="d-flex justify-content-between mb-3">
-                <h3>Total: {transactions.length} transacciones</h3>
-                <div>
-                    <button className="btn btn-primary me-2" onClick={exportToCSV}>
-                        Exportar a CSV
+
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <h3 className="mb-2 mb-md-0">Total: {transactions.length} transacciones</h3>
+
+                {/* Contenedor de botones responsivo */}
+                <div className="d-grid gap-2 d-md-flex">
+                    <button className="btn btn-primary" onClick={exportToCSV}>
+                        📄 Exportar CSV
                     </button>
                     <button className="btn btn-danger" onClick={exportToPDF}>
-                        Exportar a PDF
+                        🖨️ Exportar PDF
                     </button>
                 </div>
             </div>
+
             <div className="table-responsive">
                 <table className="table table-striped table-bordered">
                     <thead className="table-dark">
@@ -83,13 +87,7 @@ const TransactionTable = () => {
                                     <td>{index + 1}</td>
                                     <td>{transaction.date}</td>
                                     <td>{transaction.category}</td>
-                                    <td
-                                        className={
-                                            transaction.type === 'Ingreso'
-                                                ? 'text-success'
-                                                : 'text-danger'
-                                        }
-                                    >
+                                    <td className={transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}>
                                         ${transaction.amount}
                                     </td>
                                     <td>{transaction.type}</td>
@@ -107,6 +105,6 @@ const TransactionTable = () => {
             </div>
         </div>
     );
-};
+}
 
 export default TransactionTable;
