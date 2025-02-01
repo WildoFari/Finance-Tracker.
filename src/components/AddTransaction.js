@@ -13,7 +13,9 @@ const AddTransaction = () => {
     });
     const [newCategory, setNewCategory] = useState('');
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loadingTransaction, setLoadingTransaction] = useState(false);
+    const [loadingCategory, setLoadingCategory] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState({});
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -35,26 +37,34 @@ const AddTransaction = () => {
             return;
         }
 
-        addCategory(newCategory);
-        toast.success(`Categoría "${newCategory}" agregada con éxito.`);
-        setNewCategory('');
-        setError('');
+        setLoadingCategory(true);
+        setTimeout(() => {
+            addCategory(newCategory);
+            toast.success(`Categoría "${newCategory}" agregada con éxito.`);
+            setNewCategory('');
+            setError('');
+            setLoadingCategory(false);
+        }, 1000);
     };
 
     const handleDeleteCategory = (category) => {
-        deleteCategory(category);
-        toast.info(`Categoría "${category}" eliminada.`);
+        setLoadingDelete((prev) => ({ ...prev, [category]: true }));
+        setTimeout(() => {
+            deleteCategory(category);
+            toast.info(`Categoría "${category}" eliminada.`);
+            setLoadingDelete((prev) => ({ ...prev, [category]: false }));
+        }, 1000);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (form.amount && form.category && form.date) {
-            setLoading(true);
+            setLoadingTransaction(true);
             setTimeout(() => {
                 addTransaction(form);
                 toast.success('Transacción agregada con éxito.');
                 setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
-                setLoading(false);
+                setLoadingTransaction(false);
             }, 1000);
         } else {
             toast.error('Por favor, completa todos los campos.');
@@ -96,11 +106,11 @@ const AddTransaction = () => {
                     />
                     <button
                         type="button"
-                        className={`btn btn-${loading ? 'dark' : 'primary'}`}
+                        className={`btn btn-${loadingCategory ? 'dark' : 'primary'}`}
                         onClick={handleAddCategory}
-                        disabled={loading || newCategory.trim() === ''}
+                        disabled={loadingCategory || newCategory.trim() === ''}
                     >
-                        {loading ? (
+                        {loadingCategory ? (
                             <>
                                 <span className="spinner-border spinner-border-sm me-2"></span>
                                 Agregando...
@@ -123,8 +133,8 @@ const AddTransaction = () => {
                     <option value="Egreso">Egreso</option>
                 </select>
             </div>
-            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                {loading ? (
+            <button type="submit" className="btn btn-primary w-100" disabled={loadingTransaction}>
+                {loadingTransaction ? (
                     <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
                         Agregando...
@@ -140,19 +150,15 @@ const AddTransaction = () => {
                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                             {category}
                             <button
-                                className={`btn btn-sm ${loading ? 'btn-secondary' : 'btn-danger'}`}
+                                className={`btn btn-sm ${loadingDelete[category] ? 'btn-secondary' : 'btn-danger'}`}
                                 onClick={() => {
                                     if (window.confirm(`¿Seguro que quieres eliminar la categoría "${category}"?`)) {
-                                        setLoading(true);
-                                        setTimeout(() => {
-                                            handleDeleteCategory(category);
-                                            setLoading(false);
-                                        }, 1000);
+                                        handleDeleteCategory(category);
                                     }
                                 }}
-                                disabled={loading}
+                                disabled={loadingDelete[category]}
                             >
-                                {loading ? (
+                                {loadingDelete[category] ? (
                                     <>
                                         <span className="spinner-border spinner-border-sm me-2"></span>
                                         Eliminando...
