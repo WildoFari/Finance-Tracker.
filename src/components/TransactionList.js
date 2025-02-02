@@ -3,17 +3,19 @@ import { TransactionContext } from '../context/TransactionContext';
 
 const TransactionList = () => {
     const { transactions, clearTransactions } = useContext(TransactionContext);
-    const [showConfirm, setShowConfirm] = useState(false); // Estado para el modal de confirmación
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    const handleDeleteAll = () => {
+        clearTransactions();
+        setShowConfirm(false);
+    };
 
     return (
         <div className="my-4">
             <h2>Transacciones</h2>
 
             {transactions.length > 0 && (
-                <button
-                    className="btn btn-danger mb-3 w-100"
-                    onClick={() => setShowConfirm(true)} // Abre el modal
-                >
+                <button className="btn btn-danger mb-3 w-100" onClick={() => setShowConfirm(true)}>
                     Eliminar Todas las Transacciones
                 </button>
             )}
@@ -40,7 +42,7 @@ const TransactionList = () => {
                         <button className="btn btn-secondary me-2" onClick={() => setShowConfirm(false)}>
                             Cancelar
                         </button>
-                        <button className="btn btn-danger" onClick={clearTransactions}>
+                        <button className="btn btn-danger" onClick={handleDeleteAll}>
                             Sí, Eliminar Todo
                         </button>
                     </div>
