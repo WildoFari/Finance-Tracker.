@@ -36,24 +36,9 @@ const NavBar = () => {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <li className="nav-item">
-                    <Link
-                        className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
-                        to="/dashboard"
-                    >
-                        Dashboard
-                    </Link>
-                </li>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <Link
-                                className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
-                                to="/dashboard"
-                            >
-                                Dashboard
-                            </Link>
-                        </li>
+
                         <li className="nav-item">
                             <Link
                                 className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}

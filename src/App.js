@@ -13,7 +13,6 @@ function App() {
       <ToastContainer />
       <NavBar />
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
