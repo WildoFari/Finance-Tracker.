@@ -83,7 +83,7 @@ const NavBar = () => {
                         >
                             {theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
                         </button>
-                        <div className="dropdown">
+                        {/* <div className="dropdown">
                             <button
                                 className={`btn btn-${theme} dropdown-toggle`}
                                 id="userDropdown"
@@ -105,7 +105,7 @@ const NavBar = () => {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
