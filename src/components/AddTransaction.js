@@ -16,6 +16,7 @@ const AddTransaction = () => {
     const [loadingTransaction, setLoadingTransaction] = useState(false);
     const [loadingCategory, setLoadingCategory] = useState(false);
     const [loadingDelete, setLoadingDelete] = useState({});
+    const [showCategories, setShowCategories] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -144,7 +145,14 @@ const AddTransaction = () => {
                 )}
             </button>
             <div className="mt-4">
-                <h4>Categorías Existentes</h4>
+                <h4
+                    className="d-flex justify-content-between align-items-center bg-light p-2 rounded cursor-pointer"
+                    onClick={() => setShowCategories(!showCategories)} // Toggle para mostrar/ocultar
+                    style={{ cursor: 'pointer' }}
+                >
+                    Categorías Existentes
+                    <i className={`fas ${showCategories ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                </h4>
                 <ul className="list-group">
                     {categories.map((category, index) => (
                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
