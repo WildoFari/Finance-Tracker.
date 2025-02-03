@@ -184,7 +184,6 @@ const AddTransaction = () => {
                     </ul>
                 )}
             </div>
-
             <ToastContainer />
         </form>
     );
