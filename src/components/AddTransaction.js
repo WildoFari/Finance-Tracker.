@@ -146,41 +146,45 @@ const AddTransaction = () => {
             </button>
             <div className="mt-4">
                 <h4
-                    className="d-flex justify-content-between align-items-center bg-light p-2 rounded cursor-pointer"
-                    onClick={() => setShowCategories(!showCategories)} // Toggle para mostrar/ocultar
+                    className="d-flex justify-content-between align-items-center bg-light p-2 rounded"
+                    onClick={() => setShowCategories(!showCategories)}
                     style={{ cursor: 'pointer' }}
                 >
                     Categorías Existentes
                     <i className={`fas ${showCategories ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                 </h4>
-                <ul className="list-group">
-                    {categories.map((category, index) => (
-                        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                            {category}
-                            <button
-                                className={`btn btn-sm ${loadingDelete[category] ? 'btn-secondary' : 'btn-danger'}`}
-                                onClick={() => {
-                                    if (window.confirm(`¿Seguro que quieres eliminar la categoría "${category}"?`)) {
-                                        handleDeleteCategory(category);
-                                    }
-                                }}
-                                disabled={loadingDelete[category]}
-                            >
-                                {loadingDelete[category] ? (
-                                    <>
-                                        <span className="spinner-border spinner-border-sm me-2"></span>
-                                        Eliminando...
-                                    </>
-                                ) : (
-                                    <>
-                                        <i className="fas fa-trash-alt me-1"></i> Eliminar
-                                    </>
-                                )}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+
+                {showCategories && (
+                    <ul className="list-group">
+                        {categories.map((category, index) => (
+                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                {category}
+                                <button
+                                    className={`btn btn-sm ${loadingDelete[category] ? 'btn-secondary' : 'btn-danger'}`}
+                                    onClick={() => {
+                                        if (window.confirm(`¿Seguro que quieres eliminar la categoría "${category}"?`)) {
+                                            handleDeleteCategory(category);
+                                        }
+                                    }}
+                                    disabled={loadingDelete[category]}
+                                >
+                                    {loadingDelete[category] ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2"></span>
+                                            Eliminando...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <i className="fas fa-trash-alt me-1"></i> Eliminar
+                                        </>
+                                    )}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
+
             <ToastContainer />
         </form>
     );
