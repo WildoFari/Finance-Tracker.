@@ -12,7 +12,6 @@ const TransactionList = () => {
 
     return (
         <div className="my-4">
-            <h2>Transacciones</h2>
 
             {transactions.length > 0 && (
                 <button className="btn btn-danger mb-3 w-100" onClick={() => setShowConfirm(true)}>
