@@ -146,13 +146,14 @@ const AddTransaction = () => {
             </button>
             <div className="mt-4">
                 <h4
-                    className="d-flex justify-content-between align-items-center btn btn-outline-primary p-3 w-100"
+                    className="btn btn-outline-primary p-3 w-100 d-flex justify-content-center align-items-center"
                     onClick={() => setShowCategories(!showCategories)}
-                    style={{ cursor: 'pointer', fontWeight: 'bold' }}
+                    style={{ cursor: 'pointer', fontWeight: 'bold', textAlign: 'center' }}
                 >
                     Categorías Existentes
-                    <i className={`fas ${showCategories ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                    <i className={`fas ${showCategories ? 'fa-chevron-up' : 'fa-chevron-down'} ms-2`}></i>
                 </h4>
+
 
                 {showCategories && (
                     <ul className="list-group">
