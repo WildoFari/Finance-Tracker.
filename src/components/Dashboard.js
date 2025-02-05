@@ -6,15 +6,18 @@ import TransactionList from './TransactionList';
 import TransactionTable from './TransactionTable';
 
 const Dashboard = () => {
-    // Obtenemos ingresos, egresos y balance desde el contexto
+    const formatCurrency = (value) => {
+        return Number.isFinite(value) ? value.toLocaleString('es-ES', { minimumFractionDigits: 0 }) : '0';
+    };
+
     const { transactions } = useContext(TransactionContext);
     const ingresos = transactions
         .filter((t) => t.type === 'Ingreso')
-        .reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
+        .reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
 
     const egresos = transactions
         .filter((t) => t.type === 'Egreso')
-        .reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
+        .reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
 
     const balance = ingresos - egresos;
 
@@ -22,13 +25,14 @@ const Dashboard = () => {
         <div className="container my-4">
             <h1 className="text-center mb-4 fw-bold">Gestión de Finanzas</h1>
 
-            {/* Sección de resumen */}
             <div className="row text-center g-4">
                 <div className="col-md-4">
                     <div className="card shadow border-0">
                         <div className="card-body bg-success text-white rounded py-4">
                             <h3 className="card-title">Total Ingresos</h3>
-                            <p className="card-text display-6 fw-bold">{ingresos}</p>
+                            <p className="card-text display-6 fw-bold">
+                                {formatCurrency(ingresos)}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -36,10 +40,13 @@ const Dashboard = () => {
                     <div className="card shadow border-0">
                         <div className="card-body bg-danger text-white rounded py-4">
                             <h3 className="card-title">Total Egresos</h3>
-                            <p className="card-text display-6 fw-bold">{egresos}</p>
+                            <p className="card-text display-6 fw-bold">
+                                {formatCurrency(egresos)}
+                            </p>
                         </div>
                     </div>
                 </div>
+
                 <div className="col-md-4">
                     <div
                         className="card shadow border-0 text-white rounded py-3"
@@ -59,13 +66,14 @@ const Dashboard = () => {
                                 )}
                             </div>
                             <h4 className="card-title text-center">Balance Actual</h4>
-                            <p className="card-text fs-4 fw-bold text-center">{balance}</p>
+                            <p className="card-text fs-4 fw-bold text-center">
+                                {formatCurrency(balance)}
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Sección de funcionalidades */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
                     <AddTransaction />

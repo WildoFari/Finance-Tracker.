@@ -62,7 +62,8 @@ const AddTransaction = () => {
         if (form.amount && form.category && form.date) {
             setLoadingTransaction(true);
             setTimeout(() => {
-                addTransaction(form);
+                const formattedAmount = parseFloat(form.amount.replace(/\./g, '')) || 0; // Elimina los puntos para el cálculo
+                addTransaction({ ...form, amount: formattedAmount }); // Guarda solo el número limpio
                 toast.success('Transacción agregada con éxito.');
                 setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
                 setLoadingTransaction(false);
@@ -71,6 +72,7 @@ const AddTransaction = () => {
             toast.error('Por favor, completa todos los campos.');
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit} className="container my-4">
