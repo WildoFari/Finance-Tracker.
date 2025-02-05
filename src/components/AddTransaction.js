@@ -87,7 +87,6 @@ const AddTransaction = () => {
                     className="form-control"
                     placeholder="Ingrese el monto"
                     inputMode="numeric"
-                    pattern="[0-9]*"
                 />
             </div>
 
