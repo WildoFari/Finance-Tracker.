@@ -20,7 +20,7 @@ const IncomeExpenseChart = () => {
                 data: [ingresos, egresos],
                 backgroundColor: ['#28a745', '#dc3545'],
                 hoverBackgroundColor: ['#218838', '#c82333'],
-                borderWidth: 2, // Bordes más definidos
+                borderWidth: 2,
                 borderColor: '#fff',
             },
         ],

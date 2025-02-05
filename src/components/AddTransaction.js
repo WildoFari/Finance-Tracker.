@@ -62,8 +62,8 @@ const AddTransaction = () => {
         if (form.amount && form.category && form.date) {
             setLoadingTransaction(true);
             setTimeout(() => {
-                const formattedAmount = parseFloat(form.amount.replace(/\./g, '')) || 0; // Elimina los puntos para el cálculo
-                addTransaction({ ...form, amount: formattedAmount }); // Guarda solo el número limpio
+                const formattedAmount = parseFloat(form.amount.replace(/\./g, '')) || 0;
+                addTransaction({ ...form, amount: formattedAmount });
                 toast.success('Transacción agregada con éxito.');
                 setForm({ amount: '', category: '', date: '', type: 'Ingreso' });
                 setLoadingTransaction(false);
@@ -107,7 +107,6 @@ const AddTransaction = () => {
                         className="form-control"
                         placeholder="Agregar nueva categoría"
                     />
-                    {/* Solo muestra el botón si hay texto en el input */}
                     {newCategory.trim() !== '' && (
                         <button
                             type="button"
