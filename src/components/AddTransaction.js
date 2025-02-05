@@ -107,24 +107,28 @@ const AddTransaction = () => {
                         className="form-control"
                         placeholder="Agregar nueva categoría"
                     />
-                    <button
-                        type="button"
-                        className={`btn btn-${loadingCategory ? 'dark' : 'primary'}`}
-                        onClick={handleAddCategory}
-                        disabled={loadingCategory || newCategory.trim() === ''}
-                    >
-                        {loadingCategory ? (
-                            <>
-                                <span className="spinner-border spinner-border-sm me-2"></span>
-                                Agregando...
-                            </>
-                        ) : (
-                            "Agregar"
-                        )}
-                    </button>
+                    {/* Solo muestra el botón si hay texto en el input */}
+                    {newCategory.trim() !== '' && (
+                        <button
+                            type="button"
+                            className={`btn btn-${loadingCategory ? 'dark' : 'primary'}`}
+                            onClick={handleAddCategory}
+                            disabled={loadingCategory}
+                        >
+                            {loadingCategory ? (
+                                <>
+                                    <span className="spinner-border spinner-border-sm me-2"></span>
+                                    Agregando...
+                                </>
+                            ) : (
+                                "Agregar"
+                            )}
+                        </button>
+                    )}
                 </div>
                 {error && <p className="text-danger mt-2">{error}</p>}
             </div>
+
             <div className="mb-3">
                 <label className="form-label">Fecha</label>
                 <input type="date" name="date" value={form.date} onChange={handleChange} className="form-control" />
