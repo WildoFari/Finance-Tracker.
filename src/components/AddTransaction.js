@@ -80,14 +80,17 @@ const AddTransaction = () => {
             <div className="mb-3">
                 <label className="form-label">Monto</label>
                 <input
-                    type="text"
+                    type="tel"
                     name="amount"
                     value={form.amount}
                     onChange={handleAmountChange}
                     className="form-control"
                     placeholder="Ingrese el monto"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                 />
             </div>
+
             <div className="mb-3">
                 <label className="form-label">Categoría</label>
                 <select name="category" value={form.category} onChange={handleChange} className="form-select">
