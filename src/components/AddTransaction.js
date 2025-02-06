@@ -112,7 +112,7 @@ const AddTransaction = () => {
                     {newCategory.trim() !== '' && (
                         <button
                             type="button"
-                            className={`btn btn-${loadingCategory ? 'dark' : 'primary'}`}
+                            className={`btn btn-${loadingCategory ? 'dark' : 'primary'} ms-2 border-start-0`} // Separa el botón con margen
                             onClick={handleAddCategory}
                             disabled={loadingCategory}
                         >
