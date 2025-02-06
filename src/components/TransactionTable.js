@@ -55,7 +55,7 @@ const TransactionTable = () => {
         <div className="container my-4">
 
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
-                <h3 className="mb-2 mb-md-0">Total: {transactions.length} transacciones</h3>
+                <h4 className="mb-2 mb-md-0">Total: {transactions.length} transacciones</h4>
 
                 {/* Contenedor de botones responsivo */}
                 <div className="d-grid gap-2 d-md-flex">
@@ -69,7 +69,7 @@ const TransactionTable = () => {
             </div>
 
             <div className="container my-4">
-                <h2 className="text-center">Listado de Transacciones</h2>
+                <h4 className="text-center">Listado de Transacciones</h4>
 
                 {/* Desktop */}
                 <div className="table-responsive d-none d-md-block">

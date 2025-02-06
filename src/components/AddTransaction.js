@@ -76,7 +76,7 @@ const AddTransaction = () => {
 
     return (
         <form onSubmit={handleSubmit} className="container my-4">
-            <h2 className="text-center">Agregar Transacción</h2>
+            <h4 className="text-center fw-bold">Agregar Transacción</h4>
             <div className="mb-3">
                 <label className="form-label">Monto</label>
                 <input
