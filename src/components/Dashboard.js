@@ -89,7 +89,7 @@ const Dashboard = () => {
 
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4">Tabla de Transacciones</h4>
+                    <h4 className="mb-4 text-center">Tabla de Transacciones</h4>
                     <TransactionTable />
                 </div>
             </div>

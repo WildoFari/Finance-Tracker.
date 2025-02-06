@@ -53,7 +53,6 @@ const TransactionTable = () => {
 
     return (
         <div className="container my-4">
-            <h2 className="text-center">Listado de Transacciones</h2>
 
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
                 <h3 className="mb-2 mb-md-0">Total: {transactions.length} transacciones</h3>
