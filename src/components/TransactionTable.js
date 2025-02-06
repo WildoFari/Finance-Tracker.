@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const TransactionTable = () => {
     const { transactions } = useContext(TransactionContext);
+    const [showMobileList, setShowMobileList] = useState(false);
 
     const exportToCSV = () => {
         const headers = ['Fecha', 'Categoría', 'Monto', 'Tipo'];
@@ -53,61 +54,54 @@ const TransactionTable = () => {
 
     return (
         <div className="container my-4">
+            {/* Título con opción de despliegue en mobile */}
+            <h4
+                className="text-center bg-light p-3 rounded d-md-none"
+                onClick={() => setShowMobileList(!showMobileList)}
+                style={{ cursor: 'pointer' }}
+            >
+                Listado de Transacciones
+                <i className={`ms-2 fas ${showMobileList ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+            </h4>
 
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
-                <h4 className="mb-2 mb-md-0">Total: {transactions.length} transacciones</h4>
-
-                {/* Contenedor de botones responsivo */}
-                <div className="d-grid gap-2 d-md-flex">
-                    <button className="btn btn-primary" onClick={exportToCSV}>
-                        📄 Exportar CSV
-                    </button>
-                    <button className="btn btn-danger" onClick={exportToPDF}>
-                        🖨️ Exportar PDF
-                    </button>
-                </div>
+            {/* Desktop */}
+            <div className="table-responsive d-none d-md-block">
+                <table className="table table-striped table-bordered">
+                    <thead className="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Categoría</th>
+                            <th>Monto</th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {transactions.length > 0 ? (
+                            transactions.map((transaction, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{transaction.date}</td>
+                                    <td>{transaction.category}</td>
+                                    <td className={transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}>
+                                        ${transaction.amount}
+                                    </td>
+                                    <td>{transaction.type}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5" className="text-center">
+                                    No hay transacciones registradas.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
 
-            <div className="container my-4">
-                <h4 className="text-center">Listado de Transacciones</h4>
-
-                {/* Desktop */}
-                <div className="table-responsive d-none d-md-block">
-                    <table className="table table-striped table-bordered">
-                        <thead className="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Fecha</th>
-                                <th>Categoría</th>
-                                <th>Monto</th>
-                                <th>Tipo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.length > 0 ? (
-                                transactions.map((transaction, index) => (
-                                    <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{transaction.date}</td>
-                                        <td>{transaction.category}</td>
-                                        <td className={transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}>
-                                            ${transaction.amount}
-                                        </td>
-                                        <td>{transaction.type}</td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="5" className="text-center">
-                                        No hay transacciones registradas.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Mobile */}
+            {/* Mobile - Lista Desplegable */}
+            {showMobileList && (
                 <div className="d-block d-md-none">
                     {transactions.length > 0 ? (
                         transactions.map((transaction, index) => (
@@ -128,7 +122,7 @@ const TransactionTable = () => {
                         </div>
                     )}
                 </div>
-            </div>
+            )}
         </div>
     );
 }
