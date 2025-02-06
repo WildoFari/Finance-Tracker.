@@ -30,9 +30,9 @@ const TransactionTable = () => {
         link.click();
         document.body.removeChild(link);
     };
+
     const exportToPDF = () => {
         const doc = new jsPDF();
-
         doc.text('Listado de Transacciones', 14, 10);
 
         const tableColumn = ['Fecha', 'Categoría', 'Monto', 'Tipo'];
@@ -54,17 +54,16 @@ const TransactionTable = () => {
 
     return (
         <div className="container my-4">
-            {/* Título con opción de despliegue en mobile */}
-            <h4
-                className="text-center bg-light p-3 rounded d-md-none"
+            {/* Botón para mostrar/ocultar en mobile */}
+            <button
+                className={`btn w-100 fw-bold py-3 mb-3 d-md-none ${showMobileList ? 'btn-primary text-white' : 'btn-outline-primary'}`}
                 onClick={() => setShowMobileList(!showMobileList)}
-                style={{ cursor: 'pointer' }}
             >
                 Listado de Transacciones
                 <i className={`ms-2 fas ${showMobileList ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
-            </h4>
+            </button>
 
-            {/* Desktop */}
+            {/* Desktop - Tabla */}
             <div className="table-responsive d-none d-md-block">
                 <table className="table table-striped table-bordered">
                     <thead className="table-dark">
@@ -100,7 +99,7 @@ const TransactionTable = () => {
                 </table>
             </div>
 
-            {/* Mobile - Lista Desplegable */}
+            {/* Mobile - Lista de tarjetas */}
             {showMobileList && (
                 <div className="d-block d-md-none">
                     {transactions.length > 0 ? (
@@ -123,8 +122,17 @@ const TransactionTable = () => {
                     )}
                 </div>
             )}
+
+            <div className="text-center mt-4">
+                <button className="btn btn-primary me-2" onClick={exportToCSV}>
+                    Exportar a CSV
+                </button>
+                <button className="btn btn-danger" onClick={exportToPDF}>
+                    Exportar a PDF
+                </button>
+            </div>
         </div>
     );
-}
+};
 
 export default TransactionTable;
