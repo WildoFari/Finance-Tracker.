@@ -6,13 +6,11 @@ const TransactionList = () => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState(null);
 
-    // Eliminar todas las transacciones
     const handleDeleteAll = () => {
         clearTransactions();
         setShowConfirm(false);
     };
 
-    // Eliminar transacción individual
     const handleDeleteOne = (id) => {
         deleteTransaction(id);
         setTransactionToDelete(null);
@@ -20,7 +18,6 @@ const TransactionList = () => {
 
     return (
         <div className="my-4">
-            <h4 className="text-center mb-3 fw-bold">Lista de Transacciones</h4>
 
             {transactions.length > 0 && (
                 <button className="btn btn-danger mb-3 w-100" onClick={() => setShowConfirm(true)}>
@@ -30,8 +27,8 @@ const TransactionList = () => {
 
             <ul className="list-group">
                 {transactions.length > 0 ? (
-                    transactions.map((transaction, index) => (
-                        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                    transactions.map((transaction) => (
+                        <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center">
                             <span>
                                 <strong>{transaction.type}:</strong> ${transaction.amount} - {transaction.category} ({transaction.date})
                             </span>
@@ -50,37 +47,63 @@ const TransactionList = () => {
                 )}
             </ul>
 
-            {/* Modal para confirmar eliminación de todas las transacciones */}
             {showConfirm && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <h4>¿Estás seguro?</h4>
-                        <p>Esta acción eliminará todas las transacciones. No se puede deshacer.</p>
-                        <button className="btn btn-secondary me-2" onClick={() => setShowConfirm(false)}>
-                            Cancelar
-                        </button>
-                        <button className="btn btn-danger" onClick={handleDeleteAll}>
-                            Sí, Eliminar Todo
-                        </button>
+                        <h4 className="text-center">¿Estás seguro?</h4>
+                        <p className="text-center">Esta acción eliminará todas las transacciones y no se puede deshacer.</p>
+                        <div className="d-flex justify-content-center gap-3">
+                            <button className="btn btn-secondary" onClick={() => setShowConfirm(false)}>
+                                Cancelar
+                            </button>
+                            <button className="btn btn-danger" onClick={handleDeleteAll}>
+                                Sí, Eliminar Todo
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* Modal para confirmar eliminación individual */}
             {transactionToDelete !== null && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <h4>¿Eliminar esta transacción?</h4>
-                        <p>Esta acción no se puede deshacer.</p>
-                        <button className="btn btn-secondary me-2" onClick={() => setTransactionToDelete(null)}>
-                            Cancelar
-                        </button>
-                        <button className="btn btn-danger" onClick={() => handleDeleteOne(transactionToDelete)}>
-                            Sí, Eliminar
-                        </button>
+                        <h4 className="text-center">¿Eliminar esta transacción?</h4>
+                        <p className="text-center">Esta acción no se puede deshacer.</p>
+                        <div className="d-flex justify-content-center gap-3">
+                            <button className="btn btn-secondary" onClick={() => setTransactionToDelete(null)}>
+                                Cancelar
+                            </button>
+                            <button className="btn btn-danger" onClick={() => handleDeleteOne(transactionToDelete)}>
+                                Sí, Eliminar
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
+
+            {/* Estilos para el modal y overlay */}
+            <style jsx>{`
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                }
+
+                .modal-content {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    width: 400px;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                }
+            `}</style>
         </div>
     );
 };
