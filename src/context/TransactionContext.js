@@ -26,18 +26,26 @@ export const TransactionProvider = ({ children }) => {
         localStorage.setItem('transactions', JSON.stringify(transactions));
     }, [transactions]);
 
+    const deleteTransaction = (id) => {
+        setTransactions((prev) => prev.filter((t) => t.id !== id));
+    };
+
     const addTransaction = (transaction) => {
-        setTransactions((prev) => [...prev, transaction]);
+        setTransactions((prev) => [
+            ...prev,
+            { ...transaction, id: Date.now() },
+        ]);
     };
 
     const addCategory = (category) => {
-        if (!categories.includes(category)) {
-            setCategories((prev) => [...prev, category]);
+        if (!categories.includes(category.trim()) && category.trim() !== '') {
+            setCategories((prev) => [...prev, category.trim()]);
         }
     };
 
     const deleteCategory = (category) => {
         setCategories((prev) => prev.filter((cat) => cat !== category));
+        setTransactions((prev) => prev.filter((t) => t.category !== category));
     };
 
     const clearTransactions = () => {
@@ -47,11 +55,11 @@ export const TransactionProvider = ({ children }) => {
 
     const ingresos = transactions
         .filter((t) => t.type === 'Ingreso')
-        .reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
+        .reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
 
     const egresos = transactions
         .filter((t) => t.type === 'Egreso')
-        .reduce((acc, curr) => acc + parseFloat(curr.amount), 0);
+        .reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
 
     return (
         <TransactionContext.Provider
@@ -64,6 +72,7 @@ export const TransactionProvider = ({ children }) => {
                 deleteCategory,
                 ingresos,
                 egresos,
+                deleteTransaction,
             }}
         >
             {children}
