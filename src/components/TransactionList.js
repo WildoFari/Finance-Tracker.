@@ -3,12 +3,13 @@ import { TransactionContext } from '../context/TransactionContext';
 
 const TransactionList = () => {
     const { transactions, clearTransactions, deleteTransaction } = useContext(TransactionContext);
-    const [showConfirm, setShowConfirm] = useState(false);
+    const [showTransactions, setShowTransactions] = useState(false);
+    const [showConfirmAll, setShowConfirmAll] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState(null);
 
     const handleDeleteAll = () => {
         clearTransactions();
-        setShowConfirm(false);
+        setShowConfirmAll(false);
     };
 
     const handleDeleteOne = (id) => {
@@ -17,43 +18,56 @@ const TransactionList = () => {
     };
 
     return (
-        <div className="my-4">
-
-            {transactions.length > 0 && (
-                <button className="btn btn-danger mb-3 w-100" onClick={() => setShowConfirm(true)}>
-                    Eliminar Todas las Transacciones
+        <div className="container mt-5">
+            <div className="card shadow border-0 p-4 rounded bg-light text-center">
+                <button
+                    className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary text-primary'}`}
+                    onClick={() => setShowTransactions(!showTransactions)}
+                >
+                    {showTransactions ? "Ocultar Lista" : "Mostrar Lista"}
+                    <i className={`ms-2 fas ${showTransactions ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                 </button>
-            )}
 
-            <ul className="list-group">
-                {transactions.length > 0 ? (
-                    transactions.map((transaction) => (
-                        <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center">
-                            <span>
-                                <strong>{transaction.type}:</strong> ${transaction.amount} - {transaction.category} ({transaction.date})
-                            </span>
-                            <button
-                                className="btn btn-sm btn-danger"
-                                onClick={() => setTransactionToDelete(transaction.id)}
-                            >
-                                Eliminar
+                {showTransactions && (
+                    <>
+                        {transactions.length > 0 && (
+                            <button className="btn btn-danger mb-3 w-100 mt-3" onClick={() => setShowConfirmAll(true)}>
+                                Eliminar Todas las Transacciones
                             </button>
-                        </li>
-                    ))
-                ) : (
-                    <li className="list-group-item text-center text-muted">
-                        No hay transacciones registradas
-                    </li>
-                )}
-            </ul>
 
-            {showConfirm && (
+                        )}
+                        <ul className="list-group">
+                            {transactions.length > 0 ? (
+                                transactions.map((transaction) => (
+                                    <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <strong>{transaction.type}:</strong> ${transaction.amount.toLocaleString('es-ES')} - {transaction.category} ({transaction.date})
+                                        </span>
+                                        <button
+                                            className="btn btn-sm btn-danger"
+                                            onClick={() => setTransactionToDelete(transaction.id)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="list-group-item text-center text-muted">
+                                    No hay transacciones registradas.
+                                </li>
+                            )}
+                        </ul>
+                    </>
+                )}
+            </div>
+
+            {showConfirmAll && (
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h4 className="text-center">¿Estás seguro?</h4>
                         <p className="text-center">Esta acción eliminará todas las transacciones y no se puede deshacer.</p>
                         <div className="d-flex justify-content-center gap-3">
-                            <button className="btn btn-secondary" onClick={() => setShowConfirm(false)}>
+                            <button className="btn btn-secondary" onClick={() => setShowConfirmAll(false)}>
                                 Cancelar
                             </button>
                             <button className="btn btn-danger" onClick={handleDeleteAll}>
@@ -81,7 +95,6 @@ const TransactionList = () => {
                 </div>
             )}
 
-            {/* Estilos para el modal y overlay */}
             <style jsx>{`
                 .modal-overlay {
                     position: fixed;
