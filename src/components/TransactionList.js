@@ -23,10 +23,21 @@ const TransactionList = () => {
                 <button
                     className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary text-primary'}`}
                     onClick={() => setShowTransactions(!showTransactions)}
+                    style={{
+                        transition: 'all 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => e.target.classList.add('text-white', 'bg-primary')}
+                    onMouseLeave={(e) => {
+                        if (!showTransactions) {
+                            e.target.classList.remove('text-white', 'bg-primary');
+                            e.target.classList.add('text-primary');
+                        }
+                    }}
                 >
                     {showTransactions ? "Ocultar Lista" : "Mostrar Lista"}
                     <i className={`ms-2 fas ${showTransactions ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                 </button>
+
 
                 {showTransactions && (
                     <>
