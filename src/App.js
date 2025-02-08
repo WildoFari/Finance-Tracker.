@@ -1,11 +1,10 @@
-
-
 import './App.css';
 import NavBar from './components/NavBar';
 import Dashboard from './components/Dashboard';
 import NotFound from './components/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import Ingresos from './pages/Ingresos';
 
 function App() {
   return (
@@ -15,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/ingresos" element={<Ingresos />} />
       </Routes>
     </BrowserRouter>
   );
