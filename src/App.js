@@ -5,6 +5,7 @@ import NotFound from './components/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Ingresos from './pages/Ingresos';
+import Egresos from './pages/Egresos';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/ingresos" element={<Ingresos />} />
+        <Route path="/egresos" element={<Egresos />} />
       </Routes>
     </BrowserRouter>
   );
