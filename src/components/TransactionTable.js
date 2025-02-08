@@ -124,9 +124,9 @@ const TransactionTable = () => {
             )}
 
             <div className="text-center mt-4">
-                <button className="btn btn-primary me-2" onClick={exportToCSV}>
+                {/* <button className="btn btn-primary me-2" onClick={exportToCSV}>
                     Exportar a CSV
-                </button>
+                </button> */}
                 <button className="btn btn-danger" onClick={exportToPDF}>
                     Exportar a PDF
                 </button>
