@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Ingresos from './pages/Ingresos';
 import Egresos from './pages/Egresos';
+import Graficos from './pages/Graficos';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/ingresos" element={<Ingresos />} />
         <Route path="/egresos" element={<Egresos />} />
+        <Route path="/graficos" element={<Graficos />} />
       </Routes>
     </BrowserRouter>
   );
