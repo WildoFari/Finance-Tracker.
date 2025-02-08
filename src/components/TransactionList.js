@@ -52,7 +52,7 @@ const TransactionList = () => {
                                 transactions.map((transaction) => (
                                     <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center">
                                         <span>
-                                            <strong>{transaction.type}:</strong> ${transaction.amount.toLocaleString('es-ES')} - {transaction.category} ({transaction.date})
+                                            <strong>{transaction.type}:</strong> {transaction.amount.toLocaleString('es-ES')} - {transaction.category} ({transaction.date})
                                         </span>
                                         <button
                                             className="btn btn-sm btn-danger"

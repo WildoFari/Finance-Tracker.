@@ -14,7 +14,7 @@ const Egresos = () => {
                     egresos.map((egreso, index) => (
                         <li key={index} className="list-group-item d-flex justify-content-between">
                             <span>{egreso.category} - {egreso.date}</span>
-                            <span className="text-danger fw-bold">${egreso.amount.toLocaleString('es-ES')}</span>
+                            <span className="text-danger fw-bold">{egreso.amount.toLocaleString('es-ES')}</span>
                         </li>
                     ))
                 ) : (

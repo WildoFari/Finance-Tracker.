@@ -39,7 +39,7 @@ const TransactionTable = () => {
         const tableRows = transactions.map((transaction) => [
             transaction.date,
             transaction.category,
-            `$${transaction.amount}`,
+            `${transaction.amount}`,
             transaction.type,
         ]);
 
@@ -71,7 +71,7 @@ const TransactionTable = () => {
                             <th>#</th>
                             <th>Fecha</th>
                             <th>Categoría</th>
-                            <th>Monto</th>
+                            <th>Montooo</th>
                             <th>Tipo</th>
                         </tr>
                     </thead>
@@ -83,7 +83,7 @@ const TransactionTable = () => {
                                     <td>{transaction.date}</td>
                                     <td>{transaction.category}</td>
                                     <td className={transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}>
-                                        ${transaction.amount}
+                                        {transaction.amount.toLocaleString('es-ES')}
                                     </td>
                                     <td>{transaction.type}</td>
                                 </tr>
@@ -109,7 +109,7 @@ const TransactionTable = () => {
                                     <h5 className="card-title">{transaction.category}</h5>
                                     <p className="mb-1"><strong>Fecha:</strong> {transaction.date}</p>
                                     <p className={`mb-1 ${transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}`}>
-                                        <strong>Monto:</strong> ${transaction.amount}
+                                        <strong>Monto:</strong> {transaction.amount}
                                     </p>
                                     <p className="mb-0"><strong>Tipo:</strong> {transaction.type}</p>
                                 </div>

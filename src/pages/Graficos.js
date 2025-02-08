@@ -59,7 +59,7 @@ const Graficos = () => {
             x: { grid: { display: false }, ticks: { font: { size: 14, weight: 'bold' } } },
             y: {
                 grid: { color: '#E0E0E0' },
-                ticks: { font: { size: 12 }, callback: (value) => `$${value.toLocaleString('es-ES')}` },
+                ticks: { font: { size: 12 }, callback: (value) => `${value.toLocaleString('es-ES')}` },
             },
         },
         animation: { duration: 1200, easing: 'easeInOutQuart' },

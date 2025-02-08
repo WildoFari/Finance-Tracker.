@@ -14,7 +14,7 @@ const Ingresos = () => {
                     ingresos.map((ingreso, index) => (
                         <li key={index} className="list-group-item d-flex justify-content-between">
                             <span>{ingreso.category} - {ingreso.date}</span>
-                            <span className="text-success fw-bold">${ingreso.amount.toLocaleString('es-ES')}</span>
+                            <span className="text-success fw-bold">{ingreso.amount.toLocaleString('es-ES')}</span>
                         </li>
                     ))
                 ) : (
