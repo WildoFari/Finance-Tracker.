@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
+import ExportPDF from './ExportPDF';
 
 const TransactionList = () => {
     const { transactions, clearTransactions, deleteTransaction } = useContext(TransactionContext);
@@ -20,6 +21,7 @@ const TransactionList = () => {
     return (
         <div className="container mt-5">
             <div className="card shadow border-0 p-4 rounded bg-light text-center">
+                {/* Botón para mostrar/ocultar lista */}
                 <button
                     className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary text-primary'}`}
                     onClick={() => setShowTransactions(!showTransactions)}
@@ -38,15 +40,19 @@ const TransactionList = () => {
                     <i className={`ms-2 fas ${showTransactions ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                 </button>
 
-
                 {showTransactions && (
                     <>
+                        {/* Botón para exportar a PDF */}
+                        {transactions.length > 0 && (
+                            <ExportPDF transactions={transactions} type="Ingreso" />
+                        )}
+
                         {transactions.length > 0 && (
                             <button className="btn btn-danger mb-3 w-100 mt-3" onClick={() => setShowConfirmAll(true)}>
                                 Eliminar Todas las Transacciones
                             </button>
-
                         )}
+
                         <ul className="list-group">
                             {transactions.length > 0 ? (
                                 transactions.map((transaction) => (
@@ -72,6 +78,7 @@ const TransactionList = () => {
                 )}
             </div>
 
+            {/* Modal de confirmación para eliminar todas las transacciones */}
             {showConfirmAll && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -89,6 +96,7 @@ const TransactionList = () => {
                 </div>
             )}
 
+            {/* Modal de confirmación para eliminar una transacción */}
             {transactionToDelete !== null && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -106,6 +114,7 @@ const TransactionList = () => {
                 </div>
             )}
 
+            {/* Estilos para el modal */}
             <style jsx>{`
                 .modal-overlay {
                     position: fixed;
