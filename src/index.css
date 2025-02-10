@@ -19,3 +19,21 @@
 .navbar-nav {
   margin-left: 40px;
 }
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active {
+    outline: none;
+    box-shadow: none;
+}
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:active {
+    outline: none;
+    box-shadow: none;
+}
+.navbar-light .navbar-nav .nav-link.active {
+  background-color: #ddd !important;
+  color: black !important;
+}
+.navbar-dark .navbar-nav .nav-link.active {
+  background-color: #343a40 !important;
+  color: white !important;
+}
