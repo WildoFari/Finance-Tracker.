@@ -7,30 +7,6 @@ const TransactionTable = () => {
     const { transactions } = useContext(TransactionContext);
     const [showMobileList, setShowMobileList] = useState(false);
 
-    const exportToCSV = () => {
-        const headers = ['Fecha', 'Categoría', 'Monto', 'Tipo'];
-        const rows = transactions.map((transaction) => [
-            transaction.date,
-            transaction.category,
-            transaction.amount,
-            transaction.type,
-        ]);
-
-        let csvContent = 'data:text/csv;charset=utf-8,';
-        csvContent += headers.join(',') + '\n';
-        rows.forEach((row) => {
-            csvContent += row.join(',') + '\n';
-        });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement('a');
-        link.setAttribute('href', encodedUri);
-        link.setAttribute('download', 'transacciones.csv');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
     const exportToPDF = () => {
         const doc = new jsPDF();
         doc.text('Listado de Transacciones', 14, 10);
@@ -124,9 +100,6 @@ const TransactionTable = () => {
             )}
 
             <div className="text-center mt-4">
-                {/* <button className="btn btn-primary me-2" onClick={exportToCSV}>
-                    Exportar a CSV
-                </button> */}
                 <button className="btn btn-danger" onClick={exportToPDF}>
                     Exportar a PDF
                 </button>
