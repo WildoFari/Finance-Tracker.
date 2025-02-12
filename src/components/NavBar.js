@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useLocation } from 'react-router-dom';
+import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
 
 const NavBar = () => {
     const location = useLocation();
@@ -14,62 +15,57 @@ const NavBar = () => {
     const closeMenu = () => setMenuOpen(false);
 
     return (
-        <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme}`}>
+        <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme} shadow`}>
             <div className="container-fluid">
                 {/* Logo */}
-                <Link className="navbar-brand" to="/" onClick={closeMenu}>
+                <Link className="navbar-brand d-flex align-items-center fw-bold" to="/" onClick={closeMenu}>
                     <img
                         src="/finanzas-logo.svg"
                         alt="Logo"
                         style={{
-                            width: '30px',
+                            width: '35px',
                             marginRight: '10px',
                             filter: theme === 'dark' ? 'invert(1)' : 'none',
                         }}
                     />
-                    Gestión De Finanzas
+                    Finanzas
                 </Link>
 
-                {/* Botón para abrir/cerrar menú en mobile */}
+                {/* Botón menú hamburguesa */}
                 <button
-                    className="navbar-toggler"
+                    className="navbar-toggler border-0"
                     type="button"
                     onClick={() => setMenuOpen(!menuOpen)}
                     aria-expanded={menuOpen}
                     aria-label="Toggle navigation"
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
                 </button>
 
                 {/* Menú de navegación */}
                 <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
                     <ul className="navbar-nav mx-auto text-center">
-                        <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} to="/" onClick={closeMenu}>
-                                Inicio
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/ingresos' ? 'active' : ''}`} to="/ingresos" onClick={closeMenu}>
-                                Ingresos
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/egresos' ? 'active' : ''}`} to="/egresos" onClick={closeMenu}>
-                                Egresos
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/graficos' ? 'active' : ''}`} to="/graficos" onClick={closeMenu}>
-                                Gráficos
-                            </Link>
-                        </li>
+                        {['/', '/Ingresos', '/Egresos', '/Graficos'].map((path, index) => (
+                            <li className="nav-item" key={index}>
+                                <Link
+                                    className={`nav-link px-3 fw-semibold ${location.pathname === path ? 'active text-primary bg-light rounded shadow-sm' : ''
+                                        }`}
+                                    to={path}
+                                    onClick={closeMenu}
+                                >
+                                    {path === '/' ? 'Inicio' : path.replace('/', '')}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
 
-                    {/* Botón de modo oscuro/claro */}
+                    {/* Botón modo oscuro/claro */}
                     <div className="ms-auto d-flex align-items-center">
-                        <button className={`btn btn-outline-${theme === 'dark' ? 'light' : 'dark'} me-2`} onClick={toggleTheme}>
-                            {theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
+                        <button
+                            className={`btn btn-outline-${theme === 'dark' ? 'light' : 'dark'} me-2`}
+                            onClick={toggleTheme}
+                        >
+                            {theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
                         </button>
                     </div>
                 </div>
@@ -92,16 +88,26 @@ const NavBar = () => {
                     /* Ajustar alineación del elemento activo en mobile */
                     .navbar-nav .nav-link.active {
                         background-color: rgba(0, 0, 0, 0.1);
-                        border-left: 5px solid #007bff;
-                        margin-left: -10px;
+                        border-left: 4px solid #007bff;
+                        padding: 10px;
                         border-radius: 5px;
                         font-weight: bold;
+                        transition: all 0.3s ease-in-out;
                     }
 
                     /* Animación suave en la apertura del menú */
                     .collapse:not(.show) {
                         display: none;
                     }
+                }
+
+                /* Efecto en hover para los enlaces */
+                .nav-link {
+                    transition: color 0.3s ease-in-out;
+                }
+
+                .nav-link:hover {
+                    color: #007bff !important;
                 }
                 `}
             </style>
