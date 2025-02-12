@@ -4,6 +4,7 @@ import IncomeExpenseChart from './IncomeExpenseChart';
 import AddTransaction from './AddTransaction';
 import TransactionList from './TransactionList';
 import TransactionTable from './TransactionTable';
+import { FaArrowUp, FaArrowDown, FaChartPie } from 'react-icons/fa';
 
 const Dashboard = () => {
     const formatCurrency = (value) => {
@@ -23,83 +24,103 @@ const Dashboard = () => {
 
     return (
         <div className="container my-4">
-            <h1 className="text-center mb-4 fw-bold">Gestión de Finanzas</h1>
+            <h1 className="text-center mb-4 fw-bold text-primary">Gestión de Finanzas</h1>
 
+            {/* Tarjetas de Resumen */}
             <div className="row text-center g-4">
                 <div className="col-md-4">
-                    <div className="card shadow border-0">
+                    <div className="card shadow border-0 rounded-lg">
                         <div className="card-body bg-success text-white rounded py-4">
-                            <h3 className="card-title">Total Ingresos</h3>
-                            <p className="card-text display-6 fw-bold">
-                                {formatCurrency(ingresos)}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="card shadow border-0">
-                        <div className="card-body bg-danger text-white rounded py-4">
-                            <h3 className="card-title">Total Egresos</h3>
-                            <p className="card-text display-6 fw-bold">
-                                {formatCurrency(egresos)}
-                            </p>
+                            <h4 className="card-title mb-3">Total Ingresos</h4>
+                            <FaArrowUp className="fs-1 mb-2" />
+                            <p className="display-6 fw-bold">{formatCurrency(ingresos)}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="col-md-4">
-                    <div
-                        className="card shadow border-0 text-white rounded py-3"
-                        style={{
-                            background: balance >= 0
-                                ? 'linear-gradient(135deg, #4e73df, #1cc88a)'
-                                : 'linear-gradient(135deg, #e74a3b, #f6c23e)',
-                            color: '#fff',
-                        }}
-                    >
-                        <div className="card-body d-flex flex-column align-items-center">
-                            <div className="mb-3">
-                                {balance >= 0 ? (
-                                    <i className="fas fa-arrow-up fs-1"></i>
-                                ) : (
-                                    <i className="fas fa-arrow-down fs-1"></i>
-                                )}
-                            </div>
-                            <h4 className="card-title text-center">Balance Actual</h4>
-                            <p className="card-text fs-4 fw-bold text-center">
-                                {formatCurrency(balance)}
-                            </p>
+                    <div className="card shadow border-0 rounded-lg">
+                        <div className="card-body bg-danger text-white rounded py-4">
+                            <h4 className="card-title mb-3">Total Egresos</h4>
+                            <FaArrowDown className="fs-1 mb-2" />
+                            <p className="display-6 fw-bold">{formatCurrency(egresos)}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-md-4">
+                    <div className="card shadow border-0 rounded-lg">
+                        <div
+                            className="card-body text-white rounded py-4"
+                            style={{
+                                background: balance >= 0
+                                    ? 'linear-gradient(135deg, #4e73df, #1cc88a)'
+                                    : 'linear-gradient(135deg, #e74a3b, #f6c23e)',
+                                color: '#fff',
+                            }}
+                        >
+                            <h4 className="card-title mb-3">Balance Actual</h4>
+                            <FaChartPie className="fs-1 mb-2" />
+                            <p className="display-6 fw-bold">{formatCurrency(balance)}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {/* Formulario para Agregar Transacción */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
+                    <h4 className="mb-3 fw-bold text-center">Agregar Nueva Transacción</h4>
                     <AddTransaction />
                 </div>
             </div>
 
+            {/* Lista de Transacciones */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light text-center">
-                    <h4 className="mb-4 fw-bold">Lista de Transacciones</h4>
+                    <h4 className="mb-4 fw-bold text-primary">Lista de Transacciones</h4>
                     <TransactionList />
                 </div>
             </div>
 
+            {/* Tabla de Transacciones */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4 text-center fw-bold">Tabla de Transacciones</h4>
+                    <h4 className="mb-4 text-center fw-bold text-primary">Tabla de Transacciones</h4>
                     <TransactionTable />
                 </div>
             </div>
 
+            {/* Gráfico de Ingresos y Egresos */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4">Gráfico de Ingresos y Egresos</h4>
+                    <h4 className="mb-4 text-center fw-bold text-primary">Gráfico de Ingresos y Egresos</h4>
                     <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
                 </div>
             </div>
+
+            {/* Estilos personalizados */}
+            <style>
+                {`
+                .rounded-lg {
+                    border-radius: 12px;
+                }
+
+                .card-body {
+                    transition: transform 0.2s ease-in-out;
+                }
+
+                .card-body:hover {
+                    transform: translateY(-5px);
+                }
+                
+                @media (max-width: 768px) {
+                    .display-6 {
+                        font-size: 1.8rem;
+                    }
+                }
+                `}
+            </style>
         </div>
     );
 };
