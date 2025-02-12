@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaPlus, FaTrashAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const AddTransaction = () => {
     const { addTransaction, categories, addCategory, deleteCategory } = useContext(TransactionContext);
@@ -73,94 +74,88 @@ const AddTransaction = () => {
         }
     };
 
-
     return (
-        <form onSubmit={handleSubmit} className="container my-4">
-            <h4 className="text-center fw-bold">Agregar Transacción</h4>
+        <form onSubmit={handleSubmit} className="container my-4 p-4 border rounded shadow">
+            <h4 className="text-center fw-bold mb-3">Agregar Transacción</h4>
             <div className="mb-3">
-                <label className="form-label">Monto</label>
+                <label className="form-label fw-semibold">Monto</label>
                 <input
                     type="tel"
                     name="amount"
                     value={form.amount}
                     onChange={handleAmountChange}
-                    className="form-control"
+                    className="form-control shadow-sm"
                     placeholder="Ingrese el monto"
                     inputMode="numeric"
                 />
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Categoría</label>
-                <select name="category" value={form.category} onChange={handleChange} className="form-select">
+                <label className="form-label fw-semibold">Categoría</label>
+                <select name="category" value={form.category} onChange={handleChange} className="form-select shadow-sm">
                     <option value="">Seleccione una categoría</option>
                     {categories.map((category, index) => (
                         <option key={index} value={category}>{category}</option>
                     ))}
                 </select>
             </div>
+
             <div className="mb-3">
-                <label className="form-label">Nueva Categoría</label>
+                <label className="form-label fw-semibold">Nueva Categoría</label>
                 <div className="input-group">
                     <input
                         type="text"
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
-                        className="form-control"
+                        className="form-control shadow-sm"
                         placeholder="Agregar nueva categoría"
                     />
-                    {newCategory.trim() !== '' && (
-                        <button
-                            type="button"
-                            className={`btn btn-${loadingCategory ? 'dark' : 'primary'} ms-2 border-start-0`} // Separa el botón con margen
-                            onClick={handleAddCategory}
-                            disabled={loadingCategory}
-                        >
-                            {loadingCategory ? (
-                                <>
-                                    <span className="spinner-border spinner-border-sm me-2"></span>
-                                    Agregando...
-                                </>
-                            ) : (
-                                "Agregar"
-                            )}
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        className={`btn btn-${loadingCategory ? 'dark' : 'primary'}`}
+                        onClick={handleAddCategory}
+                        disabled={loadingCategory}
+                    >
+                        {loadingCategory ? (
+                            <span className="spinner-border spinner-border-sm"></span>
+                        ) : (
+                            <FaPlus />
+                        )}
+                    </button>
                 </div>
                 {error && <p className="text-danger mt-2">{error}</p>}
             </div>
 
             <div className="mb-3">
-                <label className="form-label">Fecha</label>
-                <input type="date" name="date" value={form.date} onChange={handleChange} className="form-control" />
+                <label className="form-label fw-semibold">Fecha</label>
+                <input type="date" name="date" value={form.date} onChange={handleChange} className="form-control shadow-sm" />
             </div>
+
             <div className="mb-3">
-                <label className="form-label">Tipo</label>
-                <select name="type" value={form.type} onChange={handleChange} className="form-select">
+                <label className="form-label fw-semibold">Tipo</label>
+                <select name="type" value={form.type} onChange={handleChange} className="form-select shadow-sm">
                     <option value="Ingreso">Ingreso</option>
                     <option value="Egreso">Egreso</option>
                 </select>
             </div>
-            <button type="submit" className="btn btn-primary w-100" disabled={loadingTransaction}>
+
+            <button type="submit" className="btn btn-primary w-100 fw-bold" disabled={loadingTransaction}>
                 {loadingTransaction ? (
-                    <>
-                        <span className="spinner-border spinner-border-sm me-2"></span>
-                        Agregando...
-                    </>
+                    <span className="spinner-border spinner-border-sm"></span>
                 ) : (
                     "Agregar"
                 )}
             </button>
+
             <div className="mt-4">
-                <h4
-                    className="btn btn-outline-primary p-3 w-100 d-flex justify-content-center align-items-center"
+                <h5
+                    className="btn btn-outline-primary w-100 fw-bold d-flex justify-content-between align-items-center"
                     onClick={() => setShowCategories(!showCategories)}
-                    style={{ cursor: 'pointer', fontWeight: 'bold', textAlign: 'center' }}
+                    style={{ cursor: 'pointer' }}
                 >
                     Categorías Existentes
-                    <i className={`fas ${showCategories ? 'fa-chevron-up' : 'fa-chevron-down'} ms-2`}></i>
-                </h4>
-
+                    {showCategories ? <FaChevronUp /> : <FaChevronDown />}
+                </h5>
 
                 {showCategories && (
                     <ul className="list-group">
@@ -169,22 +164,13 @@ const AddTransaction = () => {
                                 {category}
                                 <button
                                     className={`btn btn-sm ${loadingDelete[category] ? 'btn-secondary' : 'btn-danger'}`}
-                                    onClick={() => {
-                                        if (window.confirm(`¿Seguro que quieres eliminar la categoría "${category}"?`)) {
-                                            handleDeleteCategory(category);
-                                        }
-                                    }}
+                                    onClick={() => handleDeleteCategory(category)}
                                     disabled={loadingDelete[category]}
                                 >
                                     {loadingDelete[category] ? (
-                                        <>
-                                            <span className="spinner-border spinner-border-sm me-2"></span>
-                                            Eliminando...
-                                        </>
+                                        <span className="spinner-border spinner-border-sm"></span>
                                     ) : (
-                                        <>
-                                            <i className="fas fa-trash-alt me-1"></i> Eliminar
-                                        </>
+                                        <FaTrashAlt />
                                     )}
                                 </button>
                             </li>
