@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import ExportPDF from './ExportPDF';
+import { FaTrashAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const TransactionList = () => {
     const { transactions, clearTransactions, deleteTransaction } = useContext(TransactionContext);
@@ -23,32 +24,22 @@ const TransactionList = () => {
             <div className="card shadow border-0 p-4 rounded bg-light text-center">
                 {/* Botón para mostrar/ocultar lista */}
                 <button
-                    className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary text-primary'}`}
+                    className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary'}`}
                     onClick={() => setShowTransactions(!showTransactions)}
-                    style={{
-                        transition: 'all 0.3s ease',
-                    }}
-                    onMouseEnter={(e) => e.target.classList.add('text-white', 'bg-primary')}
-                    onMouseLeave={(e) => {
-                        if (!showTransactions) {
-                            e.target.classList.remove('text-white', 'bg-primary');
-                            e.target.classList.add('text-primary');
-                        }
-                    }}
                 >
-                    {showTransactions ? "Ocultar Lista" : "Mostrar Lista"}
-                    <i className={`ms-2 fas ${showTransactions ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                    {showTransactions ? "Ocultar Lista" : "Mostrar Lista"}{" "}
+                    {showTransactions ? <FaEyeSlash /> : <FaEye />}
                 </button>
 
                 {showTransactions && (
                     <>
                         {/* Botón para exportar a PDF */}
-                        {transactions.length > 0 && (
-                            <ExportPDF transactions={transactions} type="Ingreso" />
-                        )}
+                        {transactions.length > 0 && <ExportPDF transactions={transactions} type="Ingreso" />}
 
+                        {/* Botón para eliminar todas las transacciones */}
                         {transactions.length > 0 && (
                             <button className="btn btn-danger mb-3 w-100 mt-3" onClick={() => setShowConfirmAll(true)}>
+                                <FaTrashAlt className="me-2" />
                                 Eliminar Todas las Transacciones
                             </button>
                         )}
@@ -56,15 +47,15 @@ const TransactionList = () => {
                         <ul className="list-group">
                             {transactions.length > 0 ? (
                                 transactions.map((transaction) => (
-                                    <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>
+                                    <li key={transaction.id} className="list-group-item d-flex justify-content-between align-items-center transaction-item">
+                                        <span className={transaction.type === "Ingreso" ? "text-success" : "text-danger"}>
                                             <strong>{transaction.type}:</strong> {transaction.amount.toLocaleString('es-ES')} - {transaction.category} ({transaction.date})
                                         </span>
                                         <button
                                             className="btn btn-sm btn-danger"
                                             onClick={() => setTransactionToDelete(transaction.id)}
                                         >
-                                            Eliminar
+                                            <FaTrashAlt />
                                         </button>
                                     </li>
                                 ))
@@ -114,7 +105,7 @@ const TransactionList = () => {
                 </div>
             )}
 
-            {/* Estilos para el modal */}
+            {/* Estilos personalizados */}
             <style jsx>{`
                 .modal-overlay {
                     position: fixed;
@@ -127,6 +118,7 @@ const TransactionList = () => {
                     align-items: center;
                     justify-content: center;
                     z-index: 1000;
+                    animation: fadeIn 0.3s ease-in-out;
                 }
 
                 .modal-content {
@@ -135,6 +127,30 @@ const TransactionList = () => {
                     border-radius: 10px;
                     width: 400px;
                     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                    animation: scaleIn 0.3s ease-in-out;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+
+                @keyframes scaleIn {
+                    from { transform: scale(0.8); }
+                    to { transform: scale(1); }
+                }
+
+                .transaction-item {
+                    transition: all 0.3s ease-in-out;
+                }
+
+                .transaction-item:hover {
+                    background-color: rgba(0, 123, 255, 0.1);
+                }
+
+                .btn-danger:hover {
+                    transform: scale(1.05);
+                    transition: 0.3s ease-in-out;
                 }
             `}</style>
         </div>
