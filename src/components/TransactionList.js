@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
-import ExportPDF from './ExportPDF';
 import { FaTrashAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const TransactionList = () => {
@@ -33,9 +32,6 @@ const TransactionList = () => {
 
                 {showTransactions && (
                     <>
-                        {/* Botón para exportar a PDF */}
-                        {transactions.length > 0 && <ExportPDF transactions={transactions} type="Ingreso" />}
-
                         {/* Botón para eliminar todas las transacciones */}
                         {transactions.length > 0 && (
                             <button className="btn btn-danger mb-3 w-100 mt-3" onClick={() => setShowConfirmAll(true)}>

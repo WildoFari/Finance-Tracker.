@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FaFilePdf } from 'react-icons/fa';
 
 const TransactionTable = () => {
     const { transactions } = useContext(TransactionContext);
@@ -15,7 +16,7 @@ const TransactionTable = () => {
         const tableRows = transactions.map((transaction) => [
             transaction.date,
             transaction.category,
-            `${transaction.amount}`,
+            `${transaction.amount.toLocaleString('es-ES')}`,
             transaction.type,
         ]);
 
@@ -23,6 +24,8 @@ const TransactionTable = () => {
             head: [tableColumn],
             body: tableRows,
             startY: 20,
+            styles: { fontSize: 10 },
+            headStyles: { fillColor: [44, 62, 80], textColor: 255 },
         });
 
         doc.save('transacciones.pdf');
@@ -41,20 +44,20 @@ const TransactionTable = () => {
 
             {/* Desktop - Tabla */}
             <div className="table-responsive d-none d-md-block">
-                <table className="table table-striped table-bordered">
+                <table className="table table-striped table-hover shadow-sm rounded">
                     <thead className="table-dark">
                         <tr>
                             <th>#</th>
                             <th>Fecha</th>
                             <th>Categoría</th>
-                            <th>Montooo</th>
+                            <th>Monto</th>
                             <th>Tipo</th>
                         </tr>
                     </thead>
                     <tbody>
                         {transactions.length > 0 ? (
                             transactions.map((transaction, index) => (
-                                <tr key={index}>
+                                <tr key={index} className="align-middle">
                                     <td>{index + 1}</td>
                                     <td>{transaction.date}</td>
                                     <td>{transaction.category}</td>
@@ -85,7 +88,7 @@ const TransactionTable = () => {
                                     <h5 className="card-title">{transaction.category}</h5>
                                     <p className="mb-1"><strong>Fecha:</strong> {transaction.date}</p>
                                     <p className={`mb-1 ${transaction.type === 'Ingreso' ? 'text-success' : 'text-danger'}`}>
-                                        <strong>Monto:</strong> {transaction.amount}
+                                        <strong>Monto:</strong> {transaction.amount.toLocaleString('es-ES')}
                                     </p>
                                     <p className="mb-0"><strong>Tipo:</strong> {transaction.type}</p>
                                 </div>
@@ -100,10 +103,39 @@ const TransactionTable = () => {
             )}
 
             <div className="text-center mt-4">
-                <button className="btn btn-danger" onClick={exportToPDF}>
+                <button
+                    className="btn btn-danger fw-bold px-4 py-2 d-flex align-items-center justify-content-center gap-2"
+                    onClick={exportToPDF}
+                    style={{ transition: "all 0.3s ease-in-out" }}
+                    onMouseEnter={(e) => e.target.classList.add("shadow-lg")}
+                    onMouseLeave={(e) => e.target.classList.remove("shadow-lg")}
+                >
+                    <FaFilePdf size={20} />
                     Exportar a PDF
                 </button>
             </div>
+
+            {/* Estilos adicionales */}
+            <style jsx>{`
+                .table-hover tbody tr:hover {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+
+                .btn-danger:hover {
+                    transform: scale(1.05);
+                    transition: 0.3s ease-in-out;
+                }
+
+                .card {
+                    border-radius: 10px;
+                    transition: all 0.3s ease-in-out;
+                }
+
+                .card:hover {
+                    transform: scale(1.02);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            `}</style>
         </div>
     );
 };
