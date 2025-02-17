@@ -23,14 +23,13 @@ const Graficos = () => {
                 labels: ['Ingresos', 'Egresos'],
                 datasets: [
                     {
-                        label: 'Montos',
+                        label: 'Monto',
                         data: [ingresos, egresos],
                         backgroundColor: [gradientIngresos, gradientEgresos],
                         borderRadius: 12,
                         borderWidth: 2,
                         borderColor: ['#007E33', '#CC0000'],
                         barThickness: 60,
-                        hoverBackgroundColor: ['#005db1', '#d63031'],
                     },
                 ],
             });
