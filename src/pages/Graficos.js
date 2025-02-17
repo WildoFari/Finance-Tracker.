@@ -1,26 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const Graficos = () => {
     const { ingresos, egresos } = useContext(TransactionContext);
+    const chartRef = useRef(null);
     const [chartData, setChartData] = useState(null);
 
     useEffect(() => {
-        const createGradient = (ctx, colorStart, colorEnd) => {
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, colorStart);
-            gradient.addColorStop(1, colorEnd);
-            return gradient;
-        };
+        if (chartRef.current) {
+            const ctx = chartRef.current.getContext('2d');
+            const gradientIngresos = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientIngresos.addColorStop(0, '#00c851');
+            gradientIngresos.addColorStop(1, '#007E33');
 
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-            const gradientIngresos = createGradient(ctx, '#00c851', '#007E33');
-            const gradientEgresos = createGradient(ctx, '#ff4444', '#CC0000');
+            const gradientEgresos = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientEgresos.addColorStop(0, '#ff4444');
+            gradientEgresos.addColorStop(1, '#CC0000');
 
             setChartData({
                 labels: ['Ingresos', 'Egresos'],
@@ -29,7 +26,7 @@ const Graficos = () => {
                         label: 'Montos',
                         data: [ingresos, egresos],
                         backgroundColor: [gradientIngresos, gradientEgresos],
-                        borderRadius: 8,
+                        borderRadius: 12,
                         borderWidth: 2,
                         borderColor: ['#007E33', '#CC0000'],
                         barThickness: 60,
@@ -62,17 +59,20 @@ const Graficos = () => {
                 ticks: { font: { size: 12 }, callback: (value) => `${value.toLocaleString('es-ES')}` },
             },
         },
-        animation: { duration: 1200, easing: 'easeInOutQuart' },
+        animation: { duration: 1000, easing: 'easeInOutCubic' },
     };
 
     return (
         <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <h2 className="mb-4 fw-bold text-center">📊 Gráficos de Finanzas</h2>
+            <h2 className="mb-4 fw-bold text-center text-primary">
+                📊 Resumen de Finanzas
+            </h2>
+            <canvas ref={chartRef} style={{ display: 'none' }} />
             <div
                 className="chart-container shadow-lg p-4 bg-white rounded"
-                style={{ width: '90%', maxWidth: '500px', height: '400px' }}
+                style={{ width: '90%', maxWidth: '550px', height: '420px' }}
             >
-                {chartData && <Bar data={chartData} options={options} />}
+                {chartData ? <Bar data={chartData} options={options} /> : <p className="text-center">Cargando gráfico...</p>}
             </div>
         </div>
     );
