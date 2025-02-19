@@ -139,13 +139,29 @@ const AddTransaction = () => {
                 </select>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100 fw-bold" disabled={loadingTransaction}>
+            <button
+                type="submit"
+                className="btn btn-primary w-100 fw-bold d-flex align-items-center justify-content-center gap-2"
+                disabled={loadingTransaction}
+                style={{
+                    transition: 'all 0.3s ease-in-out',
+                    borderRadius: '8px',
+                    padding: '12px',
+                    boxShadow: '0 2px 5px rgba(0, 123, 255, 0.3)',
+                }}
+                onMouseEnter={(e) => e.target.classList.add("shadow-lg")}
+                onMouseLeave={(e) => e.target.classList.remove("shadow-lg")}
+            >
                 {loadingTransaction ? (
-                    <span className="spinner-border spinner-border-sm"></span>
+                    <>
+                        <span className="spinner-border spinner-border-sm"></span>
+                        Cargando...
+                    </>
                 ) : (
                     "Agregar"
                 )}
             </button>
+
 
             <div className="mt-4">
                 <h5
