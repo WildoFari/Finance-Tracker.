@@ -145,22 +145,29 @@ const AddTransaction = () => {
                 disabled={loadingTransaction}
                 style={{
                     transition: 'all 0.3s ease-in-out',
-                    borderRadius: '8px',
+                    borderRadius: '10px',
                     padding: '12px',
-                    boxShadow: '0 2px 5px rgba(0, 123, 255, 0.3)',
+                    boxShadow: '0 4px 8px rgba(0, 123, 255, 0.2)',
+                    position: 'relative',
+                    overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => e.target.classList.add("shadow-lg")}
                 onMouseLeave={(e) => e.target.classList.remove("shadow-lg")}
+                onMouseDown={(e) => e.target.style.transform = 'scale(0.97)'}
+                onMouseUp={(e) => e.target.style.transform = 'scale(1)'}
             >
                 {loadingTransaction ? (
                     <>
-                        <span className="spinner-border spinner-border-sm"></span>
-                        Cargando...
+                        <span className="spinner-border spinner-border-sm" style={{ animation: 'spin 0.6s linear infinite' }}></span>
+                        <span style={{ opacity: 1, transition: 'opacity 0.3s ease-in-out' }}>
+                            Cargando...
+                        </span>
                     </>
                 ) : (
                     "Agregar"
                 )}
             </button>
+
 
 
             <div className="mt-4">
