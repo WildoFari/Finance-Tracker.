@@ -149,13 +149,23 @@ const AddTransaction = () => {
 
             <div className="mt-4">
                 <h5
-                    className="btn btn-outline-primary w-100 fw-bold d-flex justify-content-between align-items-center"
+                    className="btn btn-outline-primary w-100 fw-bold d-flex justify-content-between align-items-center px-3 py-2"
                     onClick={() => setShowCategories(!showCategories)}
-                    style={{ cursor: 'pointer' }}
+                    style={{
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease-in-out',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 5px rgba(0, 123, 255, 0.2)',
+                    }}
+                    onMouseEnter={(e) => e.target.classList.add("shadow-lg")}
+                    onMouseLeave={(e) => e.target.classList.remove("shadow-lg")}
                 >
                     Categorías Existentes
-                    {showCategories ? <FaChevronUp /> : <FaChevronDown />}
+                    <span style={{ transition: 'transform 0.3s ease-in-out' }}>
+                        {showCategories ? <FaChevronUp className="rotate-icon" /> : <FaChevronDown className="rotate-icon" />}
+                    </span>
                 </h5>
+
 
                 {showCategories && (
                     <ul className="list-group">
