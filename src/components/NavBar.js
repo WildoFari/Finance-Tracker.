@@ -8,11 +8,16 @@ const NavBar = () => {
     const [theme, setTheme] = useState('dark');
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
-    };
-
+    const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
     const closeMenu = () => setMenuOpen(false);
+
+    const navLinks = [
+        { path: '/', label: 'Inicio' },
+        { path: '/Ingresos', label: 'Ingresos' },
+        { path: '/Egresos', label: 'Egresos' },
+        { path: '/Graficos', label: 'Gráficos' },
+        { path: '/Inversiones', label: 'Inversiones' },
+    ];
 
     return (
         <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme} shadow`}>
@@ -26,6 +31,7 @@ const NavBar = () => {
                             width: '35px',
                             marginRight: '10px',
                             filter: theme === 'dark' ? 'invert(1)' : 'none',
+                            transition: 'filter 0.3s ease-in-out'
                         }}
                     />
                     Finanzas
@@ -45,15 +51,17 @@ const NavBar = () => {
                 {/* Menú de navegación */}
                 <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
                     <ul className="navbar-nav mx-auto text-center">
-                        {['/', '/Ingresos', '/Egresos', '/Graficos'].map((path, index) => (
+                        {navLinks.map(({ path, label }, index) => (
                             <li className="nav-item" key={index}>
                                 <Link
-                                    className={`nav-link px-3 fw-semibold ${location.pathname === path ? 'active text-primary bg-light rounded shadow-sm' : ''
+                                    className={`nav-link px-3 fw-semibold ${location.pathname === path
+                                        ? 'active text-primary bg-light rounded shadow-sm'
+                                        : ''
                                         }`}
                                     to={path}
                                     onClick={closeMenu}
                                 >
-                                    {path === '/' ? 'Inicio' : path.replace('/', '')}
+                                    {label}
                                 </Link>
                             </li>
                         ))}
