@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import Ingresos from './pages/Ingresos';
 import Egresos from './pages/Egresos';
 import Graficos from './pages/Graficos';
+import Inversiones from './pages/Inversiones';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/ingresos" element={<Ingresos />} />
         <Route path="/egresos" element={<Egresos />} />
         <Route path="/graficos" element={<Graficos />} />
+        <Route path="/Inversiones" element={<Inversiones />} />
       </Routes>
     </BrowserRouter>
   );
