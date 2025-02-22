@@ -5,7 +5,6 @@ import ManageInvestment from '../components/ManageInvestment';
 const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
 
-    // Cargar inversiones desde localStorage al iniciar
     useEffect(() => {
         const storedInvestments = localStorage.getItem('investments');
         if (storedInvestments) {
@@ -18,7 +17,6 @@ const Inversiones = () => {
         }
     }, []);
 
-    // Guardar inversiones en localStorage cada vez que cambien
     useEffect(() => {
         if (investments.length > 0) {
             localStorage.setItem('investments', JSON.stringify(investments));
