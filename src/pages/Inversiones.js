@@ -1,16 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddInvestment from '../components/AddInvestment';
 import ManageInvestment from '../components/ManageInvestment';
 
 const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
 
-    const addInvestment = (newInvestment) => {
-        setInvestments([...investments, newInvestment]);
-    };
+    // Cargar inversiones desde localStorage al iniciar
+    useEffect(() => {
+        const storedInvestments = localStorage.getItem('investments');
+        if (storedInvestments) {
+            try {
+                setInvestments(JSON.parse(storedInvestments));
+            } catch (error) {
+                console.error("Error al leer localStorage:", error);
+                setInvestments([]); // Evita errores si los datos están corruptos
+            }
+        }
+    }, []);
 
-    const updateInvestment = (id, updates) => {
-        setInvestments(investments.map(inv => (inv.id === id ? { ...inv, ...updates } : inv)));
+    // Guardar inversiones en localStorage cada vez que cambien
+    useEffect(() => {
+        if (investments.length > 0) {
+            localStorage.setItem('investments', JSON.stringify(investments));
+        }
+    }, [investments]);
+
+    const addInvestment = (newInvestment) => {
+        const updatedInvestments = [...investments, newInvestment];
+        setInvestments(updatedInvestments);
     };
 
     return (
@@ -19,9 +36,13 @@ const Inversiones = () => {
 
             <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
 
-            {investments.map((inv) => (
-                <ManageInvestment key={inv.id} investment={inv} updateInvestment={updateInvestment} />
-            ))}
+            {investments.length === 0 ? (
+                <p className="text-center text-muted mt-3">No hay inversiones registradas.</p>
+            ) : (
+                investments.map((inv) => (
+                    <ManageInvestment key={inv.id} investment={inv} />
+                ))
+            )}
         </div>
     );
 };

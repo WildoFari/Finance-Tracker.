@@ -1,52 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const ManageInvestment = ({ investment, updateInvestment }) => {
-    const [cuotasPagadas, setCuotasPagadas] = useState('');
-    const [gastoDescripcion, setGastoDescripcion] = useState('');
-    const [gastoMonto, setGastoMonto] = useState('');
+const ManageInvestment = ({ investment }) => {
+    const [cuotasPagadas, setCuotasPagadas] = useState(investment.cuotasPagadas || 0);
+    const [gastosExtras, setGastosExtras] = useState(investment.gastosExtras || []);
+    const [pagos, setPagos] = useState(investment.pagos || []);
+    const [gastoDescripcion, setGastoDescripcion] = useState(""); // Estado para descripción
+    const [gastoMonto, setGastoMonto] = useState(""); // Estado para monto
 
+    // Guardar cambios en localStorage
+    useEffect(() => {
+        const storedInvestments = JSON.parse(localStorage.getItem('investments')) || [];
+        const updatedInvestments = storedInvestments.map(inv =>
+            inv.id === investment.id ? { ...inv, cuotasPagadas, pagos, gastosExtras } : inv
+        );
+        localStorage.setItem('investments', JSON.stringify(updatedInvestments));
+    }, [cuotasPagadas, pagos, gastosExtras, investment.id]);
+
+    // Pagar una cuota
     const handlePagoCuota = () => {
-        if (investment.cuotasPagadas < investment.totalCuotas) {
-            const newCuotasPagadas = investment.cuotasPagadas + 1;
+        if (cuotasPagadas < investment.totalCuotas) {
             const newPago = {
                 fecha: new Date().toLocaleDateString('es-ES'),
-                cuotaNumero: newCuotasPagadas,
+                cuotaNumero: cuotasPagadas + 1,
                 monto: investment.montoMensual,
             };
 
-            updateInvestment(investment.id, {
-                cuotasPagadas: newCuotasPagadas,
-                pagos: [...investment.pagos, newPago]
-            });
-
-            setCuotasPagadas('');
+            setCuotasPagadas(cuotasPagadas + 1);
+            setPagos([...pagos, newPago]);
         }
     };
 
+    // Agregar un gasto extra
     const handleAgregarGasto = () => {
-        if (gastoDescripcion && gastoMonto) {
-            const newGasto = {
-                descripcion: gastoDescripcion,
-                monto: Number(gastoMonto),
-                fecha: new Date().toLocaleDateString('es-ES'),
-            };
-
-            updateInvestment(investment.id, {
-                gastosExtras: [...investment.gastosExtras, newGasto]
-            });
-
-            setGastoDescripcion('');
-            setGastoMonto('');
+        if (gastoDescripcion.trim() === "" || gastoMonto.trim() === "" || isNaN(gastoMonto)) {
+            alert("Por favor, ingrese una descripción y un monto válido.");
+            return;
         }
+
+        const newGasto = {
+            descripcion: gastoDescripcion,
+            monto: Number(gastoMonto),
+            fecha: new Date().toLocaleDateString('es-ES'),
+        };
+
+        setGastosExtras([...gastosExtras, newGasto]);
+        setGastoDescripcion(""); // Limpiar campo después de agregar
+        setGastoMonto(""); // Limpiar campo después de agregar
     };
 
     return (
         <div className="card p-3 shadow-sm">
             <h5 className="fw-bold">{investment.name}</h5>
-            <p className="text-muted">Cuotas pagadas: {investment.cuotasPagadas} / {investment.totalCuotas}</p>
+            <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
 
             {/* Botón para pagar cuota */}
-            <button className="btn btn-success w-100 mb-3" onClick={handlePagoCuota} disabled={investment.cuotasPagadas >= investment.totalCuotas}>
+            <button className="btn btn-success w-100 mb-3" onClick={handlePagoCuota} disabled={cuotasPagadas >= investment.totalCuotas}>
                 Pagar Próxima Cuota
             </button>
 
@@ -58,7 +66,6 @@ const ManageInvestment = ({ investment, updateInvestment }) => {
                 placeholder="Descripción del gasto"
                 value={gastoDescripcion}
                 onChange={(e) => setGastoDescripcion(e.target.value)}
-                required
             />
             <input
                 type="number"
@@ -66,7 +73,6 @@ const ManageInvestment = ({ investment, updateInvestment }) => {
                 placeholder="Monto del gasto"
                 value={gastoMonto}
                 onChange={(e) => setGastoMonto(e.target.value)}
-                required
             />
             <button className="btn btn-warning w-100" onClick={handleAgregarGasto}>
                 Agregar Gasto
@@ -75,7 +81,7 @@ const ManageInvestment = ({ investment, updateInvestment }) => {
             {/* Mostrar historial de pagos */}
             <h6 className="fw-bold mt-3">📜 Historial de Pagos</h6>
             <ul className="list-group">
-                {investment.pagos.map((pago, index) => (
+                {pagos.map((pago, index) => (
                     <li key={index} className="list-group-item d-flex justify-content-between">
                         <span>Cuota {pago.cuotaNumero} - {pago.fecha}</span>
                         <strong>{pago.monto.toLocaleString('es-ES')}</strong>
@@ -86,7 +92,7 @@ const ManageInvestment = ({ investment, updateInvestment }) => {
             {/* Mostrar gastos extras */}
             <h6 className="fw-bold mt-3">💰 Gastos Extras</h6>
             <ul className="list-group">
-                {investment.gastosExtras.map((gasto, index) => (
+                {gastosExtras.map((gasto, index) => (
                     <li key={index} className="list-group-item d-flex justify-content-between">
                         <span>{gasto.descripcion} - {gasto.fecha}</span>
                         <strong className="text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
