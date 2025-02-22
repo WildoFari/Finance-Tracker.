@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AddInvestment from '../components/AddInvestment';
+import InvestmentProgress from '../components/InvestmentProgress';
 
 const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
@@ -18,20 +19,19 @@ const Inversiones = () => {
                 <AddInvestment addInvestment={addInvestment} />
             </div>
 
-            {/* Listado de inversiones agregadas */}
+            {/* Resumen de inversiones */}
             {investments.length > 0 && (
                 <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="fw-bold text-center">📌 Lista de Inversiones</h4>
-                    <ul className="list-group">
+                    <h4 className="fw-bold text-center">📌 Inversiones Actuales</h4>
+
+                    {/* Mostrar cada inversión con su barra de progreso */}
+                    <div className="row">
                         {investments.map((inv) => (
-                            <li key={inv.id} className="list-group-item d-flex justify-content-between align-items-center">
-                                <span>
-                                    <strong>{inv.name}</strong> - Cuotas: {inv.cuotasPagadas}/{inv.totalCuotas}
-                                    - Mensual: {inv.montoMensual.toLocaleString('es-ES')}
-                                </span>
-                            </li>
+                            <div key={inv.id} className="col-md-6 mb-3">
+                                <InvestmentProgress investment={inv} />
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             )}
         </div>
