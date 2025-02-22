@@ -7,7 +7,6 @@ const ManageInvestment = ({ investment }) => {
     const [gastoDescripcion, setGastoDescripcion] = useState("");
     const [gastoMonto, setGastoMonto] = useState("");
 
-    // Guardar cambios en localStorage
     useEffect(() => {
         const storedInvestments = JSON.parse(localStorage.getItem('investments')) || [];
         const updatedInvestments = storedInvestments.map(inv =>
@@ -16,7 +15,6 @@ const ManageInvestment = ({ investment }) => {
         localStorage.setItem('investments', JSON.stringify(updatedInvestments));
     }, [cuotasPagadas, pagos, gastosExtras, investment.id]);
 
-    // Pagar una cuota
     const handlePagoCuota = () => {
         if (cuotasPagadas < investment.totalCuotas) {
             const newPago = {
@@ -30,7 +28,6 @@ const ManageInvestment = ({ investment }) => {
         }
     };
 
-    // Agregar un gasto extra
     const handleAgregarGasto = () => {
         if (gastoDescripcion.trim() === "" || gastoMonto.trim() === "" || isNaN(gastoMonto)) {
             alert("Por favor, ingrese una descripción y un monto válido.");
@@ -48,7 +45,6 @@ const ManageInvestment = ({ investment }) => {
         setGastoMonto("");
     };
 
-    // Calcular totales
     const totalPagos = pagos.reduce((acc, pago) => acc + pago.monto, 0);
     const totalGastos = gastosExtras.reduce((acc, gasto) => acc + gasto.monto, 0);
     const totalGeneral = totalPagos + totalGastos;
@@ -58,12 +54,10 @@ const ManageInvestment = ({ investment }) => {
             <h5 className="fw-bold">{investment.name}</h5>
             <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
 
-            {/* Botón para pagar cuota */}
             <button className="btn btn-success w-100 mb-3" onClick={handlePagoCuota} disabled={cuotasPagadas >= investment.totalCuotas}>
                 Pagar Próxima Cuota
             </button>
 
-            {/* Agregar gasto extra */}
             <h6 className="fw-bold">➕ Agregar Gasto Extra</h6>
             <input
                 type="text"
@@ -83,7 +77,6 @@ const ManageInvestment = ({ investment }) => {
                 Agregar Gasto
             </button>
 
-            {/* Mostrar historial de pagos */}
             <h6 className="fw-bold mt-3">📜 Historial de Pagos</h6>
             <ul className="list-group">
                 {pagos.map((pago, index) => (
@@ -95,7 +88,6 @@ const ManageInvestment = ({ investment }) => {
             </ul>
             <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
 
-            {/* Mostrar gastos extras */}
             <h6 className="fw-bold mt-3">💰 Gastos Extras</h6>
             <ul className="list-group">
                 {gastosExtras.map((gasto, index) => (
@@ -107,8 +99,7 @@ const ManageInvestment = ({ investment }) => {
             </ul>
             <p className="fw-bold mt-2 text-danger">Total Gastos: {totalGastos.toLocaleString('es-ES')}</p>
 
-            {/* Total General */}
-            <h5 className="fw-bold mt-3 text-primary">💲 Total General: {totalGeneral.toLocaleString('es-ES')}</h5>
+            <h5 className="fw-bold mt-3 text-primary"> Total General: {totalGeneral.toLocaleString('es-ES')}</h5>
         </div>
     );
 };
