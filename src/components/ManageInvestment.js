@@ -4,8 +4,8 @@ const ManageInvestment = ({ investment }) => {
     const [cuotasPagadas, setCuotasPagadas] = useState(investment.cuotasPagadas || 0);
     const [gastosExtras, setGastosExtras] = useState(investment.gastosExtras || []);
     const [pagos, setPagos] = useState(investment.pagos || []);
-    const [gastoDescripcion, setGastoDescripcion] = useState(""); // Estado para descripción
-    const [gastoMonto, setGastoMonto] = useState(""); // Estado para monto
+    const [gastoDescripcion, setGastoDescripcion] = useState("");
+    const [gastoMonto, setGastoMonto] = useState("");
 
     // Guardar cambios en localStorage
     useEffect(() => {
@@ -44,9 +44,14 @@ const ManageInvestment = ({ investment }) => {
         };
 
         setGastosExtras([...gastosExtras, newGasto]);
-        setGastoDescripcion(""); // Limpiar campo después de agregar
-        setGastoMonto(""); // Limpiar campo después de agregar
+        setGastoDescripcion("");
+        setGastoMonto("");
     };
+
+    // Calcular totales
+    const totalPagos = pagos.reduce((acc, pago) => acc + pago.monto, 0);
+    const totalGastos = gastosExtras.reduce((acc, gasto) => acc + gasto.monto, 0);
+    const totalGeneral = totalPagos + totalGastos;
 
     return (
         <div className="card p-3 shadow-sm">
@@ -88,6 +93,7 @@ const ManageInvestment = ({ investment }) => {
                     </li>
                 ))}
             </ul>
+            <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
 
             {/* Mostrar gastos extras */}
             <h6 className="fw-bold mt-3">💰 Gastos Extras</h6>
@@ -99,6 +105,10 @@ const ManageInvestment = ({ investment }) => {
                     </li>
                 ))}
             </ul>
+            <p className="fw-bold mt-2 text-danger">Total Gastos: {totalGastos.toLocaleString('es-ES')}</p>
+
+            {/* Total General */}
+            <h5 className="fw-bold mt-3 text-primary">💲 Total General: {totalGeneral.toLocaleString('es-ES')}</h5>
         </div>
     );
 };
