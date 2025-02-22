@@ -9,13 +9,11 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Verificar si el nombre ya existe
         if (existingInvestments.some(inv => inv.name.toLowerCase() === name.toLowerCase())) {
             setError('Ya existe una inversión con este nombre.');
             return;
         }
 
-        // Agregar la nueva inversión
         addInvestment({
             id: Date.now(),
             name,
@@ -26,7 +24,6 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
             pagos: []
         });
 
-        // Resetear campos
         setName('');
         setTotalCuotas('');
         setMontoMensual('');
