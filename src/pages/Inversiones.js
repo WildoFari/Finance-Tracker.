@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import AddInvestment from '../components/AddInvestment';
-import InvestmentProgress from '../components/InvestmentProgress';
-import InvestmentSummary from '../components/InvestmentSummary';
+import ManageInvestment from '../components/ManageInvestment';
 
 const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
@@ -10,37 +9,19 @@ const Inversiones = () => {
         setInvestments([...investments, newInvestment]);
     };
 
+    const updateInvestment = (id, updates) => {
+        setInvestments(investments.map(inv => (inv.id === id ? { ...inv, ...updates } : inv)));
+    };
+
     return (
         <div className="container mt-4">
             <h2 className="fw-bold text-center">📈 Gestión de Inversiones</h2>
-            <p className="lead text-muted text-center">Administra tus terrenos, cuotas y gastos extras.</p>
 
-            {/* Resumen de inversiones */}
-            {investments.length > 0 && (
-                <div className="mb-4">
-                    <InvestmentSummary investments={investments} />
-                </div>
-            )}
+            <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
 
-            {/* Sección para agregar una nueva inversión */}
-            <div className="mb-4">
-                <AddInvestment addInvestment={addInvestment} />
-            </div>
-
-            {/* Mostrar lista de inversiones */}
-            {investments.length > 0 && (
-                <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="fw-bold text-center">📌 Inversiones Actuales</h4>
-
-                    <div className="row">
-                        {investments.map((inv) => (
-                            <div key={inv.id} className="col-md-6 mb-3">
-                                <InvestmentProgress investment={inv} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {investments.map((inv) => (
+                <ManageInvestment key={inv.id} investment={inv} updateInvestment={updateInvestment} />
+            ))}
         </div>
     );
 };
