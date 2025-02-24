@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
 const ManageInvestment = ({ investment }) => {
-    const [cuotasPagadas, setCuotasPagadas] = useState(investment.cuotasPagadas || 0);
-    const [gastosExtras, setGastosExtras] = useState(investment.gastosExtras || []);
-    const [pagos, setPagos] = useState(investment.pagos || []);
+    const isInvestmentValid = !!investment;
+
+    const [cuotasPagadas, setCuotasPagadas] = useState(isInvestmentValid ? investment.cuotasPagadas : 0);
+    const [gastosExtras, setGastosExtras] = useState(isInvestmentValid ? investment.gastosExtras : []);
+    const [pagos, setPagos] = useState(isInvestmentValid ? investment.pagos : []);
     const [gastoDescripcion, setGastoDescripcion] = useState("");
     const [gastoMonto, setGastoMonto] = useState("");
+    const [mostrarPagos, setMostrarPagos] = useState(false);
+    const [mostrarGastos, setMostrarGastos] = useState(false);
 
     useEffect(() => {
-        const storedInvestments = JSON.parse(localStorage.getItem('investments')) || [];
-        const updatedInvestments = storedInvestments.map(inv =>
-            inv.id === investment.id ? { ...inv, cuotasPagadas, pagos, gastosExtras } : inv
-        );
-        localStorage.setItem('investments', JSON.stringify(updatedInvestments));
-    }, [cuotasPagadas, pagos, gastosExtras, investment.id]);
+        if (isInvestmentValid) {
+            const storedInvestments = JSON.parse(localStorage.getItem('investments')) || [];
+            const updatedInvestments = storedInvestments.map(inv =>
+                inv.id === investment.id ? { ...inv, cuotasPagadas, pagos, gastosExtras } : inv
+            );
+            localStorage.setItem('investments', JSON.stringify(updatedInvestments));
+        }
+    }, [cuotasPagadas, pagos, gastosExtras, isInvestmentValid]);
+
+    if (!isInvestmentValid) {
+        return <p className="text-center text-muted">Cargando inversión...</p>;
+    }
 
     const handlePagoCuota = () => {
         if (cuotasPagadas < investment.totalCuotas) {
@@ -23,13 +33,13 @@ const ManageInvestment = ({ investment }) => {
                 monto: investment.montoMensual,
             };
 
-            setCuotasPagadas(cuotasPagadas + 1);
-            setPagos([...pagos, newPago]);
+            setCuotasPagadas(prev => prev + 1);
+            setPagos(prevPagos => [...prevPagos, newPago]);
         }
     };
 
     const handleAgregarGasto = () => {
-        if (gastoDescripcion.trim() === "" || gastoMonto.trim() === "" || isNaN(gastoMonto)) {
+        if (!gastoDescripcion.trim() || !gastoMonto.trim() || isNaN(gastoMonto)) {
             alert("Por favor, ingrese una descripción y un monto válido.");
             return;
         }
@@ -40,7 +50,7 @@ const ManageInvestment = ({ investment }) => {
             fecha: new Date().toLocaleDateString('es-ES'),
         };
 
-        setGastosExtras([...gastosExtras, newGasto]);
+        setGastosExtras(prevGastos => [...prevGastos, newGasto]);
         setGastoDescripcion("");
         setGastoMonto("");
     };
@@ -77,26 +87,52 @@ const ManageInvestment = ({ investment }) => {
                 Agregar Gasto
             </button>
 
-            <h6 className="fw-bold mt-3">📜 Historial de Pagos</h6>
-            <ul className="list-group">
-                {pagos.map((pago, index) => (
-                    <li key={index} className="list-group-item d-flex justify-content-between">
-                        <span>Cuota {pago.cuotaNumero} - {pago.fecha}</span>
-                        <strong>{pago.monto.toLocaleString('es-ES')}</strong>
-                    </li>
-                ))}
-            </ul>
+            <div className="mt-3">
+                <h6 className="fw-bold d-flex justify-content-between">
+                    📜 Historial de Pagos
+                    <button className="btn btn-sm btn-outline-primary" onClick={() => setMostrarPagos(!mostrarPagos)}>
+                        {mostrarPagos ? "Ocultar" : "Mostrar"}
+                    </button>
+                </h6>
+                {mostrarPagos && (
+                    <ul className="list-group mt-2">
+                        {pagos.length > 0 ? (
+                            pagos.map((pago, index) => (
+                                <li key={index} className="list-group-item d-flex justify-content-between">
+                                    <span>Cuota {pago.cuotaNumero} - {pago.fecha}</span>
+                                    <strong>{pago.monto.toLocaleString('es-ES')}</strong>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="list-group-item text-center text-muted">No hay pagos registrados.</li>
+                        )}
+                    </ul>
+                )}
+            </div>
             <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
 
-            <h6 className="fw-bold mt-3">💰 Gastos Extras</h6>
-            <ul className="list-group">
-                {gastosExtras.map((gasto, index) => (
-                    <li key={index} className="list-group-item d-flex justify-content-between">
-                        <span>{gasto.descripcion} - {gasto.fecha}</span>
-                        <strong className="text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
-                    </li>
-                ))}
-            </ul>
+            <div className="mt-3">
+                <h6 className="fw-bold d-flex justify-content-between">
+                    💰 Gastos Extras
+                    <button className="btn btn-sm btn-outline-primary" onClick={() => setMostrarGastos(!mostrarGastos)}>
+                        {mostrarGastos ? "Ocultar" : "Mostrar"}
+                    </button>
+                </h6>
+                {mostrarGastos && (
+                    <ul className="list-group mt-2">
+                        {gastosExtras.length > 0 ? (
+                            gastosExtras.map((gasto, index) => (
+                                <li key={index} className="list-group-item d-flex justify-content-between">
+                                    <span>{gasto.descripcion} - {gasto.fecha}</span>
+                                    <strong className="text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="list-group-item text-center text-muted">No hay gastos extras registrados.</li>
+                        )}
+                    </ul>
+                )}
+            </div>
             <p className="fw-bold mt-2 text-danger">Total Gastos: {totalGastos.toLocaleString('es-ES')}</p>
 
             <h5 className="fw-bold mt-3 text-primary"> Total General: {totalGeneral.toLocaleString('es-ES')}</h5>
