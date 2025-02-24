@@ -60,7 +60,7 @@ const ManageInvestment = ({ investment }) => {
     const totalGeneral = totalPagos + totalGastos;
 
     return (
-        <div className="card p-3 shadow-sm">
+        <div className="card p-4 shadow-sm mb-5">
             <h5 className="fw-bold">{investment.name}</h5>
             <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
 
