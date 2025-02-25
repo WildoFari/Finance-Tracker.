@@ -46,7 +46,7 @@ const Inversiones = () => {
 
     return (
         <div className="container mt-4">
-            <h2 className="fw-bold text-center">📈 Gestión de Inversiones</h2>
+            <h2 className="fw-bold text-center">📈 Gestión de Terrenos</h2>
 
             {/* Componente para agregar inversiones */}
             <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
