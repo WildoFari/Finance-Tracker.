@@ -4,8 +4,8 @@ const ManageInvestment = ({ investment, onDelete }) => {
     const isInvestmentValid = !!investment;
 
     const [cuotasPagadas, setCuotasPagadas] = useState(isInvestmentValid ? investment.cuotasPagadas : 0);
-    const [gastosExtras, setGastosExtras] = useState(isInvestmentValid ? investment.gastosExtras : []);
     const [pagos, setPagos] = useState(isInvestmentValid ? investment.pagos : []);
+    const [gastosExtras, setGastosExtras] = useState(isInvestmentValid ? investment.gastosExtras : []);
     const [gastoDescripcion, setGastoDescripcion] = useState("");
     const [gastoMonto, setGastoMonto] = useState("");
     const [mostrarDetalle, setMostrarDetalle] = useState(false);
@@ -28,19 +28,19 @@ const ManageInvestment = ({ investment, onDelete }) => {
     if (!isInvestmentValid) {
         return <p className="text-center text-muted">Cargando inversión...</p>;
     }
-
     const handlePagoCuota = () => {
         if (cuotasPagadas < investment.totalCuotas) {
-            const newPago = {
+            const nuevoPago = {
                 fecha: new Date().toLocaleDateString('es-ES'),
                 cuotaNumero: cuotasPagadas + 1,
                 monto: investment.montoMensual,
             };
 
             setCuotasPagadas(prev => prev + 1);
-            setPagos(prevPagos => [...prevPagos, newPago]);
+            setPagos(prevPagos => [...prevPagos, nuevoPago]);
         }
     };
+
 
     const handleAgregarGasto = () => {
         if (!gastoDescripcion.trim() || !gastoMonto.trim() || isNaN(gastoMonto)) {
