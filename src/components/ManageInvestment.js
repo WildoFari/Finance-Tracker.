@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ManageInvestment = ({ investment }) => {
+const ManageInvestment = ({ investment, onDelete }) => {
     const isInvestmentValid = !!investment;
 
     const [cuotasPagadas, setCuotasPagadas] = useState(isInvestmentValid ? investment.cuotasPagadas : 0);
@@ -8,19 +8,22 @@ const ManageInvestment = ({ investment }) => {
     const [pagos, setPagos] = useState(isInvestmentValid ? investment.pagos : []);
     const [gastoDescripcion, setGastoDescripcion] = useState("");
     const [gastoMonto, setGastoMonto] = useState("");
-    const [mostrarDetalle, setMostrarDetalle] = useState(false); // Estado para desplegar info del terreno
+    const [mostrarDetalle, setMostrarDetalle] = useState(false);
     const [mostrarPagos, setMostrarPagos] = useState(false);
     const [mostrarGastos, setMostrarGastos] = useState(false);
 
     useEffect(() => {
-        if (isInvestmentValid) {
+        if (!isInvestmentValid) return;
+
+        setTimeout(() => {
             const storedInvestments = JSON.parse(localStorage.getItem('investments')) || [];
             const updatedInvestments = storedInvestments.map(inv =>
                 inv.id === investment.id ? { ...inv, cuotasPagadas, pagos, gastosExtras } : inv
             );
             localStorage.setItem('investments', JSON.stringify(updatedInvestments));
-        }
+        }, 100);
     }, [cuotasPagadas, pagos, gastosExtras, isInvestmentValid]);
+
 
     if (!isInvestmentValid) {
         return <p className="text-center text-muted">Cargando inversión...</p>;
@@ -56,22 +59,33 @@ const ManageInvestment = ({ investment }) => {
         setGastoMonto("");
     };
 
+    const handleEliminarInversion = () => {
+        if (window.confirm(`¿Estás seguro de eliminar la inversión "${investment.name}"? Esta acción no se puede deshacer.`)) {
+            onDelete(investment.id);
+        }
+    };
+
+
     const totalPagos = pagos.reduce((acc, pago) => acc + pago.monto, 0);
     const totalGastos = gastosExtras.reduce((acc, gasto) => acc + gasto.monto, 0);
     const totalGeneral = totalPagos + totalGastos;
 
     return (
         <div className="card p-4 shadow-sm mb-3">
-            {/* Título con opción de desplegar info */}
-            <h5
-                className="fw-bold cursor-pointer"
-                onClick={() => setMostrarDetalle(!mostrarDetalle)}
-                style={{ cursor: 'pointer', userSelect: 'none' }}
-            >
-                {investment.name} {mostrarDetalle ? "⬆️" : "⬇️"}
-            </h5>
+            <div className="d-flex justify-content-between align-items-center">
+                <h5
+                    className="fw-bold cursor-pointer"
+                    onClick={() => setMostrarDetalle(!mostrarDetalle)}
+                    style={{ cursor: 'pointer', userSelect: 'none' }}
+                >
+                    {investment.name} {mostrarDetalle ? "⬆️" : "⬇️"}
+                </h5>
+                <button className="btn btn-danger btn-sm" onClick={() => handleEliminarInversion()}>
+                    🗑 Eliminar
+                </button>
 
-            {/* Renderizar info solo si mostrarDetalle es true */}
+            </div>
+
             {mostrarDetalle && (
                 <>
                     <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
@@ -99,7 +113,6 @@ const ManageInvestment = ({ investment }) => {
                         Agregar Gasto
                     </button>
 
-                    {/* Historial de Pagos - Botón de desplegar */}
                     <div className="mt-3">
                         <h6 className="fw-bold d-flex justify-content-between">
                             📜 Historial de Pagos
@@ -124,7 +137,6 @@ const ManageInvestment = ({ investment }) => {
                     </div>
                     <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
 
-                    {/* Gastos Extras - Botón de desplegar */}
                     <div className="mt-3">
                         <h6 className="fw-bold d-flex justify-content-between">
                             💰 Gastos Extras

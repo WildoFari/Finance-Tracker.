@@ -6,6 +6,7 @@ const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
     const [mostrarInversiones, setMostrarInversiones] = useState(false);
 
+    // Cargar inversiones desde localStorage al iniciar
     useEffect(() => {
         const storedInvestments = localStorage.getItem('investments');
         if (storedInvestments) {
@@ -18,16 +19,30 @@ const Inversiones = () => {
         }
     }, []);
 
+    // Guardar inversiones en localStorage cuando cambian
     useEffect(() => {
         if (investments.length > 0) {
             localStorage.setItem('investments', JSON.stringify(investments));
         }
     }, [investments]);
 
+    // Agregar nueva inversión
     const addInvestment = (newInvestment) => {
         const updatedInvestments = [...investments, newInvestment];
         setInvestments(updatedInvestments);
     };
+
+    // 🗑 Eliminar inversión
+    const handleDeleteInvestment = (investmentId) => {
+        if (!window.confirm("¿Estás seguro de eliminar esta inversión? Esta acción no se puede deshacer.")) {
+            return; // Solo eliminar si el usuario confirma
+        }
+
+        const updatedInvestments = investments.filter(inv => inv.id !== investmentId);
+        setInvestments(updatedInvestments);
+        localStorage.setItem('investments', JSON.stringify(updatedInvestments));
+    };
+
 
     return (
         <div className="container mt-4">
@@ -51,7 +66,11 @@ const Inversiones = () => {
                         <p className="text-center text-muted">No hay inversiones registradas.</p>
                     ) : (
                         investments.map((inv) => (
-                            <ManageInvestment key={inv.id} investment={inv} />
+                            <ManageInvestment
+                                key={inv.id}
+                                investment={inv}
+                                onDelete={() => handleDeleteInvestment(inv.id)}
+                            />
                         ))
                     )}
                 </div>
