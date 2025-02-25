@@ -6,6 +6,24 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
     const [montoMensual, setMontoMensual] = useState("");
     const [cuotasPagadas, setCuotasPagadas] = useState("");
     const [montoTotalPagado, setMontoTotalPagado] = useState("");
+    const [gastosExtras, setGastosExtras] = useState([]);
+    const [descripcionGasto, setDescripcionGasto] = useState("");
+    const [montoGasto, setMontoGasto] = useState("");
+
+    const handleAgregarGastoPrevio = () => {
+        if (!descripcionGasto.trim() || !montoGasto.trim() || isNaN(montoGasto)) {
+            alert("Por favor, ingrese una descripción y un monto válido.");
+            return;
+        }
+
+        setGastosExtras([...gastosExtras, {
+            descripcion: descripcionGasto,
+            monto: Number(montoGasto),
+            fecha: "Fecha Desconocida"
+        }]);
+        setDescripcionGasto("");
+        setMontoGasto("");
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,14 +41,14 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
             id: Date.now(),
             name: name.trim(),
             totalCuotas: parseInt(totalCuotas, 10),
-            cuotasPagadas: parseInt(cuotasPagadas, 10) || 0, // Si no hay nada, inicia en 0
+            cuotasPagadas: parseInt(cuotasPagadas, 10) || 0,
             montoMensual: parseFloat(montoMensual),
             pagos: cuotasPagadas > 0 ? Array.from({ length: cuotasPagadas }, (_, i) => ({
                 cuotaNumero: i + 1,
                 fecha: "Fecha Desconocida",
                 monto: parseFloat(montoMensual)
             })) : [],
-            gastosExtras: [],
+            gastosExtras: gastosExtras, // Se guardan los gastos previos aquí
         };
 
         addInvestment(newInvestment);
@@ -39,6 +57,7 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
         setMontoMensual("");
         setCuotasPagadas("");
         setMontoTotalPagado("");
+        setGastosExtras([]);
     };
 
     return (
@@ -73,6 +92,36 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 value={cuotasPagadas}
                 onChange={(e) => setCuotasPagadas(e.target.value)}
             />
+
+            <h6 className="fw-bold mt-3">💰 Agregar Gastos Anteriores</h6>
+            <input
+                type="text"
+                className="form-control mb-2"
+                placeholder="Descripción del gasto"
+                value={descripcionGasto}
+                onChange={(e) => setDescripcionGasto(e.target.value)}
+            />
+            <input
+                type="number"
+                className="form-control mb-2"
+                placeholder="Monto del gasto"
+                value={montoGasto}
+                onChange={(e) => setMontoGasto(e.target.value)}
+            />
+            <button type="button" className="btn btn-outline-primary mb-2 w-100" onClick={handleAgregarGastoPrevio}>
+                Agregar Gasto Previo
+            </button>
+
+            {gastosExtras.length > 0 && (
+                <ul className="list-group mb-3">
+                    {gastosExtras.map((gasto, index) => (
+                        <li key={index} className="list-group-item d-flex justify-content-between">
+                            <span>{gasto.descripcion} - {gasto.fecha}</span>
+                            <strong className="text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             <button type="submit" className="btn btn-primary w-100">
                 Agregar Inversión

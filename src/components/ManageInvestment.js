@@ -5,7 +5,9 @@ const ManageInvestment = ({ investment, onDelete }) => {
 
     const [cuotasPagadas, setCuotasPagadas] = useState(isInvestmentValid ? investment.cuotasPagadas : 0);
     const [pagos, setPagos] = useState(isInvestmentValid ? investment.pagos : []);
-    const [gastosExtras, setGastosExtras] = useState(isInvestmentValid ? investment.gastosExtras : []);
+    const [gastosExtras, setGastosExtras] = useState(
+        investment.gastosExtras.length > 0 ? investment.gastosExtras : []
+    );
     const [gastoDescripcion, setGastoDescripcion] = useState("");
     const [gastoMonto, setGastoMonto] = useState("");
     const [mostrarDetalle, setMostrarDetalle] = useState(false);
@@ -48,16 +50,18 @@ const ManageInvestment = ({ investment, onDelete }) => {
             return;
         }
 
-        const newGasto = {
+        const nuevoGasto = {
             descripcion: gastoDescripcion,
             monto: Number(gastoMonto),
             fecha: new Date().toLocaleDateString('es-ES'),
         };
 
-        setGastosExtras(prevGastos => [...prevGastos, newGasto]);
+        setGastosExtras(prevGastos => [...prevGastos, nuevoGasto]);
         setGastoDescripcion("");
         setGastoMonto("");
+
     };
+
 
     const handleEliminarInversion = () => {
         if (window.confirm(`¿Estás seguro de eliminar la inversión "${investment.name}"? Esta acción no se puede deshacer.`)) {
