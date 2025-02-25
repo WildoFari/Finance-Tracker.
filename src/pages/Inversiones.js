@@ -4,6 +4,7 @@ import ManageInvestment from '../components/ManageInvestment';
 
 const Inversiones = () => {
     const [investments, setInvestments] = useState([]);
+    const [mostrarInversiones, setMostrarInversiones] = useState(false);
 
     useEffect(() => {
         const storedInvestments = localStorage.getItem('investments');
@@ -32,14 +33,28 @@ const Inversiones = () => {
         <div className="container mt-4">
             <h2 className="fw-bold text-center">📈 Gestión de Inversiones</h2>
 
+            {/* Componente para agregar inversiones */}
             <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
 
-            {investments.length === 0 ? (
-                <p className="text-center text-muted mt-3">No hay inversiones registradas.</p>
-            ) : (
-                investments.map((inv) => (
-                    <ManageInvestment key={inv.id} investment={inv} />
-                ))
+            {/* Botón para desplegar la lista de inversiones */}
+            <button
+                className="btn btn-primary w-100 mt-3"
+                onClick={() => setMostrarInversiones(!mostrarInversiones)}
+            >
+                {mostrarInversiones ? "Ocultar Inversiones ⬆️" : "Mostrar Inversiones ⬇️"}
+            </button>
+
+            {/* Lista desplegable de inversiones */}
+            {mostrarInversiones && (
+                <div className="mt-3">
+                    {investments.length === 0 ? (
+                        <p className="text-center text-muted">No hay inversiones registradas.</p>
+                    ) : (
+                        investments.map((inv) => (
+                            <ManageInvestment key={inv.id} investment={inv} />
+                        ))
+                    )}
+                </div>
             )}
         </div>
     );
