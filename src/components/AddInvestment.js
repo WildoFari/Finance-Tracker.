@@ -81,7 +81,10 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
 
     return (
         <form onSubmit={handleSubmit} className="card p-3 shadow-sm mb-4">
-            <h5 className="fw-bold">➕ Agregar Nueva Inversión</h5>
+            <h5 className="investment-title">
+                ➕ Agregar Nueva Inversión
+            </h5>
+
 
             <input
                 type="text"
