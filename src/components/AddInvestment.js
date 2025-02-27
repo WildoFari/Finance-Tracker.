@@ -80,7 +80,7 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="card p-3 shadow-sm mb-4">
+        <form onSubmit={handleSubmit} className="card p-3 shadow-sm mb-4 mt-4">
             <h5 className="investment-title">
                 ➕ Agregar Nueva Inversión
             </h5>
@@ -114,8 +114,9 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 value={cuotasPagadas}
                 onChange={(e) => setCuotasPagadas(e.target.value)}
             />
-
-            <h6 className="fw-bold mt-3">💰 Agregar Gastos Anteriores</h6>
+            <h6 className="expense-title">
+                💰 Agregar Gastos Anteriores
+            </h6>
             <input
                 type="text"
                 className="form-control mb-2"
