@@ -10,15 +10,32 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
     const [descripcionGasto, setDescripcionGasto] = useState("");
     const [montoGasto, setMontoGasto] = useState("");
 
+    const formatNumber = (value) => {
+        const numericValue = value.replace(/\D/g, "");
+        return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
+    const handleMontoMensualChange = (e) => {
+        const rawValue = e.target.value;
+        setMontoMensual(formatNumber(rawValue));
+    };
+
+    const handleMontoGastoChange = (e) => {
+        const rawValue = e.target.value;
+        setMontoGasto(formatNumber(rawValue));
+    };
+
     const handleAgregarGastoPrevio = () => {
-        if (!descripcionGasto.trim() || !montoGasto.trim() || isNaN(montoGasto)) {
+        if (!descripcionGasto.trim() || !montoGasto.trim()) {
             alert("Por favor, ingrese una descripción y un monto válido.");
             return;
         }
 
+        const montoNumerico = parseFloat(montoGasto.replace(/\./g, ""));
+
         setGastosExtras([...gastosExtras, {
             descripcion: descripcionGasto,
-            monto: Number(montoGasto),
+            monto: montoNumerico,
             fecha: "Fecha Desconocida"
         }]);
         setDescripcionGasto("");
@@ -37,18 +54,20 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
             return;
         }
 
+        const montoNumerico = parseFloat(montoMensual.replace(/\./g, "")); // Elimina puntos antes de guardar
+
         const newInvestment = {
             id: Date.now(),
             name: name.trim(),
             totalCuotas: parseInt(totalCuotas, 10),
             cuotasPagadas: parseInt(cuotasPagadas, 10) || 0,
-            montoMensual: parseFloat(montoMensual),
+            montoMensual: montoNumerico,
             pagos: cuotasPagadas > 0 ? Array.from({ length: cuotasPagadas }, (_, i) => ({
                 cuotaNumero: i + 1,
                 fecha: "Fecha Desconocida",
-                monto: parseFloat(montoMensual)
+                monto: montoNumerico
             })) : [],
-            gastosExtras: gastosExtras, // Se guardan los gastos previos aquí
+            gastosExtras: gastosExtras,
         };
 
         addInvestment(newInvestment);
@@ -79,11 +98,11 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 onChange={(e) => setTotalCuotas(e.target.value)}
             />
             <input
-                type="number"
+                type="text"
                 className="form-control mb-2"
                 placeholder="Monto mensual"
                 value={montoMensual}
-                onChange={(e) => setMontoMensual(e.target.value)}
+                onChange={handleMontoMensualChange}
             />
             <input
                 type="number"
@@ -102,11 +121,11 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 onChange={(e) => setDescripcionGasto(e.target.value)}
             />
             <input
-                type="number"
+                type="text"
                 className="form-control mb-2"
                 placeholder="Monto del gasto"
                 value={montoGasto}
-                onChange={(e) => setMontoGasto(e.target.value)}
+                onChange={handleMontoGastoChange}
             />
             <button type="button" className="btn btn-outline-primary mb-2 w-100" onClick={handleAgregarGastoPrevio}>
                 Agregar Gasto Previo

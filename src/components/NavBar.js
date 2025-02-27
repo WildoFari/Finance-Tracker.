@@ -16,7 +16,7 @@ const NavBar = () => {
         { path: '/Ingresos', label: 'Ingresos' },
         { path: '/Egresos', label: 'Egresos' },
         { path: '/Graficos', label: 'Gráficos' },
-        { path: '/Inversiones', label: 'Inversiones' },
+        { path: '/Inversiones', label: 'Propiedades' },
     ];
 
     return (
