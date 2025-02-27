@@ -45,7 +45,7 @@ const Inversiones = () => {
 
 
     return (
-        <div className="container mt-4">
+        <div className="container-sm mt-4 mb-6">
             <h2 className="fw-bold text-center">📈 Gestión de Terrenos</h2>
 
             {/* Componente para agregar inversiones */}
@@ -77,6 +77,6 @@ const Inversiones = () => {
             )}
         </div>
     );
-};
+}
 
 export default Inversiones;
