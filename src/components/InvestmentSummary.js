@@ -6,12 +6,25 @@ const InvestmentSummary = ({ investments }) => {
     const totalFaltante = totalInversiones - totalPagado;
 
     return (
-        <div className="card p-3 shadow-sm text-center">
-            <h5 className="fw-bold">💰 Resumen de Inversiones</h5>
-            <p><strong>Total Invertido:</strong> {totalInversiones.toLocaleString('es-ES')}</p>
-            <p className="text-success"><strong>Total Pagado:</strong> {totalPagado.toLocaleString('es-ES')}</p>
-            <p className="text-danger"><strong>Faltante:</strong> {totalFaltante.toLocaleString('es-ES')}</p>
+        <div className="investment-summary card p-4 shadow-sm text-center">
+            <h5 className="summary-title">💰 Resumen de Inversiones</h5>
+
+            <div className="summary-item">
+                <span className="label">Total Invertido:</span>
+                <span className="value">{totalInversiones.toLocaleString('es-ES')}</span>
+            </div>
+
+            <div className="summary-item text-success">
+                <span className="label">Total Pagado:</span>
+                <span className="value">{totalPagado.toLocaleString('es-ES')}</span>
+            </div>
+
+            <div className="summary-item text-danger">
+                <span className="label">Faltante:</span>
+                <span className="value">{totalFaltante.toLocaleString('es-ES')}</span>
+            </div>
         </div>
+
     );
 };
 
