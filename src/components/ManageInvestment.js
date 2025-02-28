@@ -141,26 +141,29 @@ const ManageInvestment = ({ investment, onDelete }) => {
                     </div>
                     <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
 
-                    <div className="mt-3">
-                        <h6 className="fw-bold d-flex justify-content-between">
+                    <div className="expenses-container mt-3">
+                        <h6 className="expenses-title d-flex justify-content-between align-items-center">
                             💰 Gastos Extras
-                            <button className="btn btn-sm btn-outline-primary" onClick={() => setMostrarGastos(!mostrarGastos)}>
+                            <button className="toggle-btn btn btn-sm btn-outline-primary" onClick={() => setMostrarGastos(!mostrarGastos)}>
                                 {mostrarGastos ? "Ocultar" : "Mostrar"}
                             </button>
                         </h6>
+
                         {mostrarGastos && (
-                            <ul className="list-group mt-2">
+                            <div className="expenses-list mt-2">
                                 {gastosExtras.length > 0 ? (
-                                    gastosExtras.map((gasto, index) => (
-                                        <li key={index} className="list-group-item d-flex justify-content-between">
-                                            <span>{gasto.descripcion} - {gasto.fecha}</span>
-                                            <strong className="text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
-                                        </li>
-                                    ))
+                                    <ul className="list-group">
+                                        {gastosExtras.map((gasto, index) => (
+                                            <li key={index} className="list-group-item d-flex justify-content-between">
+                                                <span className="expense-description">{gasto.descripcion} - {gasto.fecha}</span>
+                                                <strong className="expense-amount text-danger">{gasto.monto.toLocaleString('es-ES')}</strong>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 ) : (
-                                    <li className="list-group-item text-center text-muted">No hay gastos extras registrados.</li>
+                                    <p className="no-expenses text-center text-muted">No hay gastos extras registrados.</p>
                                 )}
-                            </ul>
+                            </div>
                         )}
                     </div>
                     <p className="fw-bold mt-2 text-danger">Total Gastos: {totalGastos.toLocaleString('es-ES')}</p>
