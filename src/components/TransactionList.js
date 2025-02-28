@@ -21,7 +21,6 @@ const TransactionList = () => {
     return (
         <div className="container mt-5">
             <div className="card shadow border-0 p-4 rounded bg-light text-center">
-                {/* Botón para mostrar/ocultar lista */}
                 <button
                     className={`btn w-100 fw-bold py-3 ${showTransactions ? 'btn-primary text-white' : 'btn-outline-primary'}`}
                     onClick={() => setShowTransactions(!showTransactions)}
@@ -32,7 +31,6 @@ const TransactionList = () => {
 
                 {showTransactions && (
                     <>
-                        {/* Botón para eliminar todas las transacciones */}
                         {transactions.length > 0 && (
                             <button className="btn btn-danger mb-3 w-100 mt-3" onClick={() => setShowConfirmAll(true)}>
                                 <FaTrashAlt className="me-2" />
@@ -65,7 +63,6 @@ const TransactionList = () => {
                 )}
             </div>
 
-            {/* Modal de confirmación para eliminar todas las transacciones */}
             {showConfirmAll && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -83,7 +80,6 @@ const TransactionList = () => {
                 </div>
             )}
 
-            {/* Modal de confirmación para eliminar una transacción */}
             {transactionToDelete !== null && (
                 <div className="modal-overlay">
                     <div className="modal-content">
@@ -101,7 +97,6 @@ const TransactionList = () => {
                 </div>
             )}
 
-            {/* Estilos personalizados */}
             <style jsx>{`
                 .modal-overlay {
                     position: fixed;

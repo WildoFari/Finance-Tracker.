@@ -15,7 +15,6 @@ const NotFound = () => (
                 Mientras tanto, disfruta de este 404 con estilo. 😎
             </p>
 
-            {/* Sección de humor con efectos animados */}
             <div className="text-muted mb-4 animate__animated animate__bounceIn">
                 <FaGhost size={60} className="mb-2 text-secondary animate__animated animate__shakeX animate__repeat-3" />
                 <p className="fst-italic fw-bold text-info animate__animated animate__pulse animate__infinite">
@@ -26,7 +25,6 @@ const NotFound = () => (
                 </p>
             </div>
 
-            {/* Botón con efecto hover llamativo */}
             <Link
                 to="/"
                 className="btn btn-lg btn-warning text-dark fw-bold px-5 py-3 shadow-lg d-flex align-items-center gap-3 animate__animated animate__rubberBand animate__delay-2s"
@@ -39,7 +37,6 @@ const NotFound = () => (
             </Link>
         </div>
 
-        {/* Estilos adicionales */}
         <style>
             {`
                 .btn-warning:hover {

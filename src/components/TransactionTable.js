@@ -34,7 +34,6 @@ const TransactionTable = () => {
 
     return (
         <div className="container my-4">
-            {/* Botón para mostrar/ocultar en mobile */}
             <button
                 className={`btn w-100 fw-bold py-3 mb-3 d-md-none ${showMobileList ? 'btn-primary text-white' : 'btn-outline-primary'}`}
                 onClick={() => setShowMobileList(!showMobileList)}
@@ -43,7 +42,6 @@ const TransactionTable = () => {
                 <i className={`ms-2 fas ${showMobileList ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
             </button>
 
-            {/* Desktop - Tabla */}
             <div className="table-responsive d-none d-md-block">
                 <table className="table table-striped table-hover shadow-sm rounded">
                     <thead className="table-dark">
@@ -79,7 +77,6 @@ const TransactionTable = () => {
                 </table>
             </div>
 
-            {/* Mobile - Lista de tarjetas */}
             {showMobileList && (
                 <div className="d-block d-md-none">
                     {transactions.length > 0 ? (
@@ -116,7 +113,6 @@ const TransactionTable = () => {
                 </button>
             </div>
 
-            {/* Estilos adicionales */}
             <style jsx>{`
                 .table-hover tbody tr:hover {
                     background-color: rgba(0, 0, 0, 0.05);

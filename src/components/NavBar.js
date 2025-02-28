@@ -22,7 +22,6 @@ const NavBar = () => {
     return (
         <nav className={`navbar navbar-expand-lg navbar-${theme} bg-${theme} shadow`}>
             <div className="container-fluid">
-                {/* Logo */}
                 <Link className="navbar-brand d-flex align-items-center fw-bold" to="/" onClick={closeMenu}>
                     <img
                         src="/finanzas-logo.svg"
@@ -37,7 +36,6 @@ const NavBar = () => {
                     Finanzas
                 </Link>
 
-                {/* Botón menú hamburguesa */}
                 <button
                     className="navbar-toggler border-0"
                     type="button"
@@ -48,7 +46,6 @@ const NavBar = () => {
                     {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
                 </button>
 
-                {/* Menú de navegación */}
                 <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
                     <ul className="navbar-nav mx-auto text-center">
                         {navLinks.map(({ path, label }, index) => (
@@ -67,7 +64,6 @@ const NavBar = () => {
                         ))}
                     </ul>
 
-                    {/* Botón modo oscuro/claro */}
                     <div className="ms-auto d-flex align-items-center">
                         <button
                             className={`btn btn-outline-${theme === 'dark' ? 'light' : 'dark'} me-2`}
@@ -79,7 +75,6 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {/* Estilos personalizados */}
             <style>
                 {`
                 /* Ajuste del navbar en mobile */

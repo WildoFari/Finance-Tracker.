@@ -5,14 +5,13 @@ const ExportPDF = ({ transactions, type }) => {
     const exportToPDF = () => {
         const doc = new jsPDF();
         const title = type === 'Ingreso' ? 'Lista de Ingresos' : 'Lista de Egresos';
-        const color = type === 'Ingreso' ? [0, 128, 0] : [200, 0, 0]; // Verde para ingresos, rojo para egresos
+        const color = type === 'Ingreso' ? [0, 128, 0] : [200, 0, 0];
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(16);
         doc.setTextColor(33, 33, 33);
         doc.text(title, 14, 15);
 
-        // Agrupar transacciones por mes y calcular totales
         const groupedData = transactions.reduce((acc, transaction) => {
             const month = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' }).format(new Date(transaction.date));
             if (!acc[month]) acc[month] = { transactions: [], total: 0 };
@@ -23,8 +22,7 @@ const ExportPDF = ({ transactions, type }) => {
 
         let y = 25;
         Object.entries(groupedData).forEach(([month, data], index) => {
-            if (index > 0) doc.addPage(); // Nueva página para cada mes
-
+            if (index > 0) doc.addPage();
             doc.setFontSize(14);
             doc.setTextColor(52, 152, 219);
             doc.text(month.charAt(0).toUpperCase() + month.slice(1), 14, y);
@@ -32,9 +30,9 @@ const ExportPDF = ({ transactions, type }) => {
             // Datos de la tabla
             const tableColumn = ['Fecha', 'Categoría', 'Monto'];
             const tableRows = data.transactions.map(transaction => [
-                new Intl.DateTimeFormat('es-ES').format(new Date(transaction.date)), // Mejor formato de fecha
+                new Intl.DateTimeFormat('es-ES').format(new Date(transaction.date)),
                 transaction.category,
-                transaction.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) // Formato de moneda
+                transaction.amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
             ]);
 
             doc.autoTable({
@@ -49,7 +47,6 @@ const ExportPDF = ({ transactions, type }) => {
                 margin: { top: 20 }
             });
 
-            // Total del mes
             let finalY = doc.lastAutoTable.finalY + 10;
             doc.setFontSize(12);
             doc.setTextColor(color);
@@ -57,7 +54,6 @@ const ExportPDF = ({ transactions, type }) => {
             y = finalY + 10;
         });
 
-        // Página final con total general
         doc.addPage();
         doc.setFontSize(14);
         doc.setTextColor(33, 33, 33);

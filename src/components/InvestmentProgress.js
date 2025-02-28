@@ -9,7 +9,6 @@ const InvestmentProgress = ({ investment }) => {
             <h5 className="fw-bold">{investment.name}</h5>
             <p className="text-muted">Cuotas: {investment.cuotasPagadas} / {investment.totalCuotas}</p>
 
-            {/* Barra de Progreso */}
             <div className="progress" style={{ height: '10px' }}>
                 <div
                     className="progress-bar bg-success"

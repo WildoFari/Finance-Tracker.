@@ -89,7 +89,6 @@ const AddTransaction = () => {
                     inputMode="numeric"
                 />
             </div>
-
             <div className="mb-3">
                 <label className="form-label fw-semibold">Categoría</label>
                 <select name="category" value={form.category} onChange={handleChange} className="form-select shadow-sm">
@@ -168,8 +167,6 @@ const AddTransaction = () => {
                 )}
             </button>
 
-
-
             <div className="mt-4">
                 <h5
                     className="btn btn-outline-primary w-100 fw-bold d-flex justify-content-between align-items-center px-3 py-2"
@@ -188,7 +185,6 @@ const AddTransaction = () => {
                         {showCategories ? <FaChevronUp className="rotate-icon" /> : <FaChevronDown className="rotate-icon" />}
                     </span>
                 </h5>
-
 
                 {showCategories && (
                     <ul className="list-group">

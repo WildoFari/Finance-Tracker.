@@ -26,7 +26,6 @@ const Dashboard = () => {
         <div className="container my-4">
             <h1 className="text-center mb-4 fw-bold text-primary">Gestión de Finanzas</h1>
 
-            {/* Tarjetas de Resumen */}
             <div className="row text-center g-4">
                 <div className="col-md-4">
                     <div className="card shadow border-0 rounded-lg">
@@ -67,7 +66,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Formulario para Agregar Transacción */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
                     <h4 className="mb-3 fw-bold text-center">Agregar Nueva Transacción</h4>
@@ -75,7 +73,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Lista de Transacciones */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light text-center">
                     <h4 className="mb-4 fw-bold text-primary">Lista de Transacciones</h4>
@@ -83,7 +80,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Tabla de Transacciones */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
                     <h4 className="mb-4 text-center fw-bold text-primary">Tabla de Transacciones</h4>
@@ -91,7 +87,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Gráfico de Ingresos y Egresos */}
             <div className="container mt-5">
                 <div className="card shadow border-0 p-4 rounded bg-light">
                     <h4 className="mb-4 text-center fw-bold text-primary">Gráfico de Ingresos y Egresos</h4>
@@ -99,7 +94,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Estilos personalizados */}
             <style>
                 {`
                 .rounded-lg {
