@@ -183,3 +183,46 @@
   padding: 10px;
   font-size: 14px;
 }
+.payments-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.payments-title {
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.toggle-btn {
+  font-size: 14px;
+  padding: 3px 8px;
+}
+
+.payments-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 5px;
+  background: #fff;
+  padding: 10px;
+}
+
+.payment-description {
+  color: #495057;
+  font-weight: 500;
+}
+
+.payment-amount {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.no-payments {
+  padding: 10px;
+  font-size: 14px;
+}
+

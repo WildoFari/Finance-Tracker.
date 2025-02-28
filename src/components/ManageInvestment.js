@@ -117,26 +117,29 @@ const ManageInvestment = ({ investment, onDelete }) => {
                         Agregar Gasto
                     </button>
 
-                    <div className="mt-3">
-                        <h6 className="fw-bold d-flex justify-content-between">
+                    <div className="payments-container mt-3">
+                        <h6 className="payments-title d-flex justify-content-between align-items-center">
                             📜 Historial de Pagos
-                            <button className="btn btn-sm btn-outline-primary" onClick={() => setMostrarPagos(!mostrarPagos)}>
+                            <button className="toggle-btn btn btn-sm btn-outline-primary" onClick={() => setMostrarPagos(!mostrarPagos)}>
                                 {mostrarPagos ? "Ocultar" : "Mostrar"}
                             </button>
                         </h6>
+
                         {mostrarPagos && (
-                            <ul className="list-group mt-2">
+                            <div className="payments-list mt-2">
                                 {pagos.length > 0 ? (
-                                    pagos.map((pago, index) => (
-                                        <li key={index} className="list-group-item d-flex justify-content-between">
-                                            <span>Cuota {pago.cuotaNumero} - {pago.fecha}</span>
-                                            <strong>{pago.monto.toLocaleString('es-ES')}</strong>
-                                        </li>
-                                    ))
+                                    <ul className="list-group">
+                                        {pagos.map((pago, index) => (
+                                            <li key={index} className="list-group-item d-flex justify-content-between">
+                                                <span className="payment-description">Cuota {pago.cuotaNumero} - {pago.fecha}</span>
+                                                <strong className="payment-amount text-success">{pago.monto.toLocaleString('es-ES')}</strong>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 ) : (
-                                    <li className="list-group-item text-center text-muted">No hay pagos registrados.</li>
+                                    <p className="no-payments text-center text-muted">No hay pagos registrados.</p>
                                 )}
-                            </ul>
+                            </div>
                         )}
                     </div>
                     <p className="fw-bold mt-2 text-success">Total Pagado: {totalPagos.toLocaleString('es-ES')}</p>
