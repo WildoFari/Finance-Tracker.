@@ -6,8 +6,10 @@ const InvestmentProgress = ({ investment }) => {
 
     return (
         <div className="card p-3 shadow-sm">
-            <h5 className="fw-bold">{investment.name}</h5>
-            <p className="text-muted">Cuotas: {investment.cuotasPagadas} / {investment.totalCuotas}</p>
+            <h5 className="fw-semibold">{name}</h5>
+            <p className="text-muted">
+                Cuotas: {cuotasPagadas} / {totalCuotas}
+            </p>
 
             <div className="progress" style={{ height: '10px' }}>
                 <div
@@ -17,11 +19,12 @@ const InvestmentProgress = ({ investment }) => {
                     aria-valuenow={progress}
                     aria-valuemin="0"
                     aria-valuemax="100"
+                    aria-label={`Progreso de la inversión ${progress}%`}
                 ></div>
             </div>
 
             <p className="mt-2 text-muted">
-                {restante} cuotas restantes. Monto total: <strong>{(investment.totalCuotas * investment.montoMensual).toLocaleString('es-ES')}</strong>
+                {restante} cuotas restantes. Monto total: <strong className="text-primary">{formattedMontoTotal}</strong>
             </p>
         </div>
     );
