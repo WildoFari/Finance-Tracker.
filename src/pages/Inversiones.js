@@ -42,29 +42,38 @@ const Inversiones = () => {
 
     return (
         <div className="container-sm mt-4 mb-6">
-            <h2 className="fw-bold text-center">📈 Gestión de Terrenos</h2>
+            <h2 className="fw-bold text-center mb-4 text-primary">📈 Gestión de Terrenos</h2>
 
-            <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
+            <div className="mb-4">
+                <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
+            </div>
 
-            <button
-                className="btn btn-primary w-100 mt-3"
-                onClick={() => setMostrarInversiones(!mostrarInversiones)}
-            >
-                {mostrarInversiones ? "Ocultar Inversiones ⬆️" : "Mostrar Inversiones ⬇️"}
-            </button>
+            <div className="d-grid gap-2">
+                <button
+                    className={`btn ${mostrarInversiones ? "btn-outline-secondary" : "btn-primary"}`}
+                    onClick={() => setMostrarInversiones(!mostrarInversiones)}
+                >
+                    {mostrarInversiones ? "Ocultar Inversiones ⬆️" : "Mostrar Inversiones ⬇️"}
+                </button>
+            </div>
 
             {mostrarInversiones && (
-                <div className="mt-3">
+                <div className="mt-4">
                     {investments.length === 0 ? (
-                        <p className="text-center text-muted">No hay inversiones registradas.</p>
+                        <div className="alert alert-info text-center">
+                            No hay inversiones registradas.
+                        </div>
                     ) : (
-                        investments.map((inv) => (
-                            <ManageInvestment
-                                key={inv.id}
-                                investment={inv}
-                                onDelete={() => handleDeleteInvestment(inv.id)}
-                            />
-                        ))
+                        <div className="list-group">
+                            {investments.map((inv) => (
+                                <ManageInvestment
+                                    key={inv.id}
+                                    investment={inv}
+                                    onDelete={() => handleDeleteInvestment(inv.id)}
+                                    className="list-group-item list-group-item-action"
+                                />
+                            ))}
+                        </div>
                     )}
                 </div>
             )}
