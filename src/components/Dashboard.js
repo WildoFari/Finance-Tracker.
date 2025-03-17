@@ -26,41 +26,41 @@ const Dashboard = () => {
         <div className="container my-4">
             <h1 className="text-center mb-4 fw-bold text-primary">Gestión de Finanzas</h1>
 
-            <div className="row text-center g-4">
+            <div className="row text-center g-3">
                 <div className="col-md-4">
-                    <div className="card shadow border-0 rounded-lg">
-                        <div className="card-body bg-success text-white rounded py-4">
-                            <h4 className="card-title mb-3">Total Ingresos</h4>
-                            <FaArrowUp className="fs-1 mb-2" />
-                            <p className="display-6 fw-bold">{formatCurrency(ingresos)}</p>
+                    <div className="card border-0">
+                        <div className="card-body py-3">
+                            <h5 className="mb-2">Ingresos</h5>
+                            <div className="d-flex align-items-center justify-content-center mb-2">
+                                <FaArrowUp className="fs-5 me-2 text-success" />
+                                <span className="fw-semibold">{formatCurrency(ingresos)}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="col-md-4">
-                    <div className="card shadow border-0 rounded-lg">
-                        <div className="card-body bg-danger text-white rounded py-4">
-                            <h4 className="card-title mb-3">Total Egresos</h4>
-                            <FaArrowDown className="fs-1 mb-2" />
-                            <p className="display-6 fw-bold">{formatCurrency(egresos)}</p>
+                    <div className="card border-0">
+                        <div className="card-body py-3">
+                            <h5 className="mb-2">Egresos</h5>
+                            <div className="d-flex align-items-center justify-content-center mb-2">
+                                <FaArrowDown className="fs-5 me-2 text-danger" />
+                                <span className="fw-semibold">{formatCurrency(egresos)}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="col-md-4">
-                    <div className="card shadow border-0 rounded-lg">
-                        <div
-                            className="card-body text-white rounded py-4"
-                            style={{
-                                background: balance >= 0
-                                    ? 'linear-gradient(135deg, #4e73df, #1cc88a)'
-                                    : 'linear-gradient(135deg, #e74a3b, #f6c23e)',
-                                color: '#fff',
-                            }}
-                        >
-                            <h4 className="card-title mb-3">Balance Actual</h4>
-                            <FaChartPie className="fs-1 mb-2" />
-                            <p className="display-6 fw-bold">{formatCurrency(balance)}</p>
+                    <div className="card border-0">
+                        <div className="card-body py-3">
+                            <h5 className="mb-2">Balance</h5>
+                            <div className="d-flex align-items-center justify-content-center mb-2">
+                                <FaChartPie className="fs-5 me-2" />
+                                <span className={`fw-semibold ${balance >= 0 ? 'text-success' : 'text-danger'}`}>
+                                    {formatCurrency(balance)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
