@@ -66,30 +66,37 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className="container mt-5">
-                <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-3 fw-bold text-center">Agregar Nueva Transacción</h4>
-                    <AddTransaction />
+            <div className="container mt-4">
+                <div className="card border-0">
+                    <div className="card-body p-3">
+                        <AddTransaction />
+                    </div>
                 </div>
             </div>
 
-            <div className="container mt-5">
-                <div className="card shadow border-0 p-4 rounded bg-light text-center">
-                    <h4 className="mb-4 fw-bold text-primary">Lista de Transacciones</h4>
-                    <TransactionList />
+            <div className="container mt-4">
+                <div className="card border-0">
+                    <div className="card-body p-3 text-center">
+                        <h5 className="mb-3 text-primary">Transacciones</h5>
+                        <TransactionList />
+                    </div>
                 </div>
             </div>
 
-            <div className="container mt-5">
-                <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4 text-center fw-bold text-primary">Tabla de Transacciones</h4>
-                    <TransactionTable />
+            <div className="container mt-4">
+                <div className="card border-0">
+                    <div className="card-body p-3">
+                        <h5 className="mb-3 text-primary text-center">Tabla de Transacciones</h5>
+                        <TransactionTable />
+                    </div>
                 </div>
             </div>
 
-            <div className="container mt-5">
-                <div className="card shadow border-0 p-1 mb-5 rounded bg-light">
-                    <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
+            <div className="container mt-4 mb-4">
+                <div className="card border-0">
+                    <div className="card-body p-2">
+                        <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
+                    </div>
                 </div>
             </div>
 
