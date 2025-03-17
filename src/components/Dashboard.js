@@ -88,8 +88,7 @@ const Dashboard = () => {
             </div>
 
             <div className="container mt-5">
-                <div className="card shadow border-0 p-4 rounded bg-light">
-                    <h4 className="mb-4 text-center fw-bold text-primary">Gráfico de Ingresos y Egresos</h4>
+                <div className="card shadow border-0 p-1 mb-5 rounded bg-light">
                     <IncomeExpenseChart ingresos={ingresos} egresos={egresos} />
                 </div>
             </div>
