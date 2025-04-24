@@ -52,7 +52,7 @@ const NavBar = () => {
                             <li className="nav-item" key={index}>
                                 <Link
                                     className={`nav-link px-3 fw-semibold ${location.pathname === path
-                                        ? ''
+                                        ? 'active text-primary bg-light rounded shadow-sm'
                                         : ''
                                         }`}
                                     to={path}
