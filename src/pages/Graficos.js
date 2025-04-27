@@ -62,18 +62,49 @@ const Graficos = () => {
     };
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <h2 className="mb-4 fw-bold text-center text-primary">
-                📊 Resumen de Finanzas
-            </h2>
-            <canvas ref={chartRef} style={{ display: 'none' }} />
-            <div
-                className="chart-container shadow-lg p-4 bg-white rounded"
-                style={{ width: '90%', maxWidth: '550px', height: '420px' }}
-            >
-                {chartData ? <Bar data={chartData} options={options} /> : <p className="text-center">Cargando gráfico...</p>}
-            </div>
+        <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+        <h2 className="mb-4 fw-bold text-center text-primary">
+            📊 Resumen de Finanzas
+        </h2>
+        <canvas ref={chartRef} style={{ display: 'none' }} />
+        <div
+            className="chart-container shadow-lg p-5 bg-white rounded-3"
+            style={{ width: '95%', maxWidth: '600px', height: 'auto' }}
+        >
+            {chartData ? (
+                <Bar data={chartData} options={{
+                    ...options, // Mantén tus opciones existentes
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                },
+                                color: '#495057'
+                            }
+                        },
+                        title: {
+                            display: options?.plugins?.title?.text ? true : false,
+                            text: options?.plugins?.title?.text,
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            color: '#343a40',
+                            padding: 10
+                        }
+                    }
+                }} />
+            ) : (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
+                    <p className="text-center text-muted">Cargando gráfico...</p>
+                </div>
+            )}
         </div>
+    </div>
     );
 };
 
