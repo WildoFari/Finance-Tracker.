@@ -63,37 +63,41 @@ const EgresosList = () => {
             </div>
 
             {egresos.length > 0 ? (
-                <>
-                    {Object.keys(groupedEgresos).map((month) => (
-                        <div key={month} className="card border-0 shadow-sm p-4 mb-4">
-                            <h4 className="fw-bold text-primary border-bottom pb-2">{month}</h4>
-
-                            <div className="row">
-                                {groupedEgresos[month].transactions.map((egreso, index) => (
-                                    <div key={index} className="col-md-6 mb-3">
-                                        <div className="card border rounded p-3 bg-light">
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <h5 className="fw-bold">{egreso.category}</h5>
-                                                    <p className="text-muted">{egreso.date}</p>
-                                                </div>
-                                                <h4 className="text-danger fw-bold">
-                                                    {parseInt(egreso.amount).toLocaleString('es-ES')}
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <h5 className="text-end fw-bold text-danger mt-3">Total: {groupedEgresos[month].total.toLocaleString('es-ES')}</h5>
-                        </div>
-                    ))}
-
-                    <div className="text-end mt-4">
-                        <h3 className="fw-bold text-dark">Total General: {totalGeneral.toLocaleString('es-ES')}</h3>
-                    </div>
-                </>
+               <>
+               {Object.keys(groupedEgresos).map((month) => (
+                   <div key={month} className="card border rounded-3 shadow-sm p-4 mb-5">
+                       <h3 className="fw-semibold text-danger border-bottom pb-3 mb-4">{month}</h3>
+           
+                       <div className="row row-cols-1 row-cols-md-2 g-4">
+                           {groupedEgresos[month].transactions.map((egreso, index) => (
+                               <div key={index} className="col">
+                                   <div className="card h-100 border-0 shadow-sm rounded-3 bg-white">
+                                       <div className="card-body d-flex justify-content-between align-items-center">
+                                           <div>
+                                               <h6 className="fw-bold text-secondary mb-1">{egreso.category}</h6>
+                                               <p className="text-muted small">{new Date(egreso.date).toLocaleDateString()}</p>
+                                           </div>
+                                           <h5 className="text-danger fw-semibold mb-0">
+                                               -{parseInt(egreso.amount).toLocaleString('es-ES')}
+                                           </h5>
+                                       </div>
+                                   </div>
+                               </div>
+                           ))}
+                       </div>
+           
+                       <h4 className="text-end fw-semibold text-danger mt-4">
+                           Total: <span className="fw-bold">{groupedEgresos[month].total.toLocaleString('es-ES')}</span>
+                       </h4>
+                   </div>
+               ))}
+           
+               <div className="text-end mt-5">
+                   <h2 className="fw-bold text-dark">
+                       Total General: <span className="text-danger">{totalGeneral.toLocaleString('es-ES')}</span>
+                   </h2>
+               </div>
+           </>
             ) : (
                 <p className="text-center text-muted">No hay egresos registrados.</p>
             )}
