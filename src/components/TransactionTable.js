@@ -102,7 +102,7 @@ const TransactionTable = () => {
 
             <div className="text-center mt-4 d-flex justify-content-center">
                 <button
-                    className="btn btn-danger fw-bold px-4 py-2 d-flex align-items-center justify-content-center gap-2"
+                    className="btn btn-danger fw-bold px-4 py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm"
                     onClick={exportToPDF}
                     style={{ transition: "all 0.3s ease-in-out" }}
                     onMouseEnter={(e) => e.target.classList.add("shadow-lg")}
