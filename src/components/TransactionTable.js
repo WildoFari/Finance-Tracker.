@@ -100,7 +100,7 @@ const TransactionTable = () => {
                 </div>
             )}
 
-            <div className="text-center mt-4">
+            <div className="text-center mt-4 d-flex justify-content-center">
                 <button
                     className="btn btn-danger fw-bold px-4 py-2 d-flex align-items-center justify-content-center gap-2"
                     onClick={exportToPDF}
