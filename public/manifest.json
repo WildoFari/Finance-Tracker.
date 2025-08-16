@@ -1,0 +1,27 @@
+{
+  "short_name": "Finance App",
+  "name": "Finance App - Gestor de Finanzas Personales",
+  "description": "Aplicación para gestionar finanzas personales, controlar gastos e ingresos de forma inteligente",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "finanzas-logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "categories": ["finance", "productivity", "business"],
+  "lang": "es",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "prefer_related_applications": false
+}
