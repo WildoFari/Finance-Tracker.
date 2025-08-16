@@ -2,7 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://finance-tracker-ruddy-five.vercel.app/</loc>
-    <lastmod>2025-05-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://finance-tracker-ruddy-five.vercel.app/ingresos</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://finance-tracker-ruddy-five.vercel.app/egresos</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://finance-tracker-ruddy-five.vercel.app/inversiones</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://finance-tracker-ruddy-five.vercel.app/graficos</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
   </url>
 </urlset>
