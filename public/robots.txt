@@ -1,4 +1,18 @@
 User-agent: *
 Allow: /
 
+# Páginas específicas
+Allow: /ingresos
+Allow: /egresos
+Allow: /inversiones
+Allow: /graficos
+
+# Archivos importantes
+Allow: /manifest.json
+Allow: /favicon.ico
+
+# Sitemap
 Sitemap: https://finance-tracker-ruddy-five.vercel.app/sitemap.xml
+
+# Crawl-delay para ser respetuoso con el servidor
+Crawl-delay: 1

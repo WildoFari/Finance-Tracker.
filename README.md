@@ -1,6 +1,48 @@
-# Getting Started with Create React App
+# Finance App - Gestor de Finanzas Personales
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Finance App Logo](public/finanzas-logo.svg)
+
+Una aplicación web moderna y completa para la gestión de finanzas personales, desarrollada con React y optimizada para SEO.
+
+## 🚀 Características
+
+- **Gestión de Ingresos y Egresos**: Registra y categoriza todas tus transacciones
+- **Seguimiento de Inversiones**: Monitorea el rendimiento de tu portafolio
+- **Gráficos Interactivos**: Visualiza tus datos financieros con Chart.js
+- **Exportación a PDF**: Genera reportes profesionales de tus finanzas
+- **Interfaz Responsive**: Funciona perfectamente en desktop y móvil
+- **PWA Ready**: Instálala como aplicación nativa
+- **SEO Optimizado**: Mejor visibilidad en motores de búsqueda
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Frontend**: React 19, Bootstrap 5, Chart.js
+- **Estilo**: CSS3, Animate.css
+- **PDF**: jsPDF, jsPDF-AutoTable
+- **SEO**: Meta tags, Open Graph, Twitter Cards, JSON-LD
+- **PWA**: Service Worker, Manifest
+- **Analytics**: Web Vitals, Google Analytics ready
+
+## 📱 PWA Features
+
+- Instalable como aplicación nativa
+- Funciona offline con Service Worker
+- Cache inteligente para mejor rendimiento
+- Notificaciones push (configurable)
+
+## 🔍 SEO Features
+
+- Meta tags optimizados
+- Open Graph para redes sociales
+- Twitter Cards
+- JSON-LD structured data
+- Sitemap XML
+- Robots.txt
+- Web Vitals monitoring
+- Canonical URLs
+- Rich snippets ready
+
+## 🚀 Instalación y Uso
 
 ## Available Scripts
 
