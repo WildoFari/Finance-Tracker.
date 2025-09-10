@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { 
+    FaChevronUp, 
+    FaChevronDown, 
+    FaTrash, 
+    FaCreditCard, 
+    FaPlus, 
+    FaReceipt, 
+    FaDollarSign, 
+    FaEye, 
+    FaEyeSlash 
+} from 'react-icons/fa';
 
 const ManageInvestment = ({ investment, onDelete }) => {
     const isInvestmentValid = !!investment;
@@ -82,10 +93,11 @@ const ManageInvestment = ({ investment, onDelete }) => {
                     onClick={() => setMostrarDetalle(!mostrarDetalle)}
                     style={{ cursor: 'pointer', userSelect: 'none' }}
                 >
-                    {investment.name} {mostrarDetalle ? "⬆️" : "⬇️"}
+                    {investment.name} {mostrarDetalle ? <FaChevronUp className="ms-2" /> : <FaChevronDown className="ms-2" />}
                 </h5>
                 <button className="btn btn-danger btn-sm" onClick={() => handleEliminarInversion()}>
-                    🗑 Eliminar
+                    <FaTrash className="me-1" />
+                    Eliminar
                 </button>
 
             </div>
@@ -95,10 +107,14 @@ const ManageInvestment = ({ investment, onDelete }) => {
                     <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
 
                     <button className="btn btn-success w-100 mb-3" onClick={handlePagoCuota} disabled={cuotasPagadas >= investment.totalCuotas}>
+                        <FaCreditCard className="me-2" />
                         Pagar Próxima Cuota
                     </button>
 
-                    <h6 className="fw-bold">➕ Agregar Gasto Extra</h6>
+                    <h6 className="fw-bold">
+                        <FaPlus className="me-2" />
+                        Agregar Gasto Extra
+                    </h6>
                     <input
                         type="text"
                         className="form-control mb-2"
@@ -114,14 +130,28 @@ const ManageInvestment = ({ investment, onDelete }) => {
                         onChange={(e) => setGastoMonto(e.target.value)}
                     />
                     <button className="btn btn-warning w-100" onClick={handleAgregarGasto}>
+                        <FaDollarSign className="me-2" />
                         Agregar Gasto
                     </button>
 
                     <div className="payments-container mt-3">
                         <h6 className="payments-title d-flex justify-content-between align-items-center">
-                            📜 Historial de Pagos
+                            <span>
+                                <FaReceipt className="me-2" />
+                                Historial de Pagos
+                            </span>
                             <button className="toggle-btn btn btn-sm btn-outline-primary" onClick={() => setMostrarPagos(!mostrarPagos)}>
-                                {mostrarPagos ? "Ocultar" : "Mostrar"}
+                                {mostrarPagos ? (
+                                    <>
+                                        <FaEyeSlash className="me-1" />
+                                        Ocultar
+                                    </>
+                                ) : (
+                                    <>
+                                        <FaEye className="me-1" />
+                                        Mostrar
+                                    </>
+                                )}
                             </button>
                         </h6>
 
@@ -146,9 +176,22 @@ const ManageInvestment = ({ investment, onDelete }) => {
 
                     <div className="expenses-container mt-3">
                         <h6 className="expenses-title d-flex justify-content-between align-items-center">
-                            💰 Gastos Extras
+                            <span>
+                                <FaDollarSign className="me-2" />
+                                Gastos Extras
+                            </span>
                             <button className="toggle-btn btn btn-sm btn-outline-primary" onClick={() => setMostrarGastos(!mostrarGastos)}>
-                                {mostrarGastos ? "Ocultar" : "Mostrar"}
+                                {mostrarGastos ? (
+                                    <>
+                                        <FaEyeSlash className="me-1" />
+                                        Ocultar
+                                    </>
+                                ) : (
+                                    <>
+                                        <FaEye className="me-1" />
+                                        Mostrar
+                                    </>
+                                )}
                             </button>
                         </h6>
 

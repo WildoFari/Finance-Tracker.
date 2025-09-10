@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
 import { Bar } from 'react-chartjs-2';
+import { FaChartBar, FaSpinner } from 'react-icons/fa';
 import 'chart.js/auto';
 
 const Graficos = () => {
@@ -64,7 +65,8 @@ const Graficos = () => {
     return (
         <div className="d-flex flex-column align-items-center justify-content-center py-5" style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
         <h2 className="mb-4 fw-bold text-center text-primary">
-            📊 Resumen de Finanzas
+            <FaChartBar className="me-2" />
+            Resumen de Finanzas
         </h2>
         <canvas ref={chartRef} style={{ display: 'none' }} />
         <div
@@ -100,7 +102,10 @@ const Graficos = () => {
                 }} />
             ) : (
                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '300px' }}>
-                    <p className="text-center text-muted">Cargando gráfico...</p>
+                    <div className="text-center text-muted">
+                        <FaSpinner className="fa-spin me-2" />
+                        Cargando gráfico...
+                    </div>
                 </div>
             )}
         </div>

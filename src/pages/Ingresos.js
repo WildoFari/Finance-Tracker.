@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
+import { FaArrowUp, FaFilePdf, FaMoneyBillWave } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -54,9 +55,13 @@ const IngresosList = () => {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center">
-                <h2 className="fw-bold mb-4">Lista de Ingresos</h2>
+                <h2 className="fw-bold mb-4">
+                    <FaArrowUp className="me-2 text-success" />
+                    Lista de Ingresos
+                </h2>
                 {ingresos.length > 0 && (
                     <button className="btn btn-danger" onClick={exportToPDF}>
+                        <FaFilePdf className="me-2" />
                         Descargar PDF
                     </button>
                 )}
@@ -78,6 +83,7 @@ const IngresosList = () => {
                                                 <p className="text-muted small">{new Date(ingreso.date).toLocaleDateString()}</p>
                                             </div>
                                             <h5 className="text-success fw-semibold mb-0">
+                                                <FaMoneyBillWave className="me-1" />
                                                 +{parseInt(ingreso.amount).toLocaleString('es-ES')}
                                             </h5>
                                         </div>

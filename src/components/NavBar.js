@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useLocation } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaArrowUp, FaArrowDown, FaChartBar, FaBuilding } from 'react-icons/fa';
 
 const NavBar = () => {
     const location = useLocation();
@@ -12,11 +12,11 @@ const NavBar = () => {
     const closeMenu = () => setMenuOpen(false);
 
     const navLinks = [
-        { path: '/', label: 'Inicio' },
-        { path: '/Ingresos', label: 'Ingresos' },
-        { path: '/Egresos', label: 'Egresos' },
-        { path: '/Graficos', label: 'Gráficos' },
-        { path: '/Inversiones', label: 'Propiedades' },
+        { path: '/', label: 'Inicio', icon: FaHome },
+        { path: '/Ingresos', label: 'Ingresos', icon: FaArrowUp },
+        { path: '/Egresos', label: 'Egresos', icon: FaArrowDown },
+        { path: '/Graficos', label: 'Gráficos', icon: FaChartBar },
+        { path: '/Inversiones', label: 'Inversiones', icon: FaBuilding },
     ];
 
     return (
@@ -48,16 +48,17 @@ const NavBar = () => {
 
                 <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
                     <ul className="navbar-nav mx-auto text-center">
-                        {navLinks.map(({ path, label }, index) => (
+                        {navLinks.map(({ path, label, icon: Icon }, index) => (
                             <li className="nav-item" key={index}>
                                 <Link
-                                    className={`nav-link px-3 fw-semibold ${location.pathname === path
+                                    className={`nav-link px-3 fw-semibold d-flex align-items-center justify-content-center ${location.pathname === path
                                         ? 'active text-primary bg-light rounded shadow-sm'
                                         : ''
                                         }`}
                                     to={path}
                                     onClick={closeMenu}
                                 >
+                                    <Icon className="me-2" />
                                     {label}
                                 </Link>
                             </li>

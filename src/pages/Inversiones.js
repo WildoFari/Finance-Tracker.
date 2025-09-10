@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaChartLine, FaChevronUp, FaChevronDown, FaInfoCircle } from 'react-icons/fa';
 import AddInvestment from '../components/AddInvestment';
 import ManageInvestment from '../components/ManageInvestment';
 
@@ -42,7 +43,10 @@ const Inversiones = () => {
 
     return (
         <div className="container-sm mt-4 mb-6">
-            <h2 className="fw-bold text-center mb-4 text-primary">📈 Gestión de Terrenos</h2>
+            <h2 className="fw-bold text-center mb-4 text-primary">
+                <FaChartLine className="me-2" />
+                Gestión de Inversiones
+            </h2>
 
             <div className="mb-4">
                 <AddInvestment addInvestment={addInvestment} existingInvestments={investments} />
@@ -53,7 +57,17 @@ const Inversiones = () => {
                     className={`btn ${mostrarInversiones ? "btn-outline-secondary" : "btn-primary"}`}
                     onClick={() => setMostrarInversiones(!mostrarInversiones)}
                 >
-                    {mostrarInversiones ? "Ocultar Inversiones ⬆️" : "Mostrar Inversiones ⬇️"}
+                    {mostrarInversiones ? (
+                        <>
+                            <FaChevronUp className="me-2" />
+                            Ocultar Inversiones
+                        </>
+                    ) : (
+                        <>
+                            <FaChevronDown className="me-2" />
+                            Mostrar Inversiones
+                        </>
+                    )}
                 </button>
             </div>
 
@@ -61,6 +75,7 @@ const Inversiones = () => {
                 <div className="mt-4">
                     {investments.length === 0 ? (
                         <div className="alert alert-info text-center">
+                            <FaInfoCircle className="me-2" />
                             No hay inversiones registradas.
                         </div>
                     ) : (

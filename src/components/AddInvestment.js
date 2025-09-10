@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaPlus, FaDollarSign, FaList, FaSave } from 'react-icons/fa';
 
 const AddInvestment = ({ addInvestment, existingInvestments }) => {
     const [name, setName] = useState("");
@@ -82,7 +83,8 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
     return (
         <form onSubmit={handleSubmit} className="card p-3 shadow-sm mb-4 mt-4">
             <h5 className="investment-title">
-                ➕ Agregar Nueva Inversión
+                <FaPlus className="me-2" />
+                Agregar Nueva Inversión
             </h5>
 
 
@@ -115,7 +117,8 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 onChange={(e) => setCuotasPagadas(e.target.value)}
             />
             <h6 className="expense-title">
-                💰 Agregar Gastos Anteriores
+                <FaDollarSign className="me-2" />
+                Agregar Gastos Anteriores
             </h6>
             <input
                 type="text"
@@ -132,6 +135,7 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
                 onChange={handleMontoGastoChange}
             />
             <button type="button" className="btn btn-outline-primary mb-2 w-100" onClick={handleAgregarGastoPrevio}>
+                <FaList className="me-2" />
                 Agregar Gasto Previo
             </button>
 
@@ -147,6 +151,7 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
             )}
 
             <button type="submit" className="btn btn-primary w-100">
+                <FaSave className="me-2" />
                 Agregar Inversión
             </button>
         </form>

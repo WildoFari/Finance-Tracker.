@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { TransactionContext } from '../context/TransactionContext';
+import { FaArrowDown, FaFilePdf, FaCreditCard } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -54,9 +55,13 @@ const EgresosList = () => {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center">
-                <h2 className="fw-bold mb-4">Lista de Egresos</h2>
+                <h2 className="fw-bold mb-4">
+                    <FaArrowDown className="me-2 text-danger" />
+                    Lista de Egresos
+                </h2>
                 {egresos.length > 0 && (
                     <button className="btn btn-danger" onClick={exportToPDF}>
+                        <FaFilePdf className="me-2" />
                         Descargar PDF
                     </button>
                 )}
@@ -78,6 +83,7 @@ const EgresosList = () => {
                                                <p className="text-muted small">{new Date(egreso.date).toLocaleDateString()}</p>
                                            </div>
                                            <h5 className="text-danger fw-semibold mb-0">
+                                               <FaCreditCard className="me-1" />
                                                -{parseInt(egreso.amount).toLocaleString('es-ES')}
                                            </h5>
                                        </div>

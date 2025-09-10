@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { FaFilePdf } from 'react-icons/fa';
 
 const ExportPDF = ({ transactions, type }) => {
     const exportToPDF = () => {
@@ -69,6 +70,7 @@ const ExportPDF = ({ transactions, type }) => {
 
     return (
         <button className="btn btn-danger my-3" onClick={exportToPDF}>
+            <FaFilePdf className="me-2" />
             Descargar PDF
         </button>
     );
