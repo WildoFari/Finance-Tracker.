@@ -87,7 +87,7 @@
 }
 
 .investment-title::before {
-  content: "📌";
+  content: "";
   font-size: 20px;
 }
 .expense-title {
@@ -106,7 +106,7 @@
 }
 
 .expense-title::before {
-  content: "📝";
+  content: "";
   font-size: 18px;
 }
 .investment-summary {
