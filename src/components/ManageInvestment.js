@@ -8,7 +8,8 @@ import {
     FaReceipt, 
     FaDollarSign, 
     FaEye, 
-    FaEyeSlash 
+    FaEyeSlash,
+    FaUndo
 } from 'react-icons/fa';
 
 const ManageInvestment = ({ investment, onDelete }) => {
@@ -35,7 +36,7 @@ const ManageInvestment = ({ investment, onDelete }) => {
             );
             localStorage.setItem('investments', JSON.stringify(updatedInvestments));
         }, 100);
-    }, [cuotasPagadas, pagos, gastosExtras, isInvestmentValid]);
+    }, [cuotasPagadas, pagos, gastosExtras, isInvestmentValid, investment.id]);
 
 
     if (!isInvestmentValid) {
@@ -51,6 +52,15 @@ const ManageInvestment = ({ investment, onDelete }) => {
 
             setCuotasPagadas(prev => prev + 1);
             setPagos(prevPagos => [...prevPagos, nuevoPago]);
+        }
+    };
+
+    const handleRestarCuota = () => {
+        if (cuotasPagadas > 0 && pagos.length > 0) {
+            if (window.confirm(`¿Estás seguro de restar la cuota ${cuotasPagadas}? Esta acción eliminará el último pago registrado.`)) {
+                setCuotasPagadas(prev => prev - 1);
+                setPagos(prevPagos => prevPagos.slice(0, -1));
+            }
         }
     };
 
@@ -106,10 +116,16 @@ const ManageInvestment = ({ investment, onDelete }) => {
                 <>
                     <p className="text-muted">Cuotas pagadas: {cuotasPagadas} / {investment.totalCuotas}</p>
 
-                    <button className="btn btn-success w-100 mb-3" onClick={handlePagoCuota} disabled={cuotasPagadas >= investment.totalCuotas}>
-                        <FaCreditCard className="me-2" />
-                        Pagar Próxima Cuota
-                    </button>
+                    <div className="d-grid gap-2 mb-3">
+                        <button className="btn btn-success" onClick={handlePagoCuota} disabled={cuotasPagadas >= investment.totalCuotas}>
+                            <FaCreditCard className="me-2" />
+                            Pagar Próxima Cuota
+                        </button>
+                        <button className="btn btn-warning" onClick={handleRestarCuota} disabled={cuotasPagadas <= 0}>
+                            <FaUndo className="me-2" />
+                            Restar Última Cuota
+                        </button>
+                    </div>
 
                     <h6 className="fw-bold">
                         <FaPlus className="me-2" />
