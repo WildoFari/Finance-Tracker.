@@ -9,7 +9,9 @@ import {
     FaDollarSign, 
     FaEye, 
     FaEyeSlash,
-    FaUndo
+    FaUndo,
+    FaExclamationTriangle,
+    FaTimes
 } from 'react-icons/fa';
 
 const ManageInvestment = ({ investment, onDelete }) => {
@@ -25,6 +27,7 @@ const ManageInvestment = ({ investment, onDelete }) => {
     const [mostrarDetalle, setMostrarDetalle] = useState(false);
     const [mostrarPagos, setMostrarPagos] = useState(false);
     const [mostrarGastos, setMostrarGastos] = useState(false);
+    const [mostrarModalRestar, setMostrarModalRestar] = useState(false);
 
     useEffect(() => {
         if (!isInvestmentValid) return;
@@ -57,11 +60,18 @@ const ManageInvestment = ({ investment, onDelete }) => {
 
     const handleRestarCuota = () => {
         if (cuotasPagadas > 0 && pagos.length > 0) {
-            if (window.confirm(`¿Estás seguro de restar la cuota ${cuotasPagadas}? Esta acción eliminará el último pago registrado.`)) {
-                setCuotasPagadas(prev => prev - 1);
-                setPagos(prevPagos => prevPagos.slice(0, -1));
-            }
+            setMostrarModalRestar(true);
         }
+    };
+
+    const confirmarRestarCuota = () => {
+        setCuotasPagadas(prev => prev - 1);
+        setPagos(prevPagos => prevPagos.slice(0, -1));
+        setMostrarModalRestar(false);
+    };
+
+    const cancelarRestarCuota = () => {
+        setMostrarModalRestar(false);
     };
 
 
@@ -96,6 +106,7 @@ const ManageInvestment = ({ investment, onDelete }) => {
     const totalGeneral = totalPagos + totalGastos;
 
     return (
+        <>
         <div className="card p-4 shadow-sm mb-3">
             <div className="d-flex justify-content-between align-items-center">
                 <h5
@@ -233,7 +244,172 @@ const ManageInvestment = ({ investment, onDelete }) => {
                     <h5 className="fw-bold mt-3 text-primary"> Total General: {totalGeneral.toLocaleString('es-ES')}</h5>
                 </>
             )}
+
+            {/* Modal de confirmación para restar cuota */}
+            {mostrarModalRestar && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">
+                                <FaExclamationTriangle className="me-2 text-warning" />
+                                Confirmar Resta de Cuota
+                            </h4>
+                            <button 
+                                className="btn-close" 
+                                onClick={cancelarRestarCuota}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p className="mb-3">
+                                ¿Estás seguro de que quieres restar la cuota <strong>{cuotasPagadas}</strong>?
+                            </p>
+                            <div className="alert alert-warning">
+                                <FaExclamationTriangle className="me-2" />
+                                Esta acción eliminará el último pago registrado y no se puede deshacer.
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button 
+                                className="btn btn-secondary" 
+                                onClick={cancelarRestarCuota}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                className="btn btn-warning" 
+                                onClick={confirmarRestarCuota}
+                            >
+                                <FaUndo className="me-2" />
+                                Sí, Restar Cuota
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+
+        <style jsx>{`
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1050;
+                animation: fadeIn 0.3s ease-in-out;
+            }
+
+            .modal-content {
+                background: white;
+                border-radius: 15px;
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease-in-out;
+                overflow: hidden;
+            }
+
+            .modal-header {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                padding: 20px;
+                border-bottom: 1px solid #dee2e6;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .modal-title {
+                margin: 0;
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: #495057;
+            }
+
+            .btn-close {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: #6c757d;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: all 0.2s ease;
+            }
+
+            .btn-close:hover {
+                background: #e9ecef;
+                color: #495057;
+            }
+
+            .modal-body {
+                padding: 25px;
+            }
+
+            .modal-footer {
+                padding: 20px;
+                border-top: 1px solid #dee2e6;
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+                background: #f8f9fa;
+            }
+
+            .alert-warning {
+                background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+                border: 1px solid #ffeaa7;
+                color: #856404;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 0;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes slideIn {
+                from { 
+                    transform: translateY(-50px) scale(0.9);
+                    opacity: 0;
+                }
+                to { 
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .modal-content {
+                    width: 95%;
+                    margin: 20px;
+                }
+                
+                .modal-header, .modal-body, .modal-footer {
+                    padding: 15px;
+                }
+                
+                .modal-footer {
+                    flex-direction: column;
+                }
+                
+                .modal-footer .btn {
+                    width: 100%;
+                }
+            }
+        `}</style>
+        </>
     );
 };
 
