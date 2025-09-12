@@ -29,6 +29,8 @@ const ManageInvestment = ({ investment, onDelete }) => {
     const [mostrarPagos, setMostrarPagos] = useState(false);
     const [mostrarGastos, setMostrarGastos] = useState(false);
     const [mostrarModalRestar, setMostrarModalRestar] = useState(false);
+    const [mostrarModalEliminar, setMostrarModalEliminar] = useState(false);
+    const [pagoAEliminar, setPagoAEliminar] = useState(null);
 
     useEffect(() => {
         if (!isInvestmentValid) return;
@@ -76,9 +78,14 @@ const ManageInvestment = ({ investment, onDelete }) => {
     };
 
     const handleEliminarPago = (indexPago) => {
-        if (window.confirm(`¿Estás seguro de eliminar el pago de la cuota ${pagos[indexPago].cuotaNumero}?`)) {
+        setPagoAEliminar(indexPago);
+        setMostrarModalEliminar(true);
+    };
+
+    const confirmarEliminarPago = () => {
+        if (pagoAEliminar !== null) {
             // Eliminar el pago específico del array
-            const nuevosPagos = pagos.filter((_, index) => index !== indexPago);
+            const nuevosPagos = pagos.filter((_, index) => index !== pagoAEliminar);
             
             // Renumerar las cuotas para mantener la secuencia
             const pagosRenumerados = nuevosPagos.map((pago, index) => ({
@@ -89,6 +96,13 @@ const ManageInvestment = ({ investment, onDelete }) => {
             setPagos(pagosRenumerados);
             setCuotasPagadas(pagosRenumerados.length);
         }
+        setMostrarModalEliminar(false);
+        setPagoAEliminar(null);
+    };
+
+    const cancelarEliminarPago = () => {
+        setMostrarModalEliminar(false);
+        setPagoAEliminar(null);
     };
 
 
@@ -274,6 +288,57 @@ const ManageInvestment = ({ investment, onDelete }) => {
                 </>
             )}
 
+            {/* Modal de confirmación para eliminar pago específico */}
+            {mostrarModalEliminar && pagoAEliminar !== null && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">
+                                <FaExclamationTriangle className="me-2 text-danger" />
+                                Confirmar Eliminación de Pago
+                            </h4>
+                            <button 
+                                className="btn-close" 
+                                onClick={cancelarEliminarPago}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p className="mb-3">
+                                ¿Estás seguro de que quieres eliminar el pago de la <strong>Cuota {pagos[pagoAEliminar].cuotaNumero}</strong>?
+                            </p>
+                            <div className="alert alert-danger">
+                                <FaExclamationTriangle className="me-2" />
+                                Esta acción eliminará permanentemente este pago y renumerará las cuotas restantes.
+                            </div>
+                            <div className="mt-3 p-3 bg-light rounded">
+                                <strong>Detalles del pago:</strong><br/>
+                                <small className="text-muted">
+                                    Fecha: {pagos[pagoAEliminar].fecha}<br/>
+                                    Monto: {pagos[pagoAEliminar].monto.toLocaleString('es-ES')}
+                                </small>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button 
+                                className="btn btn-secondary" 
+                                onClick={cancelarEliminarPago}
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                className="btn btn-danger" 
+                                onClick={confirmarEliminarPago}
+                            >
+                                <FaTrashAlt className="me-2" />
+                                Sí, Eliminar Pago
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Modal de confirmación para restar cuota */}
             {mostrarModalRestar && (
                 <div className="modal-overlay">
@@ -398,6 +463,15 @@ const ManageInvestment = ({ investment, onDelete }) => {
                 background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
                 border: 1px solid #ffeaa7;
                 color: #856404;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 0;
+            }
+
+            .alert-danger {
+                background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+                border: 1px solid #f5c6cb;
+                color: #721c24;
                 border-radius: 10px;
                 padding: 15px;
                 margin: 0;
