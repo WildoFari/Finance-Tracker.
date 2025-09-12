@@ -11,7 +11,8 @@ import {
     FaEyeSlash,
     FaUndo,
     FaExclamationTriangle,
-    FaTimes
+    FaTimes,
+    FaTrashAlt
 } from 'react-icons/fa';
 
 const ManageInvestment = ({ investment, onDelete }) => {
@@ -72,6 +73,22 @@ const ManageInvestment = ({ investment, onDelete }) => {
 
     const cancelarRestarCuota = () => {
         setMostrarModalRestar(false);
+    };
+
+    const handleEliminarPago = (indexPago) => {
+        if (window.confirm(`¿Estás seguro de eliminar el pago de la cuota ${pagos[indexPago].cuotaNumero}?`)) {
+            // Eliminar el pago específico del array
+            const nuevosPagos = pagos.filter((_, index) => index !== indexPago);
+            
+            // Renumerar las cuotas para mantener la secuencia
+            const pagosRenumerados = nuevosPagos.map((pago, index) => ({
+                ...pago,
+                cuotaNumero: index + 1
+            }));
+            
+            setPagos(pagosRenumerados);
+            setCuotasPagadas(pagosRenumerados.length);
+        }
     };
 
 
@@ -187,9 +204,21 @@ const ManageInvestment = ({ investment, onDelete }) => {
                                 {pagos.length > 0 ? (
                                     <ul className="list-group">
                                         {pagos.map((pago, index) => (
-                                            <li key={index} className="list-group-item d-flex justify-content-between">
-                                                <span className="payment-description">Cuota {pago.cuotaNumero} - {pago.fecha}</span>
-                                                <strong className="payment-amount text-success">{pago.monto.toLocaleString('es-ES')}</strong>
+                                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                                <div className="d-flex flex-column">
+                                                    <span className="payment-description">Cuota {pago.cuotaNumero} - {pago.fecha}</span>
+                                                    <small className="text-muted">Monto: {pago.monto.toLocaleString('es-ES')}</small>
+                                                </div>
+                                                <div className="d-flex align-items-center gap-2">
+                                                    <strong className="payment-amount text-success">{pago.monto.toLocaleString('es-ES')}</strong>
+                                                    <button 
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() => handleEliminarPago(index)}
+                                                        title="Eliminar este pago"
+                                                    >
+                                                        <FaTrashAlt />
+                                                    </button>
+                                                </div>
                                             </li>
                                         ))}
                                     </ul>
