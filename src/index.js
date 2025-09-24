@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { TransactionProvider } from './context/TransactionContext';
+import { BudgetProvider } from './context/BudgetContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <React.StrictMode>
     <TransactionProvider>
-      <App />
+      <BudgetProvider>
+        <App />
+      </BudgetProvider>
     </TransactionProvider>
   </React.StrictMode>
 );
