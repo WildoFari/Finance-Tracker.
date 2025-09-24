@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useLocation } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaArrowUp, FaArrowDown, FaChartBar, FaBuilding } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaArrowUp, FaArrowDown, FaChartBar, FaBuilding, FaBullseye } from 'react-icons/fa';
 
 const NavBar = () => {
     const location = useLocation();
@@ -17,6 +17,7 @@ const NavBar = () => {
         { path: '/Egresos', label: 'Egresos', icon: FaArrowDown },
         { path: '/Graficos', label: 'Gráficos', icon: FaChartBar },
         { path: '/Inversiones', label: 'Inversiones', icon: FaBuilding },
+        { path: '/presupuestos', label: 'Presupuestos', icon: FaBullseye },
     ];
 
     return (
