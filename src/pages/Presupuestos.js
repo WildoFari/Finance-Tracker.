@@ -15,6 +15,8 @@ import {
     FaFlag
 } from 'react-icons/fa';
 import { formatCurrency, formatPercentage, getProgressColor } from '../utils/budgetUtils';
+import AddBudget from '../components/AddBudget';
+import AddSavingsGoal from '../components/AddSavingsGoal';
 
 const Presupuestos = () => {
     const { 
@@ -28,6 +30,8 @@ const Presupuestos = () => {
 
     const [activeTab, setActiveTab] = useState('overview');
     const [showAlerts, setShowAlerts] = useState(false);
+    const [showAddBudget, setShowAddBudget] = useState(false);
+    const [showAddGoal, setShowAddGoal] = useState(false);
 
     // Generar alertas al cargar la página
     useEffect(() => {
@@ -197,7 +201,10 @@ const Presupuestos = () => {
                         <FaBullseye className="me-2" />
                         Presupuestos Activos
                     </h5>
-                <button className="btn btn-light btn-sm">
+                <button 
+                    className="btn btn-light btn-sm"
+                    onClick={() => setShowAddBudget(true)}
+                >
                     <FaPlus className="me-1" />
                     Agregar Presupuesto
                 </button>
@@ -240,7 +247,10 @@ const Presupuestos = () => {
                         <FaBullseye size={48} className="text-muted mb-3" />
                         <h5 className="text-muted">No hay presupuestos activos</h5>
                         <p className="text-muted">Crea tu primer presupuesto para comenzar a controlar tus gastos</p>
-                        <button className="btn btn-primary">
+                        <button 
+                            className="btn btn-primary"
+                            onClick={() => setShowAddBudget(true)}
+                        >
                             <FaPlus className="me-2" />
                             Crear Presupuesto
                         </button>
@@ -257,7 +267,10 @@ const Presupuestos = () => {
                     <FaPiggyBank className="me-2" />
                     Metas de Ahorro
                 </h5>
-                <button className="btn btn-light btn-sm">
+                <button 
+                    className="btn btn-light btn-sm"
+                    onClick={() => setShowAddGoal(true)}
+                >
                     <FaPlus className="me-1" />
                     Agregar Meta
                 </button>
@@ -305,7 +318,10 @@ const Presupuestos = () => {
                         <FaPiggyBank size={48} className="text-muted mb-3" />
                         <h5 className="text-muted">No hay metas de ahorro</h5>
                         <p className="text-muted">Crea tu primera meta de ahorro para alcanzar tus objetivos financieros</p>
-                        <button className="btn btn-success">
+                        <button 
+                            className="btn btn-success"
+                            onClick={() => setShowAddGoal(true)}
+                        >
                             <FaPlus className="me-2" />
                             Crear Meta
                         </button>
@@ -411,6 +427,16 @@ const Presupuestos = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modales */}
+            <AddBudget 
+                show={showAddBudget} 
+                onClose={() => setShowAddBudget(false)} 
+            />
+            <AddSavingsGoal 
+                show={showAddGoal} 
+                onClose={() => setShowAddGoal(false)} 
+            />
 
             <style>
                 {`
