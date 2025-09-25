@@ -55,7 +55,7 @@ const AddInvestment = ({ addInvestment, existingInvestments }) => {
             return;
         }
 
-        const montoNumerico = parseFloat(montoMensual.replace(/\./g, "")); // Elimina puntos antes de guardar
+        const montoNumerico = parseFloat(montoMensual.replace(/\./g, ""));
 
         const newInvestment = {
             id: Date.now(),
