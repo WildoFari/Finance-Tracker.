@@ -66,16 +66,12 @@ const AddSavingsGoal = ({ show, onClose }) => {
         setIsLoading(true);
 
         try {
-            // Simular delay para mostrar loading
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-            // Crear la meta de ahorro
             const newGoal = addSavingsGoal(formData);
             
-            // Mostrar mensaje de éxito
             toast.success(`Meta de ahorro "${formData.name}" creada exitosamente`);
             
-            // Limpiar formulario
             setFormData({
                 name: '',
                 targetAmount: '',

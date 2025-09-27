@@ -7,6 +7,7 @@ const BudgetAlerts = () => {
     const { alerts, markAlertAsRead, clearAllAlerts, generateAlerts } = useBudget();
     const [showAlertsPanel, setShowAlertsPanel] = useState(false);
 
+    // Generar alertas cada 30 segundos
     useEffect(() => {
         const interval = setInterval(() => {
             generateAlerts();
@@ -15,6 +16,7 @@ const BudgetAlerts = () => {
         return () => clearInterval(interval);
     }, [generateAlerts]);
 
+    // Mostrar notificaciones toast para nuevas alertas
     useEffect(() => {
         const unreadAlerts = alerts.filter(alert => !alert.read);
         unreadAlerts.forEach(alert => {
