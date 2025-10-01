@@ -399,24 +399,25 @@ const Presupuestos = () => {
                     <div className="card border-0 shadow-sm mb-4">
                         <div className="card-header bg-light border-0 p-0">
                             <ul className="nav nav-tabs nav-fill border-0" role="tablist">
-                                {tabs.map(tab => {
-                                    const Icon = tab.icon;
-                                    return (
-                                        <li className="nav-item" key={tab.id}>
-                                            <button
-                                                className={`nav-link border-0 ${activeTab === tab.id ? 'active bg-primary text-white' : 'text-dark'}`}
-                                                onClick={() => setActiveTab(tab.id)}
-                                                style={{ borderRadius: '0' }}
-                                            >
-                                                <Icon className="me-2" />
-                                                {tab.label}
-                                            </button>
-                                        </li>
-                                    );
-                                })}
+                            {tabs.map((tab) => {
+                                const Icon = tab.icon;
+                                const isActive = activeTab === tab.id;
+
+                                return (
+                                <li className="nav-item" key={tab.id}>
+                                    <button
+                                    className={`nav-link border-0 ${isActive ? "active text-white bg-primary" : "text-dark"}`}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    >
+                                    <Icon className="me-2" />
+                                    {tab.label}
+                                    </button>
+                                </li>
+                                );
+                            })}
                             </ul>
                         </div>
-                    </div>
+                        </div>
 
                     {/* Contenido de las Pestañas */}
                     <div className="tab-content">
