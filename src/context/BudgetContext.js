@@ -277,6 +277,95 @@ export const BudgetProvider = ({ children }) => {
         };
     };
 
+    // === FUNCIONES PARA HISTORIAL ===
+
+    // Obtener gastos de una categoría en un período específico
+    const getCategoryExpensesForPeriod = (category, startDate, endDate) => {
+        const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        
+        const categoryTransactions = transactions.filter(transaction => {
+            const transactionDate = new Date(transaction.date);
+            return transaction.category === category &&
+                   transaction.type === 'Egreso' &&
+                   transactionDate >= startDate &&
+                   transactionDate <= endDate;
+        });
+
+        return categoryTransactions.reduce((total, transaction) => 
+            total + (parseFloat(transaction.amount) || 0), 0
+        );
+    };
+
+    // Obtener historial de un presupuesto (últimos N períodos)
+    const getBudgetHistory = (budget, periodsCount = 6) => {
+        const history = [];
+        const now = new Date();
+
+        for (let i = 0; i < periodsCount; i++) {
+            let startDate, endDate, label;
+
+            switch (budget.period) {
+                case 'mensual':
+                    const monthDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                    startDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+                    endDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+                    label = monthDate.toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
+                    break;
+                case 'trimestral':
+                    const currentQuarter = Math.floor(now.getMonth() / 3);
+                    const quarter = currentQuarter - i;
+                    const year = now.getFullYear() + Math.floor(quarter / 4);
+                    const q = ((quarter % 4) + 4) % 4;
+                    startDate = new Date(year, q * 3, 1);
+                    endDate = new Date(year, (q + 1) * 3, 0);
+                    label = `Q${q + 1} ${year}`;
+                    break;
+                case 'anual':
+                    const yearNum = now.getFullYear() - i;
+                    startDate = new Date(yearNum, 0, 1);
+                    endDate = new Date(yearNum, 11, 31);
+                    label = yearNum.toString();
+                    break;
+                default:
+                    continue;
+            }
+
+            const spent = getCategoryExpensesForPeriod(budget.category, startDate, endDate);
+            const percentage = budget.limit > 0 ? (spent / budget.limit) * 100 : 0;
+
+            history.unshift({
+                period: label,
+                startDate,
+                endDate,
+                spent,
+                limit: budget.limit,
+                percentage,
+                remaining: budget.limit - spent,
+                isOverLimit: spent > budget.limit
+            });
+        }
+
+        return history;
+    };
+
+    // Obtener comparación de todos los presupuestos activos
+    const getBudgetsComparison = () => {
+        const activeBudgets = budgets.filter(budget => budget.isActive);
+        
+        return activeBudgets.map(budget => {
+            const progress = getBudgetProgress(budget);
+            return {
+                category: budget.category,
+                limit: budget.limit,
+                spent: progress.spent,
+                percentage: progress.percentage,
+                remaining: progress.remaining,
+                isOverLimit: progress.isOverLimit,
+                period: budget.period
+            };
+        }).sort((a, b) => b.percentage - a.percentage);
+    };
+
     const value = {
         // Estados
         budgets,
@@ -305,7 +394,11 @@ export const BudgetProvider = ({ children }) => {
 
         // Funciones de estadísticas
         getBudgetSummary,
-        getSavingsSummary
+        getSavingsSummary,
+
+        // Funciones de historial
+        getBudgetHistory,
+        getBudgetsComparison
     };
 
     return (

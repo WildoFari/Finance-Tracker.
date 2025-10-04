@@ -11,7 +11,8 @@ import {
     FaEyeSlash,
     FaEdit,
     FaTrash,
-    FaMoneyBillWave
+    FaMoneyBillWave,
+    FaHistory
 } from 'react-icons/fa';
 import { formatCurrency, formatPercentage, getProgressColor } from '../utils/budgetUtils';
 import AddBudget from '../components/AddBudget';
@@ -19,6 +20,7 @@ import AddSavingsGoal from '../components/AddSavingsGoal';
 import EditBudget from '../components/EditBudget';
 import EditSavingsGoal from '../components/EditSavingsGoal';
 import AddMoneyToGoal from '../components/AddMoneyToGoal';
+import BudgetHistory from '../components/BudgetHistory';
 import { toast } from 'react-toastify';
 
 const Presupuestos = () => {
@@ -41,6 +43,7 @@ const Presupuestos = () => {
     const [showEditBudget, setShowEditBudget] = useState(false);
     const [showEditGoal, setShowEditGoal] = useState(false);
     const [showAddMoney, setShowAddMoney] = useState(false);
+    const [showHistory, setShowHistory] = useState(false);
     const [selectedBudget, setSelectedBudget] = useState(null);
     const [selectedGoal, setSelectedGoal] = useState(null);
 
@@ -63,6 +66,11 @@ const Presupuestos = () => {
     const handleAddMoney = (goal) => {
         setSelectedGoal(goal);
         setShowAddMoney(true);
+    };
+
+    const handleShowHistory = (budget) => {
+        setSelectedBudget(budget);
+        setShowHistory(true);
     };
 
     // Funciones para manejar eliminación
@@ -286,6 +294,16 @@ const Presupuestos = () => {
                                                         </small>
                                                         <small className="fw-bold">{formatPercentage(progress.percentage)}</small>
                                                     </div>
+                                                </div>
+                                                <div className="d-flex gap-2 mb-2">
+                                                    <button
+                                                        className="btn btn-sm btn-info flex-fill"
+                                                        onClick={() => handleShowHistory(budget)}
+                                                        title="Ver historial"
+                                                    >
+                                                        <FaHistory className="me-1" />
+                                                        Historial
+                                                    </button>
                                                 </div>
                                                 <div className="d-flex gap-2">
                                                     <button
@@ -553,6 +571,11 @@ const Presupuestos = () => {
                     show={showAddMoney}
                     onClose={() => setShowAddMoney(false)}
                     goal={selectedGoal}
+                />
+                <BudgetHistory
+                    show={showHistory}
+                    onClose={() => setShowHistory(false)}
+                    budget={selectedBudget}
                 />
 
                 <style>
