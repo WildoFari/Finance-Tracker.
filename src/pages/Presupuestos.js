@@ -8,11 +8,18 @@ import {
     FaCheckCircle,
     FaPlus,
     FaEye,
-    FaEyeSlash
+    FaEyeSlash,
+    FaEdit,
+    FaTrash,
+    FaMoneyBillWave
 } from 'react-icons/fa';
 import { formatCurrency, formatPercentage, getProgressColor } from '../utils/budgetUtils';
 import AddBudget from '../components/AddBudget';
 import AddSavingsGoal from '../components/AddSavingsGoal';
+import EditBudget from '../components/EditBudget';
+import EditSavingsGoal from '../components/EditSavingsGoal';
+import AddMoneyToGoal from '../components/AddMoneyToGoal';
+import { toast } from 'react-toastify';
 
 const Presupuestos = () => {
     const {
@@ -21,18 +28,57 @@ const Presupuestos = () => {
         alerts,
         getBudgetSummary,
         getSavingsSummary,
-        generateAlerts
+        generateAlerts,
+        getBudgetProgress,
+        deleteBudget,
+        deleteSavingsGoal
     } = useBudget();
 
     const [activeTab, setActiveTab] = useState('overview');
     const [showAlerts, setShowAlerts] = useState(false);
     const [showAddBudget, setShowAddBudget] = useState(false);
     const [showAddGoal, setShowAddGoal] = useState(false);
+    const [showEditBudget, setShowEditBudget] = useState(false);
+    const [showEditGoal, setShowEditGoal] = useState(false);
+    const [showAddMoney, setShowAddMoney] = useState(false);
+    const [selectedBudget, setSelectedBudget] = useState(null);
+    const [selectedGoal, setSelectedGoal] = useState(null);
 
-    // Generar alertas al cargar la página
+    // Generar alertas al cargar la página y cuando cambien los presupuestos
     useEffect(() => {
         generateAlerts();
-    }, [generateAlerts]);
+    }, [generateAlerts, budgets]);
+
+    // Funciones para manejar edición
+    const handleEditBudget = (budget) => {
+        setSelectedBudget(budget);
+        setShowEditBudget(true);
+    };
+
+    const handleEditGoal = (goal) => {
+        setSelectedGoal(goal);
+        setShowEditGoal(true);
+    };
+
+    const handleAddMoney = (goal) => {
+        setSelectedGoal(goal);
+        setShowAddMoney(true);
+    };
+
+    // Funciones para manejar eliminación
+    const handleDeleteBudget = (budget) => {
+        if (window.confirm(`¿Estás seguro de eliminar el presupuesto de ${budget.category}?`)) {
+            deleteBudget(budget.id);
+            toast.success(`Presupuesto de ${budget.category} eliminado`);
+        }
+    };
+
+    const handleDeleteGoal = (goal) => {
+        if (window.confirm(`¿Estás seguro de eliminar la meta "${goal.name}"?`)) {
+            deleteSavingsGoal(goal.id);
+            toast.success(`Meta "${goal.name}" eliminada`);
+        }
+    };
 
     const budgetSummary = getBudgetSummary();
     const savingsSummary = getSavingsSummary();
@@ -209,35 +255,59 @@ const Presupuestos = () => {
                 <div className="card-body">
                     {budgets.filter(budget => budget.isActive).length > 0 ? (
                         <div className="row g-3">
-                            {budgets.filter(budget => budget.isActive).map(budget => (
-                                <div key={budget.id} className="col-md-6 col-lg-4">
-                                    <div className="card border h-100">
-                                        <div className="card-body">
-                                            <div className="d-flex justify-content-between align-items-start mb-3">
-                                                <h6 className="card-title mb-0">{budget.category}</h6>
-                                                <span className="badge bg-secondary">{budget.period}</span>
-                                            </div>
-                                            <div className="mb-3">
-                                                <div className="d-flex justify-content-between mb-1">
-                                                    <small className="text-muted">Límite</small>
-                                                    <small className="fw-bold">{formatCurrency(budget.limit)}</small>
+                            {budgets.filter(budget => budget.isActive).map(budget => {
+                                const progress = getBudgetProgress(budget);
+                                return (
+                                    <div key={budget.id} className="col-md-6 col-lg-4">
+                                        <div className="card border h-100">
+                                            <div className="card-body">
+                                                <div className="d-flex justify-content-between align-items-start mb-3">
+                                                    <h6 className="card-title mb-0">{budget.category}</h6>
+                                                    <span className="badge bg-secondary">{budget.period}</span>
                                                 </div>
-                                                <div className="progress" style={{ height: '6px' }}>
-                                                    <div
-                                                        className={`progress-bar bg-${getProgressColor(0, budget.alertThreshold)}`}
-                                                        style={{ width: '0%' }}
-                                                    ></div>
+                                                <div className="mb-3">
+                                                    <div className="d-flex justify-content-between mb-1">
+                                                        <small className="text-muted">Gastado</small>
+                                                        <small className="fw-bold">{formatCurrency(progress.spent)}</small>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between mb-1">
+                                                        <small className="text-muted">Límite</small>
+                                                        <small className="fw-bold">{formatCurrency(budget.limit)}</small>
+                                                    </div>
+                                                    <div className="progress" style={{ height: '8px' }}>
+                                                        <div
+                                                            className={`progress-bar bg-${getProgressColor(progress.percentage, budget.alertThreshold)}`}
+                                                            style={{ width: `${Math.min(progress.percentage, 100)}%` }}
+                                                        ></div>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between mt-1">
+                                                        <small className={`fw-bold ${progress.isOverLimit ? 'text-danger' : 'text-success'}`}>
+                                                            {progress.isOverLimit ? 'Excedido' : 'Restante'}: {formatCurrency(Math.abs(progress.remaining))}
+                                                        </small>
+                                                        <small className="fw-bold">{formatPercentage(progress.percentage)}</small>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="text-center">
-                                                <small className="text-muted">
-                                                    Umbral de alerta: {budget.alertThreshold}%
-                                                </small>
+                                                <div className="d-flex gap-2">
+                                                    <button
+                                                        className="btn btn-sm btn-outline-primary flex-fill"
+                                                        onClick={() => handleEditBudget(budget)}
+                                                        title="Editar presupuesto"
+                                                    >
+                                                        <FaEdit />
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-danger flex-fill"
+                                                        onClick={() => handleDeleteBudget(budget)}
+                                                        title="Eliminar presupuesto"
+                                                    >
+                                                        <FaTrash />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     ) : (
                         <div className="text-center py-5">
@@ -277,32 +347,66 @@ const Presupuestos = () => {
                         <div className="row g-3">
                             {savingsGoals.map(goal => {
                                 const progress = goal.targetAmount > 0 ? (goal.currentAmount / goal.targetAmount) * 100 : 0;
+                                const isCompleted = goal.isCompleted || progress >= 100;
                                 return (
                                     <div key={goal.id} className="col-md-6 col-lg-4">
-                                        <div className="card border h-100">
+                                        <div className={`card border h-100 ${isCompleted ? 'border-success' : ''}`}>
                                             <div className="card-body">
                                                 <div className="d-flex justify-content-between align-items-start mb-3">
-                                                    <h6 className="card-title mb-0">{goal.name}</h6>
+                                                    <h6 className="card-title mb-0">
+                                                        {goal.name}
+                                                        {isCompleted && <FaCheckCircle className="ms-2 text-success" />}
+                                                    </h6>
                                                     <span className={`badge bg-${goal.priority === 'alta' ? 'danger' : goal.priority === 'media' ? 'warning' : 'success'}`}>
                                                         {goal.priority}
                                                     </span>
                                                 </div>
                                                 <div className="mb-3">
                                                     <div className="d-flex justify-content-between mb-1">
-                                                        <small className="text-muted">Progreso</small>
-                                                        <small className="fw-bold">{formatPercentage(progress)}</small>
+                                                        <small className="text-muted">Actual</small>
+                                                        <small className="fw-bold text-info">{formatCurrency(goal.currentAmount)}</small>
                                                     </div>
-                                                    <div className="progress" style={{ height: '6px' }}>
+                                                    <div className="d-flex justify-content-between mb-1">
+                                                        <small className="text-muted">Objetivo</small>
+                                                        <small className="fw-bold text-success">{formatCurrency(goal.targetAmount)}</small>
+                                                    </div>
+                                                    <div className="progress" style={{ height: '8px' }}>
                                                         <div
-                                                            className="progress-bar bg-success"
+                                                            className={`progress-bar ${isCompleted ? 'bg-success' : 'bg-info'}`}
                                                             style={{ width: `${Math.min(progress, 100)}%` }}
                                                         ></div>
                                                     </div>
+                                                    <div className="d-flex justify-content-between mt-1">
+                                                        <small className="text-muted">
+                                                            Falta: {formatCurrency(Math.max(goal.targetAmount - goal.currentAmount, 0))}
+                                                        </small>
+                                                        <small className="fw-bold">{formatPercentage(progress)}</small>
+                                                    </div>
                                                 </div>
-                                                <div className="text-center">
-                                                    <small className="text-muted">
-                                                        {formatCurrency(goal.currentAmount)} / {formatCurrency(goal.targetAmount)}
-                                                    </small>
+                                                <div className="d-flex gap-2">
+                                                    <button
+                                                        className="btn btn-sm btn-success flex-fill"
+                                                        onClick={() => handleAddMoney(goal)}
+                                                        title="Agregar dinero"
+                                                        disabled={isCompleted}
+                                                    >
+                                                        <FaMoneyBillWave className="me-1" />
+                                                        {isCompleted ? 'Completada' : 'Agregar'}
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-primary"
+                                                        onClick={() => handleEditGoal(goal)}
+                                                        title="Editar meta"
+                                                    >
+                                                        <FaEdit />
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-danger"
+                                                        onClick={() => handleDeleteGoal(goal)}
+                                                        title="Eliminar meta"
+                                                    >
+                                                        <FaTrash />
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -434,6 +538,21 @@ const Presupuestos = () => {
                 <AddSavingsGoal
                     show={showAddGoal}
                     onClose={() => setShowAddGoal(false)}
+                />
+                <EditBudget
+                    show={showEditBudget}
+                    onClose={() => setShowEditBudget(false)}
+                    budget={selectedBudget}
+                />
+                <EditSavingsGoal
+                    show={showEditGoal}
+                    onClose={() => setShowEditGoal(false)}
+                    goal={selectedGoal}
+                />
+                <AddMoneyToGoal
+                    show={showAddMoney}
+                    onClose={() => setShowAddMoney(false)}
+                    goal={selectedGoal}
                 />
 
                 <style>
